@@ -58,10 +58,12 @@ const Services = () => {
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               className="glass-morphism p-6 md:p-8 rounded-xl"
             >
-              <div className="bg-primary/10 rounded-full h-16 w-16 flex items-center justify-center mb-4">
-                {service.icon}
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+              <span className="flex flex-row sm:flex-col">
+                <div className="bg-primary/10 rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-3 mt-5 sm:mt-0 ml-3 sm:ml-0">{service.title}</h3>
+              </span>
               <p className="text-muted-foreground">{service.description}</p>
             </motion.div>
           ))}

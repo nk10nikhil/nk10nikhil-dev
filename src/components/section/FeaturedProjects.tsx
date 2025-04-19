@@ -87,24 +87,24 @@ const FeaturedProjects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16"
+          className="flex flex-col md:flex-row md:items-end justify-center mb-4 md:mb-6"
         >
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">Featured Projects</h2>
-            <p className="text-lg text-muted-foreground max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-center">Featured Projects</h2>
+            <p className="text-lg text-muted-foreground text-center max-w-xl mx-auto mb-4">
               A collection of my full stack projects demonstrating my skills in both front-end and back-end development.
             </p>
           </div>
-          <Button variant="outline" className="mt-4 md:mt-0 text-white max-w-60 bg-gradient-to-br from-primary via-purple-500 to-indigo-400 " asChild>
-            <Link to="/projects">
-              View All Projects <ArrowUpRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
         </motion.div>
 
         <div className="flex justify-between items-center mb-6">
           <Button variant="outline" onClick={handlePrev}>
             <ChevronLeft className="h-6 w-6" />
+          </Button>
+          <Button variant="outline" className="mt-0 mb-4 mx-auto md:mt-0 text-white max-w-60 bg-gradient-to-br from-primary via-purple-500 to-indigo-400 " asChild>
+            <Link to="/projects">
+              View All Projects <ArrowUpRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
           <Button variant="outline" onClick={handleNext}>
             <ChevronRight className="h-6 w-6" />

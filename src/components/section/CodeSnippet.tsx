@@ -62,11 +62,11 @@ const CodeSnippet = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-left"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+          > 
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-center">
               Aspiring to be a better developer?
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-lg text-center">
               We have a range of tools and resources to help you get started. From beginner to advanced, we have
               everything you need to build your web projects
             </p>

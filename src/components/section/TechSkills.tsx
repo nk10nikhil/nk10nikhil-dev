@@ -17,10 +17,10 @@ const TechSkills = () => {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="text-left"
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-center">
                             Technologies I Use
                         </h2>
-                        <div className="text-muted-foreground text-lg">
+                        <div className="text-muted-foreground text-lg text-center">
                             These are the tools and technologies I am currently using in my projects.
                             I am always eager to learn and explore new technologies.
                         </div>
