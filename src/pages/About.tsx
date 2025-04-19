@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { motion } from "framer-motion";
 import Navbar from "@/components/section/Navbar";
@@ -9,6 +8,7 @@ import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import P5Background from "@/components/elements/P5Background";
 import { TextRevealCard } from "@/components/elements/TextRevealCard";
+import { AboutTimeline } from '@/components/elements/AboutTimeline';
 
 const About = () => {
   useEffect(() => {
@@ -279,6 +279,7 @@ const About = () => {
           </div>
         </section>
       </main>
+      <AboutTimeline /> <br/>
       <Footer />
     </motion.div>
   );
