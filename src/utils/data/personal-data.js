@@ -1,0 +1,17 @@
+export const personalData = {
+  name: "Nikhil Kumar",
+  profile: '/profile.png',
+  designation: "Full Stack Developer",
+  description: "I am a Full Stack Developer with a passion for learning and teaching. I am currently pursuing my B.Tech in Computer Science and Design from Galgotias College of Engineering and Technology. I am a self-taught developer and I love to code and build something new everyday.",
+  email: 'nk10nikhil@gmail.com',
+  phone: '+91 7777048666',
+  address: 'Galgotias College of Engineering and Technology, Greater Noida, Uttar Pradesh, India',
+  github: 'https://github.com/nk10nikhil',
+  facebook: 'https://www.facebook.com/nk10nikhil/',
+  linkedIn: 'https://www.linkedin.com/in/nk10nikhil/',
+  twitter: 'https://twitter.com/nk10nikhil',
+  stackOverflow: 'https://stackoverflow.com/users/00000/nk10nikhil',
+  leetcode: "https://leetcode.com/nk10nikhil/",
+  devUsername: "nk10nikhil",
+  resume: "https://drive.google.com/file/d/1t9tzq2hhZjl--IugkJ7M9IwlacDSYR5U/view?usp=sharing",
+}

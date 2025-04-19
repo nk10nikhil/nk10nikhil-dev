@@ -1,0 +1,6 @@
+<div className="relative p-[2px] w-fit rounded-[0.9em] bg-gradient-to-r from-sky-500 to-pink-500 transition-all duration-400 ease-in-out group">
+<span className="absolute inset-0 m-auto rounded-[0.9em] -z-10 blur-0 transition-[filter] duration-400 ease-in-out bg-gradient-to-r from-sky-500 to-pink-500 group-hover:blur-[1.2em] group-active:blur-[0.2em]"></span>
+<button className="relative text-strong py-2 px-3 rounded-xl border-none bg-black text-white cursor-pointer shadow-[2px_2px_3px_rgba(0,0,0,0.7)] transition-all duration-300 ease-in-out">
+Button
+</button>
+</div>
