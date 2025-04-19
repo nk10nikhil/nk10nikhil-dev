@@ -70,7 +70,7 @@ const CodeSnippet = () => {
               We have a range of tools and resources to help you get started. From beginner to advanced, we have
               everything you need to build your web projects
             </p>
-            <div className="flex gap-4 mt-8">
+            <div className="flex gap-4 mt-8 items-center justify-center">
               <div className="w-10 h-10 rounded-full bg-purple-600/20 backdrop-blur-sm flex items-center justify-center">
                 <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

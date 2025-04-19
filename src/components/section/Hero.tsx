@@ -162,7 +162,7 @@ const Hero = () => {
 
               <div className="my-24" />
 
-              <div className="absolute z-20 top-[750px] md:top-[200px]">
+              <div className="absolute z-20 top-[650px] md:top-[200px]">
                 <FloatingTeddy />
               </div>
 
