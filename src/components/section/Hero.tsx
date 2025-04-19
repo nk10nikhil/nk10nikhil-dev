@@ -5,11 +5,32 @@ import { ArrowRight, Download } from "lucide-react";
 import { Link } from "react-router-dom";
 import FloatingTeddy from "../elements/FloatingTeddy";
 import { useEffect, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const Hero = () => {
   const [loaded, setLoaded] = useState(false);
   const [count, setCount] = useState(0);
   const targetCount = 30;
+
+  const words = [
+    { text: "Ideas", imgPath: "/images/ideas.svg" },
+    { text: "Concepts", imgPath: "/images/concepts.svg" },
+    { text: "Designs", imgPath: "/images/designs.svg" },
+    { text: "Code", imgPath: "/images/code.svg" },
+    { text: "Ideas", imgPath: "/images/ideas.svg" },
+    { text: "Concepts", imgPath: "/images/concepts.svg" },
+    { text: "Designs", imgPath: "/images/designs.svg" },
+    { text: "Code", imgPath: "/images/code.svg" },
+  ];
+
+  useGSAP(() => {
+    gsap.fromTo(
+      ".hero-text h1",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
+    );
+  });
 
   useEffect(() => {
     // Simulating content load
@@ -61,6 +82,30 @@ const Hero = () => {
                 <span className="text-gradient">Full-Stack Developer</span>
                 <br /> Crafting Cutting-Edge Innovative Digital Solutions
               </h1>
+
+              <div className="hero-text">
+                <h1>
+                  Creating
+                  <span className="slide">
+                    <span className="wrapper">
+                      {words.map((word, index) => (
+                        <span
+                          key={index}
+                          className="flex items-center md:gap-3 gap-1 pb-2"
+                        >
+                          <img
+                            src={word.imgPath}
+                            alt="person"
+                            className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-purple-500"
+                          />
+                          <span className="text-gradient">{word.text}</span>
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </h1>
+              </div>
+
             </motion.div>
 
             <motion.p
@@ -117,7 +162,7 @@ const Hero = () => {
 
               <div className="my-24" />
 
-              <div className="absolute z-20 top-[650px] md:top-[200px]">
+              <div className="absolute z-20 top-[750px] md:top-[200px]">
                 <FloatingTeddy />
               </div>
 
