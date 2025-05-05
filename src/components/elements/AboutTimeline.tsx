@@ -15,28 +15,28 @@ interface TimelineEntry {
 
 export function AboutTimeline() {
 
-        const slideRef = useRef(null);
-    
-        const handleNext = () => {
-            const slide = slideRef.current;
-            const items = slide.querySelectorAll('.item');
-            slide.appendChild(items[0]);
-        };
-    
-        const handlePrev = () => {
-            const slide = slideRef.current;
-            const items = slide.querySelectorAll('.item');
-            slide.prepend(items[items.length - 1]);
-        };
+    const slideRef = useRef(null);
+
+    const handleNext = () => {
+        const slide = slideRef.current;
+        const items = slide.querySelectorAll('.item');
+        slide.appendChild(items[0]);
+    };
+
+    const handlePrev = () => {
+        const slide = slideRef.current;
+        const items = slide.querySelectorAll('.item');
+        slide.prepend(items[items.length - 1]);
+    };
 
     const data = [
         {
-            title: "2025 - Building",
-            icon: "https://cdn-icons-png.flaticon.com/128/3281/3281307.png", // Construction/building blocks icon
+            title: "2025 - Innovation",
+            icon: "https://cdn-icons-png.flaticon.com/128/9542/9542268.png", // Colorful innovation/lightbulb icon
             content: (
                 <div className="glass-morphism p-6 rounded-xl">
                     <p className="text-neutral-300 text-sm font-normal mb-5">
-                        By 2025, I've shipped production-level apps, contributed to GSoC, and scaled frontend systems. Deep-diving into system design and AI integrations.
+                        Leading tech innovation in 2025. Developing advanced cloud solutions, integrating AI into enterprise systems, and contributing to open source. Focused on creating future-ready digital experiences.
                     </p>
                     <div className="">
                         {/* Images Slider */}
@@ -54,13 +54,13 @@ export function AboutTimeline() {
                                         <div
                                             className="item"
                                             style={{
-                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/aisaas.png')",
+                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=2080&auto=format&fit=crop')",
                                             }}
                                         >
                                             <div className="content">
-                                                <div className="name">AI Solutions</div>
+                                                <div className="name">Cloud Architecture</div>
                                                 <div className="description">
-                                                    Advanced AI-powered applications with natural language processing and machine learning capabilities
+                                                    Building resilient, scalable cloud infrastructures with enhanced security protocols
                                                 </div>
                                                 <button>View Projects</button>
                                             </div>
@@ -69,13 +69,13 @@ export function AboutTimeline() {
                                         <div
                                             className="item"
                                             style={{
-                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/payment.png')",
+                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=2070&auto=format&fit=crop')",
                                             }}
                                         >
                                             <div className="content">
-                                                <div className="name">FinTech</div>
+                                                <div className="name">AI Integration</div>
                                                 <div className="description">
-                                                    Secure payment processing systems with real-time transaction monitoring and fraud detection
+                                                    Creating AI-powered systems with advanced language models and deep learning capabilities
                                                 </div>
                                                 <button>View Projects</button>
                                             </div>
@@ -84,13 +84,13 @@ export function AboutTimeline() {
                                         <div
                                             className="item"
                                             style={{
-                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/social_media.png')",
+                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1640340434855-6084b1f4901c?q=80&w=2064&auto=format&fit=crop')",
                                             }}
                                         >
                                             <div className="content">
-                                                <div className="name">Social Platforms</div>
+                                                <div className="name">Web3 Development</div>
                                                 <div className="description">
-                                                    Feature-rich social media applications with real-time messaging and content sharing
+                                                    Pioneering decentralized applications with blockchain technology and smart contracts
                                                 </div>
                                                 <button>View Projects</button>
                                             </div>
@@ -99,13 +99,13 @@ export function AboutTimeline() {
                                         <div
                                             className="item"
                                             style={{
-                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/data_protection_cloud.png')",
+                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=2076&auto=format&fit=crop')",
                                             }}
                                         >
                                             <div className="content">
-                                                <div className="name">Cloud Solutions</div>
+                                                <div className="name">DevOps Excellence</div>
                                                 <div className="description">
-                                                    Scalable cloud infrastructure with robust data protection and disaster recovery systems
+                                                    Implementing CI/CD pipelines and infrastructure as code for seamless software delivery
                                                 </div>
                                                 <button>View Projects</button>
                                             </div>
@@ -114,13 +114,13 @@ export function AboutTimeline() {
                                         <div
                                             className="item"
                                             style={{
-                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/dataautomation.png')",
+                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop')",
                                             }}
                                         >
                                             <div className="content">
-                                                <div className="name">Automation</div>
+                                                <div className="name">Edge Computing</div>
                                                 <div className="description">
-                                                    Intelligent data automation systems that streamline workflows and increase operational efficiency
+                                                    Leveraging edge computing for low-latency applications and enhanced real-time processing
                                                 </div>
                                                 <button>View Projects</button>
                                             </div>
@@ -129,13 +129,13 @@ export function AboutTimeline() {
                                         <div
                                             className="item"
                                             style={{
-                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/blog.png')",
+                                                backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1624378515195-0d11f8e50ff9?q=80&w=2070&auto=format&fit=crop')",
                                             }}
                                         >
                                             <div className="content">
-                                                <div className="name">Content Platforms</div>
+                                                <div className="name">API Ecosystems</div>
                                                 <div className="description">
-                                                    Modern content management systems with SEO optimization and analytics integration
+                                                    Designing comprehensive API ecosystems for seamless third-party integrations
                                                 </div>
                                                 <button>View Projects</button>
                                             </div>
@@ -352,94 +352,94 @@ export function AboutTimeline() {
             ),
         },
         {
-            title: "2024 - Exploration",
-            icon: "https://cdn-icons-png.flaticon.com/128/4727/4727430.png", // Exploration/discovery icon
+            title: "2024 - Growth",
+            icon: "https://cdn-icons-png.flaticon.com/128/7307/7307030.png", // Colorful growth/chart icon
             content: (
                 <div className="glass-morphism p-6 rounded-xl">
                     <p className="text-neutral-300 text-sm font-normal mb-5">
-                        A year of exploration. Dived into Next.js, TypeScript, and GraphQL. Experimented with AI/ML models, building small projects to understand their potential.
+                        A year of professional growth and new technologies. Mastered advanced frameworks and contributed to multiple high-impact projects. Built a network of industry connections and mentors.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
-                        <img src="/about/1.jpg" alt="coding exploration" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/2.jpg" alt="ai experimentation" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/3.jpg" alt="project creation" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/4.jpg" alt="learning journey" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1542903660-eedba2cda473?q=80&w=2070&auto=format&fit=crop" alt="coding mastery" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2006&auto=format&fit=crop" alt="project development" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2070&auto=format&fit=crop" alt="digital collaboration" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070&auto=format&fit=crop" alt="tech advancement" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
                     </div>
                 </div>
             ),
         },
         {
-            title: "2023 - College",
-            icon: "https://cdn-icons-png.flaticon.com/128/3976/3976631.png", // Graduation/education icon
+            title: "2023 - Development",
+            icon: "https://cdn-icons-png.flaticon.com/128/8637/8637109.png", // Colorful development/code icon
             content: (
                 <div className="glass-morphism p-6 rounded-xl">
                     <p className="text-neutral-300 text-sm font-normal mb-5">
-                        Joined B.Tech in Computer Science and Design. First semester and I was already knee-deep in full-stack web dev. Learned React, Tailwind, and shipped projects.
+                        Expanded my tech stack with modern frameworks and languages. Developed practical applications using cutting-edge technologies including React, Next.js, and cloud platforms.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
-                        <img src="/about/5.jpg" alt="college campus" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/6.jpg" alt="team collaboration" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/7.jpg" alt="peer learning" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/8.jpg" alt="first project" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop" alt="programming setup" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop" alt="team programming" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?q=80&w=2070&auto=format&fit=crop" alt="web development" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=2055&auto=format&fit=crop" alt="coding frameworks" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
                     </div>
                 </div>
             ),
         },
         {
-            title: "JEE Drop Year",
-            icon: "https://cdn-icons-png.flaticon.com/128/3324/3324735.png", // Brain/study icon
+            title: "2022 - Foundations",
+            icon: "https://cdn-icons-png.flaticon.com/128/10214/10214728.png", // Colorful foundations/building blocks icon
             content: (
                 <div className="glass-morphism p-6 rounded-xl">
                     <p className="text-neutral-300 text-sm font-normal mb-5">
-                        Took a year off to crack JEE. I discovered a love for teaching peers, breaking down problems, and simplifying concepts. That year made me sharper and more self-aware.
+                        Built strong technical foundations in computer science and programming. Completed courses in data structures, algorithms, and system design. Created my first full-stack web application.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
-                        <img src="/about/5.jpg" alt="study materials" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/3.jpg" alt="teaching session" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/7.jpg" alt="problem solving" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/1.jpg" alt="self study" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?q=80&w=2070&auto=format&fit=crop" alt="learning resources" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=2074&auto=format&fit=crop" alt="technical books" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?q=80&w=2070&auto=format&fit=crop" alt="online learning" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop" alt="coding practice" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
                     </div>
                 </div>
             ),
         },
         {
-            title: "Class 12 - The Hustle",
-            icon: "https://cdn-icons-png.flaticon.com/128/2382/2382600.png", // Clock/time management icon
+            title: "2021 - Exploration",
+            icon: "https://cdn-icons-png.flaticon.com/128/9850/9850768.png", // Colorful exploration/compass icon
             content: (
                 <div className="glass-morphism p-6 rounded-xl">
                     <p className="text-neutral-300 text-sm font-normal mb-5">
-                        Board pressure. Competitive exams. And somewhere in between, I was still coding. Class 12 was intense but taught me discipline and problem-solving.
+                        Began exploring different areas of technology to find my passion. Completed introductory courses in web development, mobile applications, and database management. Started with HTML, CSS, and JavaScript.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
-                        <img src="/about/2.jpg" alt="exam prep" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/4.jpg" alt="discipline" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/6.jpg" alt="discipline" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/8.jpg" alt="discipline" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2070&auto=format&fit=crop" alt="early coding" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop" alt="web basics" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=2064&auto=format&fit=crop" alt="learning journey" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1589149098258-3e9102cd63d3?q=80&w=2039&auto=format&fit=crop" alt="tech discovery" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
                     </div>
                 </div>
             ),
         },
         {
-            title: "Class 10 - Foundations",
-            icon: "https://cdn-icons-png.flaticon.com/128/3406/3406983.png", // Foundation building blocks icon
+            title: "2020 - Beginning",
+            icon: "https://cdn-icons-png.flaticon.com/128/8687/8687487.png", // Colorful beginning/rocket launch icon
             content: (
                 <div className="glass-morphism p-6 rounded-xl">
                     <p className="text-neutral-300 text-sm font-normal mb-5">
-                        My journey began with curiosity. Class 10 was the year I first opened a C++ book and built my first "Hello World" program. Found myself spending hours learning how websites worked.
+                        The start of my tech journey. Discovered my interest in computers and software. Wrote my first "Hello World" program and was captivated by the possibilities of technology and programming.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
-                        <img src="/about/1.jpg" alt="coding exploration" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/2.jpg" alt="ai experimentation" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/3.jpg" alt="project creation" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
-                        <img src="/about/4.jpg" alt="learning journey" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2069&auto=format&fit=crop" alt="first code" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1974&auto=format&fit=crop" alt="learning programming" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" alt="tech inspiration" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
+                        <img src="https://images.unsplash.com/photo-1496065187959-7f07b8353c55?q=80&w=2070&auto=format&fit=crop" alt="computer fascination" className="rounded-lg object-cover h-24 md:h-36 w-full shadow-md hover:shadow-purple-500/20 transition-all duration-300" />
                     </div>
                 </div>
             ),
         },
-        
-        
-        
-        
+
+
+
+
     ];
 
     return (
@@ -484,7 +484,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         >
             <div className="max-w-7xl mx-auto pt-8 pb-12 px-4 md:px-8 lg:px-10">
                 <h2 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-400 inline-block">
-                    Journey Timeline
+                    Professional Journey
                 </h2>
             </div>
 
