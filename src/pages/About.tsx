@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion } from "framer-motion";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
@@ -9,6 +9,7 @@ import FloatingObjects from "@/components/elements/FloatingObjects";
 import P5Background from "@/components/elements/P5Background";
 import { TextRevealCard } from "@/components/elements/TextRevealCard";
 import { AboutTimeline } from '@/components/elements/AboutTimeline';
+import { Card } from "@/components/old/card.tsx";
 
 const About = () => {
   useEffect(() => {
@@ -16,6 +17,28 @@ const About = () => {
   }, []);
 
   const cardsRef = useRef(null);
+
+  const [activeTab, setActiveTab] = useState('bio');
+
+  const tabs = [
+    { id: 'bio', label: 'Bio', icon: '👨‍💻' },
+    { id: 'facts', label: 'Fun Facts', icon: '⚡' },
+    { id: 'values', label: 'Values', icon: '💡' }
+  ];
+
+  const funFacts = [
+    { emoji: '☕', text: 'Coffee enthusiast with 300+ cups/year' },
+    { emoji: '🎮', text: 'Gamer who codes game logic for fun' },
+    { emoji: '📚', text: 'Read 25+ tech books this year' },
+    { emoji: '🌱', text: 'Open source contributor' }
+  ];
+
+  const values = [
+    { icon: '🚀', title: 'Innovation', desc: 'Always exploring new technologies and approaches' },
+    { icon: '🤝', title: 'Collaboration', desc: 'Believe in the power of teamwork and knowledge sharing' },
+    { icon: '📈', title: 'Growth', desc: 'Committed to continuous learning and improvement' },
+    { icon: '💯', title: 'Quality', desc: 'Focused on writing clean, maintainable code' }
+  ];
 
   const workExperience = [
     {
@@ -279,7 +302,309 @@ const About = () => {
           </div>
         </section>
       </main>
-      <AboutTimeline /> <br/>
+
+      {/*}
+      <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.1)',
+          backdropFilter: 'blur(10px)',
+          padding: '8px',
+          borderRadius: '9999px',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: '9999px',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  background: activeTab === tab.id
+                    ? 'hsl(var(--primary))'
+                    : 'transparent',
+                  color: activeTab === tab.id
+                    ? 'white'
+                    : 'rgba(255, 255, 255, 0.6)',
+                  boxShadow: activeTab === tab.id
+                    ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                    : 'none'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.target.style.color = 'rgba(255, 255, 255, 1)';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.target.style.color = 'rgba(255, 255, 255, 0.6)';
+                    e.target.style.background = 'transparent';
+                  }
+                }}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ minHeight: '400px' }}>
+        {activeTab === 'bio' && (
+          <div style={{
+            animation: 'fadeIn 0.6s ease-out',
+            opacity: 1,
+            transform: 'translateY(0)'
+          }}>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)',
+              padding: '32px',
+              borderRadius: '12px',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+                gap: '32px',
+                alignItems: 'center'
+              }}>
+                <div>
+                  <h3 style={{
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    marginBottom: '16px',
+                    color: 'white'
+                  }}>
+                    Hello! I'm Akshat
+                  </h3>
+                  <p style={{
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    lineHeight: '1.6',
+                    marginBottom: '16px'
+                  }}>
+                    I'm a passionate Full-Stack Developer currently pursuing my Master of Computer Applications (MCA).
+                    With a strong foundation in both frontend and backend technologies, I love creating digital experiences
+                    that are not just functional, but also beautiful and user-friendly.
+                  </p>
+                  <p style={{
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    lineHeight: '1.6',
+                    marginBottom: '16px'
+                  }}>
+                    My journey in tech started with curiosity about how websites work, and it has evolved into a
+                    deep passion for solving complex problems through code. I'm particularly interested in modern
+                    web technologies, cloud computing, and artificial intelligence.
+                  </p>
+                  <p style={{
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    lineHeight: '1.6'
+                  }}>
+                    When I'm not coding, you'll find me exploring new technologies, contributing to open source
+                    projects, or sharing knowledge with the developer community.
+                  </p>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '16px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'transform 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <h4 style={{
+                      fontWeight: '600',
+                      color: 'hsl(var(--primary))',
+                      marginBottom: '4px'
+                    }}>
+                      🎓 Education
+                    </h4>
+                    <p style={{
+                      fontSize: '14px',
+                      color: 'rgba(255, 255, 255, 0.6)'
+                    }}>
+                      Master of Computer Applications
+                    </p>
+                  </div>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '16px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'transform 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <h4 style={{
+                      fontWeight: '600',
+                      color: 'hsl(var(--primary))',
+                      marginBottom: '4px'
+                    }}>
+                      📍 Location
+                    </h4>
+                    <p style={{
+                      fontSize: '14px',
+                      color: 'rgba(255, 255, 255, 0.6)'
+                    }}>
+                      India
+                    </p>
+                  </div>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '16px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'transform 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <h4 style={{
+                      fontWeight: '600',
+                      color: 'hsl(var(--primary))',
+                      marginBottom: '4px'
+                    }}>
+                      💼 Focus
+                    </h4>
+                    <p style={{
+                      fontSize: '14px',
+                      color: 'rgba(255, 255, 255, 0.6)'
+                    }}>
+                      Full-Stack Development
+                    </p>
+                  </div>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(10px)',
+                    padding: '16px',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'transform 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                  >
+                    <h4 style={{
+                      fontWeight: '600',
+                      color: 'hsl(var(--primary))',
+                      marginBottom: '4px'
+                    }}>
+                      🌟 Interests
+                    </h4>
+                    <p style={{
+                      fontSize: '14px',
+                      color: 'rgba(255, 255, 255, 0.6)'
+                    }}>
+                      AI, Cloud, Open Source
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'facts' && (
+          <div style={{
+            animation: 'fadeIn 0.6s ease-out',
+            opacity: 1,
+            transform: 'translateY(0)'
+          }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+              gap: '24px'
+            }}>
+              {funFacts.map((fact, index) => (
+                <div key={index} style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '24px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  transition: 'transform 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                  onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <div style={{ fontSize: '32px' }}>{fact.emoji}</div>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{fact.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'values' && (
+          <div style={{
+            animation: 'fadeIn 0.6s ease-out',
+            opacity: 1,
+            transform: 'translateY(0)'
+          }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+              gap: '24px'
+            }}>
+              {values.map((value, index) => (
+                <div key={index} style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '24px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  transition: 'transform 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                  onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+                  onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '32px', marginBottom: '16px' }}>{value.icon}</div>
+                    <h4 style={{
+                      fontSize: '20px',
+                      fontWeight: 'bold',
+                      marginBottom: '8px',
+                      color: 'hsl(var(--primary))'
+                    }}>
+                      {value.title}
+                    </h4>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.6)' }}>{value.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+    */}
+
+      <AboutTimeline /> <br />
       <Footer />
     </motion.div>
   );

@@ -180,7 +180,7 @@ html {
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-purple-500 to-indigo-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-purple-500 to-pink-400 bg-clip-text text-transparent;
   }
 
   .heading-gradient {

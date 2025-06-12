@@ -11,6 +11,45 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+
+  const texts = [
+    'Nikhil Kumar',
+    'Full Stack Developer',
+    'AI/ML Enthusiast',
+    'Blockchain Developer',
+    'Software Engineer',
+    'Cloud Engineer',
+    'Problem Solver',
+  ];
+
+  useEffect(() => {
+    const currentText = texts[currentIndex];
+    let timeoutId: NodeJS.Timeout;
+
+    if (displayText.length < currentText.length) {
+      timeoutId = setTimeout(() => {
+        setDisplayText(currentText.slice(0, displayText.length + 1));
+      }, 100);
+    } else {
+      timeoutId = setTimeout(() => {
+        setDisplayText('');
+        setCurrentIndex((prev) => (prev + 1) % texts.length);
+      }, 700);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [displayText, currentIndex, texts]);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 1000);
+
+    return () => clearInterval(cursorInterval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +88,7 @@ const Navbar = () => {
           <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow flex items-center justify-center">
             <img src="/profile.png" alt="Nikhil Kumar" className="h-7 w-7 rounded-full" />
           </div>
-          <span className="font-bold text-lg">Nikhil Kumar</span>
+          <span className="font-bold text-lg">{displayText}</span>
         </Link>
 
         {/* Desktop Navigation */}

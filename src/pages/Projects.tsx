@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
@@ -9,7 +9,7 @@ import P5Background from "@/components/elements/P5Background";
 import StarOnGithubButton from "@/components/elements/StarOnGithubButton";
 "use client";
 import { cn } from "@/lib/utils";
-import { useRef, useState, createContext, useContext } from "react";
+import { useRef, createContext, useContext } from "react";
 import React from "react";
 
 const MouseEnterContext = createContext<
@@ -170,6 +170,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Full Stack",
   },
   {
     id: 2,
@@ -183,6 +184,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Algorithms",
   },
   {
     id: 3,
@@ -196,6 +198,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Full Stack",
   },
   {
     id: 4,
@@ -209,6 +212,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Full Stack",
   },
   {
     id: 5,
@@ -222,6 +226,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Full Stack",
   },
   {
     id: 6,
@@ -235,6 +240,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "AI/ML",
   },
   {
     id: 7,
@@ -248,6 +254,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Full Stack",
   },
   {
     id: 8,
@@ -261,6 +268,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Automation",
   },
   {
     id: 9,
@@ -274,6 +282,7 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Automation",
   },
   {
     id: 10,
@@ -287,13 +296,18 @@ const projects = [
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
+    category: "Automation",
   }
 ];
 
-export function ProjectCard() {
+export function ProjectCard({ selectedCategory }: { selectedCategory: string }) {
+  const filteredProjects = selectedCategory === "All"
+    ? projects
+    : projects.filter(project => project.category === selectedCategory);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mt-[-20px]">
-      {projects.map((project, index) => (
+      {filteredProjects.map((project, index) => (
         (<CardContainer className="inter-var">
           <CardBody
             className="bg-transparent relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-transparent dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[27rem] h-auto rounded-xl p-6 border  ">
@@ -375,6 +389,9 @@ export function ProjectCard() {
 }
 
 const Projects = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const categories = ["All", "Full Stack", "AI/ML", "Automation", "Algorithms"];
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -408,6 +425,27 @@ const Projects = () => {
             <span className="flex justify-center items-center gap-10 m-0">
               <StarOnGithubButton />
             </span>
+          </motion.div>
+
+          {/* Category Filter Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-wrap justify-center gap-3 mb-12"
+          >
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === category
+                    ? "bg-gradient-to-r from-purple-500 to-pink-400 text-white shadow-lg"
+                    : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white"
+                  }`}
+              >
+                {category}
+              </button>
+            ))}
           </motion.div>
 
           {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-[-80px]">
@@ -487,7 +525,7 @@ const Projects = () => {
               </CardContainer>
             ))}
           </div> */}
-          <ProjectCard />
+          <ProjectCard selectedCategory={selectedCategory} />
 
         </section>
       </main>

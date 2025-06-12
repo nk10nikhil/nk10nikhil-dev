@@ -94,6 +94,8 @@ const Temp = () => {
           <p className="text-sm text-muted-foreground">
             © {currentYear} nk10nikhil. All rights reserved.
           </p>
+          <span className="text-sm text-muted-foreground">Designed to impress, built to perform.</span>
+
           <div className="flex space-x-4 mt-4 md:mt-0 text-sm text-muted-foreground">
 
             <Link to="/temp" className="hover:text-foreground transition-colors">
