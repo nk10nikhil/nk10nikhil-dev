@@ -24,7 +24,7 @@ const App = () => {
     // Simulate loading time or wait for resources to load
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1500); // 4.5 seconds loading screen to allow for both animations
+    }, 2000); // 2 seconds loading screen to allow for both animations
 
     return () => clearTimeout(timer);
   }, []);
