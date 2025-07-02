@@ -24,10 +24,14 @@ const Index = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, filter: "blur(10px)" }}
+      animate={{ opacity: 1, filter: "blur(0px)" }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{
+        duration: 0.8,
+        filter: { duration: 1.2, ease: "easeOut" },
+        opacity: { duration: 0.6, ease: "easeIn" }
+      }}
       className="bg-transparent min-h-screen relative"
     >
       {/* Background Elements */}

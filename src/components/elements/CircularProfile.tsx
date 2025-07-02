@@ -1,4 +1,7 @@
 import React from 'react';
+import CircularText from '../reactbits/CircularText';
+
+
 
 const CircularProfile = () => {
     return (
@@ -63,9 +66,18 @@ const CircularProfile = () => {
                 </button>
 
                 <a href="https://www.linkedin.com/in/nk10nikhil" target="_blank" rel="noreferrer">
-                    <button className="profile_item w-[200px] h-[200px] p-1 border-2 rounded-full hover:border-gray-400/50 cursor-pointer transition-all duration-500 z-0">
-                        <div className="w-full bg-white h-full flex items-center justify-center p-2 rounded-full active:scale-95 hover:scale-95 object-cover transition-all duration-500">
-                            <span className="w-full h-full inline-block">
+                    <button className="profile_item w-[200px] h-[200px] p-1 border-0 rounded-full hover:border-gray-400/50 cursor-pointer transition-all duration-500 z-0">
+                        <div className="w-full bg-transparent h-full flex items-center justify-center p-2 rounded-full active:scale-95 hover:scale-95 object-cover transition-all duration-500 relative">
+                            {/* Add circular text around the profile image */}
+                            <div className="absolute inset-0 w-full h-full">
+                                <CircularText
+                                    text="Web | AI/ML | Cloud | Blockchain | UI/UX | "
+                                    onHover="speedUp"
+                                    spinDuration={10}
+                                    className="w-full h-full absolute"
+                                />
+                            </div>
+                            <span className="w-[75%] h-[75%] inline-block relative z-10">
                                 <img src="/profile.png" alt="Nikhil Kumar" className="h-full w-full rounded-full" />
                             </span>
                         </div>

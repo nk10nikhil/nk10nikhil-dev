@@ -1,10 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Orb from './Orb';
 
-const Loader = () => {
+interface LoaderProps {
+    isLoading: boolean;
+    onTransitionEnd?: () => void;
+}
+
+const Loader = ({ isLoading, onTransitionEnd }: LoaderProps) => {
+    const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        if (!isLoading) {
+            // Add a slight delay before starting transition out
+            // to ensure content behind is ready
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [isLoading]);
+
     return (
-        <StyledWrapper>
+        <StyledWrapper
+            className={isVisible ? 'visible' : 'hidden'}
+            onTransitionEnd={() => !isVisible && onTransitionEnd?.()}
+        >
             <div className="orb-container">
                 <Orb hue={265} hoverIntensity={0.8} rotateOnHover={true} forceHoverState={true} />
             </div>
@@ -36,6 +57,30 @@ const StyledWrapper = styled.div`
   justify-content: center;
   background: rgba(13, 13, 13, 0.95);
   z-index: 9999;
+  transition: opacity 1.2s ease, backdrop-filter 1.5s ease;
+  
+  &.visible {
+    opacity: 1;
+    backdrop-filter: none;
+  }
+  
+  &.hidden {
+    opacity: 0;
+    backdrop-filter: blur(40px);
+    transform: scale(1.05);
+    transition: opacity 1.2s ease, backdrop-filter 1.5s ease, transform 1.3s ease;
+  }
+  
+  /* Enhanced animations for ripples during exit transition */
+  &.hidden .box {
+    animation-duration: calc(var(--duration) * 1.5);
+  }
+  
+  &.hidden .orb-container {
+    transform: scale(1.2);
+    opacity: 0.5;
+    transition: transform 1.5s ease, opacity 1s ease;
+  }
   
   .loader-container {
     display: flex;
@@ -58,6 +103,7 @@ const StyledWrapper = styled.div`
     position: relative;
     z-index: 1;
     margin: 0 auto;
+    transition: transform 1.5s ease-out, opacity 1.2s ease-out;
   }
 
 .loader {
@@ -88,35 +134,40 @@ const StyledWrapper = styled.div`
 .loader .box:nth-child(1) {
   inset: 35%;
   z-index: 99;
-  border-color: rgba(170, 92, 247, 0.8);
+  border-color: rgba(212, 98, 255, 0.85);
   background: transparent;
+  box-shadow: inset 0 0 15px rgba(212, 98, 255, 0.2);
 }
 
 .loader .box:nth-child(2) {
   inset: 30%;
   z-index: 98;
-  border-color: rgba(170, 92, 247, 0.7);
+  border-color: rgba(170, 92, 247, 0.75);
+  border-top-color: rgba(184, 98, 255, 0.8);
   animation-delay: 0.2s;
 }
 
 .loader .box:nth-child(3) {
   inset: 20%;
   z-index: 97;
-  border-color: rgba(170, 92, 247, 0.6);
+  border-color: rgba(148, 87, 235, 0.65);
+  border-left-color: rgba(156, 92, 255, 0.7);
   animation-delay: 0.4s;
 }
 
 .loader .box:nth-child(4) {
   inset: 10%;
   z-index: 96;
-  border-color: rgba(170, 92, 247, 0.5);
+  border-color: rgba(129, 83, 224, 0.55);
+  border-right-color: rgba(140, 86, 235, 0.6);
   animation-delay: 0.6s;
 }
 
 .loader .box:nth-child(5) {
   inset: 0%;
   z-index: 95;
-  border-color: rgba(170, 92, 247, 0.4);
+  border-color: rgba(108, 78, 212, 0.45);
+  border-bottom-color: rgba(123, 82, 222, 0.5);
   animation-delay: 0.8s;
 }
 

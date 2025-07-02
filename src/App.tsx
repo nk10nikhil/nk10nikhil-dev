@@ -19,15 +19,28 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
+  const [transitionComplete, setTransitionComplete] = useState(false);
 
   useEffect(() => {
-    // Simulate loading time or wait for resources to load
+    // Initial loading period
     const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); // 2 seconds loading screen to allow for both animations
+      // Mark content as ready to be shown (but still behind loader)
+      setContentReady(true);
+
+      // Start transitioning out the loader after content is ready
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
+    }, 2000); // 2 seconds initial loading time
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Handle the final transition completion
+  const handleTransitionEnd = () => {
+    setTransitionComplete(true);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -35,11 +48,16 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          {loading ? (
-            <Loader />
-          ) : (
+
+          {/* Always render the content, but initially with opacity 0 */}
+          <div style={{
+            opacity: contentReady ? 1 : 0,
+            transition: "opacity 0.5s ease-in",
+            position: "relative",
+            zIndex: 1
+          }}>
             <BrowserRouter>
-              <BackToTopButton />
+              {transitionComplete && <BackToTopButton />}
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/projects" element={<Projects />} />
@@ -50,6 +68,11 @@ const App = () => {
                 <Route path="/temp" element={<Temp />} />
               </Routes>
             </BrowserRouter>
+          </div>
+
+          {/* Loader that fades out */}
+          {!transitionComplete && (
+            <Loader isLoading={loading} onTransitionEnd={handleTransitionEnd} />
           )}
         </TooltipProvider>
       </ThemeProvider>
