@@ -98,7 +98,7 @@ const Navbar = () => {
               key={link.path}
               to={link.path}
               className={`relative px-1 py-2 transition-colors hover:text-purple-500 ${location.pathname === link.path
-                ? "text-purple-500 font-medium"
+                ? "text-gradient font-bold"
                 : "text-foreground"
                 }`}
             >

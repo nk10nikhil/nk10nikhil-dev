@@ -123,13 +123,13 @@ const Hero = () => {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex flex-wrap gap-4"
             >
-              <Button size="lg" className="bg-purple-500 hover:bg-primary/90" asChild>
+              <Button size="lg" className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90" asChild>
                 <Link to="/projects">
                   View Projects <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="https://drive.google.com/file/d/1eRYLTV2WoG46IpshJPg6iXnp1ekZaAg5/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <a href="https://drive.google.com/file/d/1QE-r0bYx2tlmBMJm1s6mLMMuQcr9Cd1V/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                   Download CV <Download className="ml-2 h-4 w-4" />
                 </a>
               </Button>
