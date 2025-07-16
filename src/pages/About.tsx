@@ -99,6 +99,7 @@ const About = () => {
       <BlurBackground />
       <FloatingObjects />
       <Navbar />
+      <div className="navbar-spacer"></div>
 
       <main className="pt-10 md:pt-16">
         <section className="container mx-auto px-4 md:px-6 py-12">
