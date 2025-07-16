@@ -41,7 +41,6 @@ const Index = () => {
 
       {/* Content */}
       <Navbar />
-      <div className="navbar-spacer"></div>
       <main>
         <Hero />
         <TechStack />

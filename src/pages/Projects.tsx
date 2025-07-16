@@ -515,7 +515,6 @@ const Projects = () => {
       <BlurBackground />
       <FloatingObjects />
       <Navbar />
-      <div className="navbar-spacer"></div>
 
       <main className="py-10 md:py-20">
         <section className="container mx-auto px-4 md:px-6 pt-12">

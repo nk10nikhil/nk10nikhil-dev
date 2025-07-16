@@ -98,7 +98,6 @@ const About = () => {
       <BlurBackground />
       <FloatingObjects />
       <Navbar />
-      <div className="navbar-spacer"></div>
 
       <main className="pt-10 md:pt-16">
         <section className="container mx-auto px-4 md:px-6 py-12">
@@ -386,7 +385,7 @@ const About = () => {
                     marginBottom: '16px',
                     color: 'white'
                   }}>
-                    Hello! I'm Akshat
+                    Hello! I'm Nikhil
                   </h3>
                   <p style={{
                     color: 'rgba(255, 255, 255, 0.8)',

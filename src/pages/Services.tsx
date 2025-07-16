@@ -51,7 +51,6 @@ const Services = () => {
 
             {/* Content */}
             <Navbar />
-            <div className="navbar-spacer"></div>
             <main className="pb-10">
                 <section className="container mx-0 px-0 md:px-0 mb-0 pb-0">
                     <motion.div

@@ -78,7 +78,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed-navbar transition-all duration-300 rounded-lg ${scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 rounded-lg ${scrolled
         ? "py-2 neo-blur border-b border-white/10"
         : "py-4 bg-transparent"
         }`}
@@ -176,7 +176,6 @@ const Navbar = () => {
         </motion.div>
       )}
       <ScrollProgress />
-      <div className="navbar-spacer"></div>
     </nav>
   );
 };

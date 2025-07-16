@@ -6,22 +6,6 @@
   background-color: black;
 }
 
-/* Fixed navbar styles */
-.fixed-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  width: 100%;
-  transition: all 0.3s ease-in-out;
-}
-
-.navbar-spacer {
-  height: 70px;
-  width: 100%;
-}
-
 .logo {
   height: 6em;
   padding: 1.5em;

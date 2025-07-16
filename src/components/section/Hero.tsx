@@ -129,7 +129,7 @@ const Hero = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="https://drive.google.com/file/d/1QE-r0bYx2tlmBMJm1s6mLMMuQcr9Cd1V/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <a href="https://drive.google.com/file/d/14Yis5VQNZB2KUUpsNUfGTUXAUVAmmebz/view?usp=sharing" target="_blank" rel="noopener noreferrer">
                   Download CV <Download className="ml-2 h-4 w-4" />
                 </a>
               </Button>
