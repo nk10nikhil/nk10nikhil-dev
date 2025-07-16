@@ -18,7 +18,7 @@ import LogoScroll from "@/components/elements/LogoScroll";
 import { MarqueeDemo } from "@/components/elements/MarqueeDemo";
 
 
-const Skills = () => {
+const Services = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -382,7 +382,7 @@ const Skills = () => {
             font-size: 14px;
           }
         }
-      `}</style>
+                                `}</style>
 
                             </div>
                         </div>
@@ -461,4 +461,4 @@ const Skills = () => {
     );
 };
 
-export default Skills;
+export default Services;

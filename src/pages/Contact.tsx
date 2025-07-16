@@ -7,7 +7,6 @@ import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import P5Background from "@/components/elements/P5Background";
 import SocialButton from "@/components/elements/SocialButton";
-import ImageTrail from "@/components/reactbits/ImageTrail";
 
 const Contact = () => {
   useEffect(() => {
@@ -29,7 +28,6 @@ const Contact = () => {
 
       {/* Content */}
       <Navbar />
-      <div className="navbar-spacer"></div>
       <main className="">
         <section className="container mx-auto px-4 md:px-6 max-w-8xl">
           <motion.div
@@ -38,23 +36,6 @@ const Contact = () => {
             transition={{ duration: 0.5 }}
             className="text-center pt-20 md:pt-32"
           >
-            <div style={{ height: '500px', position: 'relative', overflow: 'hidden' }}>
-              <ImageTrail
-                key={key}
-                items={[
-                  'https://picsum.photos/id/287/300/300',
-                  'https://picsum.photos/id/1001/300/300',
-                  'https://picsum.photos/id/1025/300/300',
-                  'https://picsum.photos/id/1026/300/300',
-                  'https://picsum.photos/id/1027/300/300',
-                  'https://picsum.photos/id/1028/300/300',
-                  'https://picsum.photos/id/1029/300/300',
-                  'https://picsum.photos/id/1030/300/300',
-                  // ...
-                ]}
-                variant={1}
-              />
-            </div>
             <h1 className="text-4xl md:text-5xl font-bold heading-gradient mb-2">Contact Me</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-0 pb-5">
               Have a question or want to work together? Feel free to reach out at any below Social Link.

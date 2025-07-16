@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/section/Navbar";
@@ -7,7 +8,6 @@ import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import P5Background from "@/components/elements/P5Background";
 import StarOnGithubButton from "@/components/elements/StarOnGithubButton";
-"use client";
 import { cn } from "@/lib/utils";
 import { useRef, createContext, useContext } from "react";
 import React from "react";
@@ -161,10 +161,8 @@ const projects = [
   {
     id: 1,
     title: "Full Stack Authentication System",
-    description:
-      "A full stack authentication system with user registration, login, and password reset functionality. The backend is built with Node.js and Express, while the frontend is built with React and Tailwind CSS.",
-    longDescription:
-      "A full stack authentication system with user registration, login, and password reset functionality. The backend is built with Node.js and Express, while the frontend is built with React and Tailwind CSS. The system uses JWT for authentication and MongoDB for storing user data.",
+    description: "A full stack authentication system with user registration, login, and password reset functionality. Built with Node.js, Express, React, and Tailwind CSS, using JWT and MongoDB.",
+    longDescription: "Complete full stack auth system: registration, login, password reset. Node.js + Express backend, React + Tailwind frontend, JWT for authentication, MongoDB for data.",
     tags: ["React", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS"],
     image: "/projects/data_protection_cloud.png",
     demoLink: "https://github.com/nk10nikhil",
@@ -297,6 +295,114 @@ const projects = [
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
     category: "Automation",
+  },
+  {
+    id: 11,
+    title: "E-commerce Platform with Secure Payments",
+    description: "Built a full-stack e-commerce platform that processes 6,000+ transactions monthly with Razorpay integration, JWT, and optimized UI.",
+    longDescription: "Architected a secure e-commerce platform with React, Next.js, Tailwind, Node.js, Express, MongoDB, handling 6,000+ transactions monthly. Razorpay payments, JWT auth, and optimized with lazy loading & code splitting.",
+    tags: ["React", "Next.js", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Razorpay", "JWT"],
+    image: "/projects/ecommerce.png",
+    demoLink: "https://myprojectbazaar.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/myprojectbazaar",
+    featured: true,
+    category: "Full Stack",
+  },
+  {
+    id: 12,
+    title: "QR-Based Ticketing System",
+    description: "Built under SIH hackathon for 3,000+ attendees, secure QR check-ins, REST APIs, real-time dashboards.",
+    longDescription: "Led a team to build a QR-based ticketing system under 36 hours. React, Next.js, Node.js, MongoDB, JWT, with real-time dashboards, improving check-in efficiency by 30%.",
+    tags: ["React", "Next.js", "Node.js", "Express", "MongoDB", "JWT"],
+    image: "/projects/ticketing.png",
+    demoLink: "https://myeventorg.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/myeventorg",
+    featured: true,
+    category: "Full Stack",
+  },
+  {
+    id: 13,
+    title: "Predictive Analytics Dashboard",
+    description: "Built an AI dashboard using React, Flask & Scikit-learn for 87% model accuracy on 1,500+ entries.",
+    longDescription: "Developed a predictive analytics dashboard with React, Flask, Scikit-learn, Pandas, NumPy, Matplotlib. Automated real-time updates via REST APIs, reduced latency by 25%, and visualized data effectively.",
+    tags: ["React", "Flask", "Scikit-learn", "Pandas", "NumPy", "Matplotlib"],
+    image: "/projects/analytics.png",
+    demoLink: "https://mycollegeorg.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/mycollegeorg",
+    featured: true,
+    category: "AI/ML",
+  },
+  {
+    id: 14,
+    title: "Real-Time Chat Application",
+    description: "Secure chat app for 2,500+ users with WebSockets, JWT encryption, Framer Motion animations.",
+    longDescription: "Built a real-time chat app with React, Next.js, WebSocket, MongoDB, Express, JWT encryption, supporting 2,500+ users. Tested with Jest & Cypress, achieving 95% coverage, deployed on Vercel.",
+    tags: ["React", "Next.js", "WebSocket", "MongoDB", "Express", "JWT", "Framer Motion"],
+    image: "/projects/chatapp.png",
+    demoLink: "https://networkup.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/networkup",
+    featured: true,
+    category: "Full Stack",
+  },
+  {
+    id: 15,
+    title: "Glamour Grid – Salon Branding Website",
+    description: "A modern accessible branding website for salons built with Next.js & Tailwind.",
+    longDescription: "Crafted a salon branding website focusing on WCAG/ARIA accessibility, vibrant UI with Tailwind CSS and component-based Next.js.",
+    tags: ["Next.js", "Tailwind CSS", "React", "WCAG", "ARIA"],
+    image: "/projects/salon.png",
+    demoLink: "https://glamourgrid.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/glamourgrid",
+    featured: true,
+    category: "Frontend",
+  },
+  {
+    id: 16,
+    title: "Our Restaurant – Booking & Branding Web App",
+    description: "Responsive restaurant web app with real-time booking and Google Maps integration.",
+    longDescription: "Developed a branded restaurant website using React, integrating Google Maps API for location & real-time booking system, increasing reservations by 30%.",
+    tags: ["React", "JavaScript", "CSS", "Google Maps API"],
+    image: "/projects/restaurant.png",
+    demoLink: "https://restaurantworld.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/restaurantworld",
+    featured: true,
+    category: "Frontend",
+  },
+  {
+    id: 17,
+    title: "Everyday Life – E-Commerce Website",
+    description: "Sleek responsive e-commerce site for household items, optimized for performance.",
+    longDescription: "Built a minimalist e-commerce platform showcasing household products with lazy loading, Webpack, Lighthouse audits, reducing load times by 50%.",
+    tags: ["React", "JavaScript", "CSS", "Webpack", "Lighthouse"],
+    image: "/projects/everydaylife.png",
+    demoLink: "https://everydaylife.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/everydaylife",
+    featured: true,
+    category: "Frontend",
+  },
+  {
+    id: 18,
+    title: "WeBuilt_U – Agency Website",
+    description: "Official site for WeBuilt_U, designed with Tailwind, Framer Motion & Vite.",
+    longDescription: "Developed WeBuilt_U's marketing site to showcase services and client work, built with React, Tailwind CSS, Framer Motion, boosting engagement by 60%.",
+    tags: ["React", "Tailwind CSS", "Vite", "Framer Motion"],
+    image: "/projects/webuilt.png",
+    demoLink: "https://webuiltu.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/webuiltu",
+    featured: true,
+    category: "Frontend",
+  },
+  {
+    id: 19,
+    title: "Harbour Haven - Beverage Store",
+    description: "A modern beverage store website built with React and Tailwind CSS, featuring a responsive design and smooth animations.",
+    longDescription: "Developed a modern beverage store website using React and Tailwind CSS, featuring a responsive design, smooth animations, and an intuitive user interface. The site includes product listings, a shopping cart, and a checkout process.",
+    tags: ["React", "Tailwind CSS", "JavaScript", "Responsive Design"],
+    image: "/projects/harbor.png",
+    demoLink: "https://harborhaven.vercel.app/",
+    githubLink: "https://github.com/nk10nikhil/harbourhaven",
+    featured: true,
+    category: "Frontend",
   }
 ];
 

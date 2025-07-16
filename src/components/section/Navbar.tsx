@@ -70,7 +70,7 @@ const Navbar = () => {
 
   const links = [
     { name: "Home", path: "/" },
-    { name: "Services", path: "/skills" },
+    { name: "Services", path: "/services" },
     { name: "Projects", path: "/projects" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
@@ -176,7 +176,7 @@ const Navbar = () => {
         </motion.div>
       )}
       <ScrollProgress />
-
+      <div className="navbar-spacer"></div>
     </nav>
   );
 };

@@ -10,7 +10,7 @@ import Projects from "./pages/Projects";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import Skills from "./pages/Skills";
+import Services from "./pages/Services";
 import Temp from "./pages/Temp";
 import BackToTopButton from "./components/elements/BackToTopButton";
 import Loader from "./components/elements/Loader";
@@ -63,7 +63,7 @@ const App = () => {
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/skills" element={<Skills />} />
+                <Route path="/services" element={<Services />} />
                 <Route path="/*" element={<NotFound />} />
                 <Route path="/temp" element={<Temp />} />
               </Routes>

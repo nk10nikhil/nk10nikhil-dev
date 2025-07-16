@@ -9,7 +9,6 @@ import FloatingObjects from "@/components/elements/FloatingObjects";
 import P5Background from "@/components/elements/P5Background";
 import { TextRevealCard } from "@/components/elements/TextRevealCard";
 import { AboutTimeline } from '@/components/elements/AboutTimeline';
-import { Card } from "@/components/old/card.tsx";
 
 const About = () => {
   useEffect(() => {
