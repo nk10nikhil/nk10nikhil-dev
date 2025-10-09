@@ -6,7 +6,7 @@ import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import P5Background from "@/components/elements/P5Background";
 import SkillsSection from "@/components/section/SkillsSection";
-import DigitalLamp from "@/components/universeio/DigitalLamp";
+import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { OrbitingCirclesDemo } from "@/components/elements/OrbitingCirclesDemo";
 import ParallaxScroll from "@/components/elements/ParallaxScroll";
 import TechStack from "@/components/section/TechStack";
@@ -17,182 +17,197 @@ import ScrollingSections from "@/components/section/ScrollableSection";
 import LogoScroll from "@/components/elements/LogoScroll";
 import { MarqueeDemo } from "@/components/elements/MarqueeDemo";
 
-
 const Services = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    const slideRef = useRef(null);
+  const slideRef = useRef(null);
 
-    const handleNext = () => {
-        const slide = slideRef.current;
-        const items = slide.querySelectorAll('.item');
-        slide.appendChild(items[0]);
-    };
+  const handleNext = () => {
+    const slide = slideRef.current;
+    const items = slide.querySelectorAll(".item");
+    slide.appendChild(items[0]);
+  };
 
-    const handlePrev = () => {
-        const slide = slideRef.current;
-        const items = slide.querySelectorAll('.item');
-        slide.prepend(items[items.length - 1]);
-    };
+  const handlePrev = () => {
+    const slide = slideRef.current;
+    const items = slide.querySelectorAll(".item");
+    slide.prepend(items[items.length - 1]);
+  };
 
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-transparent min-h-screen relative"
-        >
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="bg-transparent min-h-screen relative"
+    >
+      {/* Background Elements */}
+      <BlurBackground />
 
-            {/* Background Elements */}
-            <BlurBackground />
+      {/* Content */}
+      <Navbar />
+      <main className="pb-10">
+        <section className="container mx-0 px-0 md:px-0 mb-0 pb-0">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+          >
+            <BackgroundHero />
 
-            {/* Content */}
-            <Navbar />
-            <main className="pb-10">
-                <section className="container mx-0 px-0 md:px-0 mb-0 pb-0">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-center"
-                    >
+            <LogoScroll />
 
-                        <BackgroundHero />
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-xl bg-black/50 blur-xl opacity-70"></div>
+              <div className="relative glass-card rounded-xl p-10 backdrop-blur-xl">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">
+                  Why Choose Me?
+                </h2>
+                <p className="text-white/80 text-lg  leading-relaxed">
+                  We blend technical expertise with strategic thinking to
+                  deliver solutions that drive real business value. Our approach
+                  is collaborative, transparent, and focused on long-term
+                  success.
+                </p>
+                <ScrollingSections />
+              </div>
+            </div>
 
-                        <LogoScroll />
+            {/* Image Slider */}
+            <div className="mt-16">
+              <div>
+                <link
+                  rel="stylesheet"
+                  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+                />
 
-                        <div className="relative">
-                            <div className="absolute -inset-1 rounded-xl bg-black/50 blur-xl opacity-70"></div>
-                            <div className="relative glass-card rounded-xl p-10 backdrop-blur-xl">
-                                <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Why Choose Me?</h2>
-                                <p className="text-white/80 text-lg  leading-relaxed">
-                                    We blend technical expertise with strategic thinking to deliver solutions that drive real business value. Our approach is collaborative, transparent, and focused on long-term success.
-                                </p>
-                                <ScrollingSections />
-                            </div>
+                {/* Outer Box */}
+                <div className="skills-image-slider box flex justify-center">
+                  <div className="container">
+                    <div className="slide" ref={slideRef}>
+                      {/* Slide Items */}
+                      <div
+                        className="item"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/aisaas.png')",
+                        }}
+                      >
+                        <div className="content">
+                          <div className="name">AI Solutions</div>
+                          <div className="description">
+                            Advanced AI-powered applications with natural
+                            language processing and machine learning
+                            capabilities
+                          </div>
+                          <button>View Projects</button>
                         </div>
+                      </div>
 
-                        {/* Image Slider */}
-                        <div className="mt-16">
-                            <div>
-                                <link
-                                    rel="stylesheet"
-                                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-                                />
+                      <div
+                        className="item"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/payment.png')",
+                        }}
+                      >
+                        <div className="content">
+                          <div className="name">FinTech</div>
+                          <div className="description">
+                            Secure payment processing systems with real-time
+                            transaction monitoring and fraud detection
+                          </div>
+                          <button>View Projects</button>
+                        </div>
+                      </div>
 
-                                {/* Outer Box */}
-                                <div className="skills-image-slider box flex justify-center">
-                                    <div className="container">
-                                        <div className="slide" ref={slideRef}>
-                                            {/* Slide Items */}
-                                            <div
-                                                className="item"
-                                                style={{
-                                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/aisaas.png')",
-                                                }}
-                                            >
-                                                <div className="content">
-                                                    <div className="name">AI Solutions</div>
-                                                    <div className="description">
-                                                        Advanced AI-powered applications with natural language processing and machine learning capabilities
-                                                    </div>
-                                                    <button>View Projects</button>
-                                                </div>
-                                            </div>
+                      <div
+                        className="item"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/social_media.png')",
+                        }}
+                      >
+                        <div className="content">
+                          <div className="name">Social Platforms</div>
+                          <div className="description">
+                            Feature-rich social media applications with
+                            real-time messaging and content sharing
+                          </div>
+                          <button>View Projects</button>
+                        </div>
+                      </div>
 
-                                            <div
-                                                className="item"
-                                                style={{
-                                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/payment.png')",
-                                                }}
-                                            >
-                                                <div className="content">
-                                                    <div className="name">FinTech</div>
-                                                    <div className="description">
-                                                        Secure payment processing systems with real-time transaction monitoring and fraud detection
-                                                    </div>
-                                                    <button>View Projects</button>
-                                                </div>
-                                            </div>
+                      <div
+                        className="item"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/data_protection_cloud.png')",
+                        }}
+                      >
+                        <div className="content">
+                          <div className="name">Cloud Solutions</div>
+                          <div className="description">
+                            Scalable cloud infrastructure with robust data
+                            protection and disaster recovery systems
+                          </div>
+                          <button>View Projects</button>
+                        </div>
+                      </div>
 
-                                            <div
-                                                className="item"
-                                                style={{
-                                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/social_media.png')",
-                                                }}
-                                            >
-                                                <div className="content">
-                                                    <div className="name">Social Platforms</div>
-                                                    <div className="description">
-                                                        Feature-rich social media applications with real-time messaging and content sharing
-                                                    </div>
-                                                    <button>View Projects</button>
-                                                </div>
-                                            </div>
+                      <div
+                        className="item"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/dataautomation.png')",
+                        }}
+                      >
+                        <div className="content">
+                          <div className="name">Automation</div>
+                          <div className="description">
+                            Intelligent data automation systems that streamline
+                            workflows and increase operational efficiency
+                          </div>
+                          <button>View Projects</button>
+                        </div>
+                      </div>
 
-                                            <div
-                                                className="item"
-                                                style={{
-                                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/data_protection_cloud.png')",
-                                                }}
-                                            >
-                                                <div className="content">
-                                                    <div className="name">Cloud Solutions</div>
-                                                    <div className="description">
-                                                        Scalable cloud infrastructure with robust data protection and disaster recovery systems
-                                                    </div>
-                                                    <button>View Projects</button>
-                                                </div>
-                                            </div>
+                      <div
+                        className="item"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/blog.png')",
+                        }}
+                      >
+                        <div className="content">
+                          <div className="name">Content Platforms</div>
+                          <div className="description">
+                            Modern content management systems with SEO
+                            optimization and analytics integration
+                          </div>
+                          <button>View Projects</button>
+                        </div>
+                      </div>
+                    </div>
 
-                                            <div
-                                                className="item"
-                                                style={{
-                                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/dataautomation.png')",
-                                                }}
-                                            >
-                                                <div className="content">
-                                                    <div className="name">Automation</div>
-                                                    <div className="description">
-                                                        Intelligent data automation systems that streamline workflows and increase operational efficiency
-                                                    </div>
-                                                    <button>View Projects</button>
-                                                </div>
-                                            </div>
+                    {/* Buttons */}
+                    <div className="button ">
+                      <button className="prev " onClick={handlePrev}>
+                        <i className="fa-solid  fa-arrow-left"></i>
+                      </button>
+                      <button className="next" onClick={handleNext}>
+                        <i className="fa-solid fa-arrow-right"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-                                            <div
-                                                className="item"
-                                                style={{
-                                                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/projects/blog.png')",
-                                                }}
-                                            >
-                                                <div className="content">
-                                                    <div className="name">Content Platforms</div>
-                                                    <div className="description">
-                                                        Modern content management systems with SEO optimization and analytics integration
-                                                    </div>
-                                                    <button>View Projects</button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Buttons */}
-                                        <div className="button ">
-                                            <button className="prev " onClick={handlePrev}>
-                                                <i className="fa-solid  fa-arrow-left"></i>
-                                            </button>
-                                            <button className="next" onClick={handleNext}>
-                                                <i className="fa-solid fa-arrow-right"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Styles - with proper scoping and isolation */}
-                                <style>{`
+                {/* Styles - with proper scoping and isolation */}
+                <style>{`
         /* Scope all selectors to specific classes to prevent style leakage */
         .skills-image-slider .box,
         .skills-image-slider .container,
@@ -382,82 +397,87 @@ const Services = () => {
           }
         }
                                 `}</style>
+              </div>
+            </div>
 
-                            </div>
-                        </div>
+            {/* Api Integration */}
+            <section className="container mx-auto py-16 relative">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="md:w-1/2">
+                  <div className="relative mx-auto max-w-md rounded-xl overflow-hidden border border-purple-700/30 shadow-[0_0_50px_rgba(139,92,246,0.3)]">
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-transparent to-purple-600/20 pointer-events-none"></div>
+                    <img
+                      src="/sections/api4.png"
+                      width={400}
+                      height={400}
+                      alt="API Integrations"
+                      className="w-full h-auto"
+                    />
+                  </div>
+                </div>
+                <div className="md:w-1/2">
+                  <div className="inline-flex items-center gap-2 bg-purple-900/30 rounded-full px-4 py-1 mb-6 border border-purple-700/30">
+                    <span className="text-xs text-purple-300">
+                      INTEGRATIONS
+                    </span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    APIs and Integrations
+                  </h2>
+                  <p className="text-gray-400 mb-8">
+                    Easily connect with over 100 tools and services to enhance
+                    your workflow and extend functionality.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
+                        <CheckCircle2 className="h-4 w-4 text-purple-500" />
+                      </div>
+                      <span className="text-sm">Google Analytics</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
+                        <CheckCircle2 className="h-4 w-4 text-purple-500" />
+                      </div>
+                      <span className="text-sm">Stripe Payments</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
+                        <CheckCircle2 className="h-4 w-4 text-purple-500" />
+                      </div>
+                      <span className="text-sm">Mailchimp</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
+                        <CheckCircle2 className="h-4 w-4 text-purple-500" />
+                      </div>
+                      <span className="text-sm">Zapier</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-                        {/* Api Integration */}
-                        <section className="container mx-auto py-16 relative">
-                            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
-                            <div className="flex flex-col md:flex-row gap-8 items-center">
-                                <div className="md:w-1/2">
-                                    <div className="relative mx-auto max-w-md rounded-xl overflow-hidden border border-purple-700/30 shadow-[0_0_50px_rgba(139,92,246,0.3)]">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-transparent to-purple-600/20 pointer-events-none"></div>
-                                        <img
-                                            src="/sections/api4.png"
-                                            width={400}
-                                            height={400}
-                                            alt="API Integrations"
-                                            className="w-full h-auto"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="md:w-1/2">
-                                    <div className="inline-flex items-center gap-2 bg-purple-900/30 rounded-full px-4 py-1 mb-6 border border-purple-700/30">
-                                        <span className="text-xs text-purple-300">INTEGRATIONS</span>
-                                    </div>
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-6">APIs and Integrations</h2>
-                                    <p className="text-gray-400 mb-8">
-                                        Easily connect with over 100 tools and services to enhance your workflow and extend functionality.
-                                    </p>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
-                                                <CheckCircle2 className="h-4 w-4 text-purple-500" />
-                                            </div>
-                                            <span className="text-sm">Google Analytics</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
-                                                <CheckCircle2 className="h-4 w-4 text-purple-500" />
-                                            </div>
-                                            <span className="text-sm">Stripe Payments</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
-                                                <CheckCircle2 className="h-4 w-4 text-purple-500" />
-                                            </div>
-                                            <span className="text-sm">Mailchimp</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-8 w-8 rounded-full bg-purple-600/20 flex items-center justify-center">
-                                                <CheckCircle2 className="h-4 w-4 text-purple-500" />
-                                            </div>
-                                            <span className="text-sm">Zapier</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* {Testimonials} */}
-                        <section className="container mx-auto pt-8 relative">
-                            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
-                            <div className="text-center mb-12">
-                                <div className="inline-flex items-center gap-2 bg-purple-900/30 rounded-full px-4 py-1 mb-6 border border-purple-700/30">
-                                    <span className="text-xs text-purple-300">TESTIMONIALS</span>
-                                </div>
-                                <h2 className="text-3xl md:text-4xl font-bold mb-6">What my customers say</h2>
-                            </div>
-                            <MarqueeDemo />
-                        </section>
-
-                    </motion.div>
-                </section>
-            </main>
-            <Footer />
-        </motion.div>
-    );
+            {/* {Testimonials} */}
+            <section className="container mx-auto pt-8 relative">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 bg-purple-900/30 rounded-full px-4 py-1 mb-6 border border-purple-700/30">
+                  <span className="text-xs text-purple-300">TESTIMONIALS</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  What my customers say
+                </h2>
+              </div>
+              <MarqueeDemo />
+            </section>
+          </motion.div>
+        </section>
+      </main>
+      <Footer />
+    </motion.div>
+  );
 };
 
 export default Services;

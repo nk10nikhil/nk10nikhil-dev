@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { OrbitingCircles } from "../ui/OrbitingCircles";
+import { OrbitingCircles } from "../ReactUI/OrbitingCircles";
 
 export function OrbitingCirclesDemo() {
     return (

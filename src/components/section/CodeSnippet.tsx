@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 
 const CodeSnippet = () => {
@@ -30,7 +29,7 @@ const CodeSnippet = () => {
                   <span className="text-blue-400">addEventListener</span>
                   <span className="text-white">(</span>
                   <span className="text-green-400">'SoftwareDeveloper'</span>
-                  <span className="text-white">, () =&gt; {'{'}</span>
+                  <span className="text-white">, () =&gt; {"{"}</span>
                 </div>
               </div>
               <div className="flex gap-4 mt-2">
@@ -49,7 +48,7 @@ const CodeSnippet = () => {
               <div className="flex gap-4 mt-2">
                 <div className="text-muted-foreground select-none">3</div>
                 <div className="flex-1">
-                  <span className="text-white">{'}'});</span>
+                  <span className="text-white">{"}"});</span>
                 </div>
               </div>
             </div>
@@ -62,27 +61,46 @@ const CodeSnippet = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-left"
-          > 
+          >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-center">
               Aspiring to be a better developer?
             </h2>
             <p className="text-muted-foreground text-lg text-center">
-              We have a range of tools and resources to help you get started. From beginner to advanced, we have
-              everything you need to build your web projects
+              We have a range of tools and resources to help you get started.
+              From beginner to advanced, we have everything you need to build
+              your web projects
             </p>
             <div className="flex gap-4 mt-8 items-center justify-center">
               <div className="w-10 h-10 rounded-full bg-purple-600/20 backdrop-blur-sm flex items-center justify-center">
-                <svg className="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  className="w-5 h-5 text-purple-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
               </div>
               <div className="w-10 h-10 rounded-full bg-blue-600/20 backdrop-blur-sm flex items-center justify-center">
-                <svg className="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  className="w-5 h-5 text-blue-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M9 12h6m-6 0L7 9m2 3L7 15" />
                 </svg>
               </div>
               <div className="w-10 h-10 rounded-full bg-indigo-600/20 backdrop-blur-sm flex items-center justify-center">
-                <svg className="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg
+                  className="w-5 h-5 text-indigo-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
                   <path d="M12 4v16m0-16L7 9m5-5l5 5" />
                 </svg>
               </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import CircularText from '../reactbits/CircularText';
+import CircularText from '../ReactUI/reactbits/CircularText';
 
 
 

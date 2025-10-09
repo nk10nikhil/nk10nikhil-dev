@@ -4,9 +4,8 @@ import { motion } from "framer-motion";
 import P5Background from "@/components/elements/P5Background";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import DigitalLamp from "@/components/universeio/DigitalLamp";
+import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-
 
 const NotFound = () => {
   const location = useLocation();
@@ -31,12 +30,19 @@ const NotFound = () => {
       <BlurBackground />
       <FloatingObjects />
 
-
       <div className="flex flex-col items-center justify-center h-screen text-center">
-        <h1 className="text-6xl font-bold text-gray-800 dark:text-gray-100">404</h1>
-        <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">Page Not Found</p>
-        <TextGenerateEffect words="Please click the button below to go back to the home page" className="" />
-        <a className=" mt-5 relative p-[2px] w-fit rounded-[0.9em] bg-gradient-to-r from-sky-500 to-pink-500 transition-all duration-400 ease-in-out group"
+        <h1 className="text-6xl font-bold text-gray-800 dark:text-gray-100">
+          404
+        </h1>
+        <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+          Page Not Found
+        </p>
+        <TextGenerateEffect
+          words="Please click the button below to go back to the home page"
+          className=""
+        />
+        <a
+          className=" mt-5 relative p-[2px] w-fit rounded-[0.9em] bg-gradient-to-r from-sky-500 to-pink-500 transition-all duration-400 ease-in-out group"
           role="button"
           href="/"
         >
