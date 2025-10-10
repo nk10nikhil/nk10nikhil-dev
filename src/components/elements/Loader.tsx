@@ -1,50 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Orb from './Orb';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Orb from "./Orb";
+import LetterGlitch from "./LetterGlitch";
 
 interface LoaderProps {
-    isLoading: boolean;
-    onTransitionEnd?: () => void;
+  isLoading: boolean;
+  onTransitionEnd?: () => void;
 }
 
 const Loader = ({ isLoading, onTransitionEnd }: LoaderProps) => {
-    const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
-    useEffect(() => {
-        if (!isLoading) {
-            // Add a slight delay before starting transition out
-            // to ensure content behind is ready
-            const timer = setTimeout(() => {
-                setIsVisible(false);
-            }, 300);
-            return () => clearTimeout(timer);
-        }
-    }, [isLoading]);
+  useEffect(() => {
+    if (!isLoading) {
+      // Add a slight delay before starting transition out
+      // to ensure content behind is ready
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
-    return (
-        <StyledWrapper
-            className={isVisible ? 'visible' : 'hidden'}
-            onTransitionEnd={() => !isVisible && onTransitionEnd?.()}
-        >
-            <div className="orb-container">
-                <Orb hue={265} hoverIntensity={0.8} rotateOnHover={true} forceHoverState={true} />
+  return (
+    <StyledWrapper
+      className={isVisible ? "visible" : "hidden"}
+      onTransitionEnd={() => !isVisible && onTransitionEnd?.()}
+    >
+      {/* LetterGlitch Background */}
+      <div className="glitch-background">
+        <LetterGlitch
+          glitchColors={["#1a0a2e", "#16213e", "#9500ff", "#b620e0"]}
+          glitchSpeed={50}
+          centerVignette={true}
+          outerVignette={false}
+          smooth={true}
+          characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789"
+        />
+      </div>
+
+      {/* Original Loader Content */}
+      <div className="orb-container">
+        <Orb
+          hue={265}
+          hoverIntensity={0.8}
+          rotateOnHover={true}
+          forceHoverState={true}
+        />
+      </div>
+      <div className="loader-container">
+        <div className="loader">
+          <div className="box">
+            <div className="logo">
+              <img src="/profile.png" alt="Profile" className="profile-img" />
             </div>
-            <div className="loader-container">
-                <div className="loader">
-                    <div className="box">
-                        <div className="logo">
-                            <img src="/profile.png" alt="Profile" className="profile-img" />
-                        </div>
-                    </div>
-                    <div className="box" />
-                    <div className="box" />
-                    <div className="box" />
-                    <div className="box" />
-                </div>
-            </div>
-        </StyledWrapper>
-    );
-}
+          </div>
+          <div className="box" />
+          <div className="box" />
+          <div className="box" />
+          <div className="box" />
+        </div>
+      </div>
+    </StyledWrapper>
+  );
+};
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -58,30 +77,44 @@ const StyledWrapper = styled.div`
   background: rgba(13, 13, 13, 0.95);
   z-index: 9999;
   transition: opacity 1.2s ease, backdrop-filter 1.5s ease;
-  
+
   &.visible {
     opacity: 1;
     backdrop-filter: none;
   }
-  
+
   &.hidden {
     opacity: 0;
     backdrop-filter: blur(40px);
     transform: scale(1.05);
-    transition: opacity 1.2s ease, backdrop-filter 1.5s ease, transform 1.3s ease;
+    transition: opacity 1.2s ease, backdrop-filter 1.5s ease,
+      transform 1.3s ease;
   }
-  
+
+  /* LetterGlitch Background Layer */
+  .glitch-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.3;
+    transition: opacity 1.2s ease;
+  }
+
+  &.hidden .glitch-background {
+    opacity: 0;
+  }
+
   /* Enhanced animations for ripples during exit transition */
   &.hidden .box {
     animation-duration: calc(var(--duration) * 1.5);
   }
-  
+
   &.hidden .orb-container {
     transform: scale(1.2);
     opacity: 0.5;
     transition: transform 1.5s ease, opacity 1s ease;
   }
-  
+
   .loader-container {
     display: flex;
     align-items: center;
@@ -91,10 +124,15 @@ const StyledWrapper = styled.div`
     pointer-events: none;
     animation: fade-in-out 8s infinite ease-in-out;
   }
-  
+
   @keyframes fade-in-out {
-    0%, 100% { opacity: 0.9; }
-    50% { opacity: 0.7; }
+    0%,
+    100% {
+      opacity: 0.9;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
 
   .orb-container {
@@ -106,70 +144,70 @@ const StyledWrapper = styled.div`
     transition: transform 1.5s ease-out, opacity 1.2s ease-out;
   }
 
-.loader {
-  --size: 280px;
-  --duration: 2s;
-  --logo-color: grey;
-  --background: linear-gradient(
-    0deg,
-    rgba(149, 0, 255, 0.08) 0%,
-    rgba(240, 0, 255, 0.08) 100%
-  );
-  height: var(--size);
-  aspect-ratio: 1;
-  position: relative;
-}
+  .loader {
+    --size: 280px;
+    --duration: 2s;
+    --logo-color: grey;
+    --background: linear-gradient(
+      0deg,
+      rgba(149, 0, 255, 0.08) 0%,
+      rgba(240, 0, 255, 0.08) 100%
+    );
+    height: var(--size);
+    aspect-ratio: 1;
+    position: relative;
+  }
 
-.loader .box {
-  position: absolute;
-  background: rgba(100, 100, 100, 0.12);
-  background: var(--background);
-  border-radius: 50%;
-  border-top: 1px solid rgba(100, 100, 100, 0.8);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 10px -0px;
-  backdrop-filter: blur(3px);
-  animation: ripple var(--duration) infinite ease-in-out;
-}
+  .loader .box {
+    position: absolute;
+    background: rgba(100, 100, 100, 0.12);
+    background: var(--background);
+    border-radius: 50%;
+    border-top: 1px solid rgba(100, 100, 100, 0.8);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 10px -0px;
+    backdrop-filter: blur(3px);
+    animation: ripple var(--duration) infinite ease-in-out;
+  }
 
-.loader .box:nth-child(1) {
-  inset: 35%;
-  z-index: 99;
-  border-color: rgba(212, 98, 255, 0.85);
-  background: transparent;
-  box-shadow: inset 0 0 15px rgba(212, 98, 255, 0.2);
-}
+  .loader .box:nth-child(1) {
+    inset: 35%;
+    z-index: 99;
+    border-color: rgba(212, 98, 255, 0.85);
+    background: transparent;
+    box-shadow: inset 0 0 15px rgba(212, 98, 255, 0.2);
+  }
 
-.loader .box:nth-child(2) {
-  inset: 30%;
-  z-index: 98;
-  border-color: rgba(170, 92, 247, 0.75);
-  border-top-color: rgba(184, 98, 255, 0.8);
-  animation-delay: 0.2s;
-}
+  .loader .box:nth-child(2) {
+    inset: 30%;
+    z-index: 98;
+    border-color: rgba(170, 92, 247, 0.75);
+    border-top-color: rgba(184, 98, 255, 0.8);
+    animation-delay: 0.2s;
+  }
 
-.loader .box:nth-child(3) {
-  inset: 20%;
-  z-index: 97;
-  border-color: rgba(148, 87, 235, 0.65);
-  border-left-color: rgba(156, 92, 255, 0.7);
-  animation-delay: 0.4s;
-}
+  .loader .box:nth-child(3) {
+    inset: 20%;
+    z-index: 97;
+    border-color: rgba(148, 87, 235, 0.65);
+    border-left-color: rgba(156, 92, 255, 0.7);
+    animation-delay: 0.4s;
+  }
 
-.loader .box:nth-child(4) {
-  inset: 10%;
-  z-index: 96;
-  border-color: rgba(129, 83, 224, 0.55);
-  border-right-color: rgba(140, 86, 235, 0.6);
-  animation-delay: 0.6s;
-}
+  .loader .box:nth-child(4) {
+    inset: 10%;
+    z-index: 96;
+    border-color: rgba(129, 83, 224, 0.55);
+    border-right-color: rgba(140, 86, 235, 0.6);
+    animation-delay: 0.6s;
+  }
 
-.loader .box:nth-child(5) {
-  inset: 0%;
-  z-index: 95;
-  border-color: rgba(108, 78, 212, 0.45);
-  border-bottom-color: rgba(123, 82, 222, 0.5);
-  animation-delay: 0.8s;
-}
+  .loader .box:nth-child(5) {
+    inset: 0%;
+    z-index: 95;
+    border-color: rgba(108, 78, 212, 0.45);
+    border-bottom-color: rgba(123, 82, 222, 0.5);
+    animation-delay: 0.8s;
+  }
 
   .loader .logo {
     position: absolute;
@@ -182,29 +220,29 @@ const StyledWrapper = styled.div`
   }
 
   .loader .logo .profile-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  animation: profile-animation var(--duration) infinite ease-in-out;
-  filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.6));
-  border: 2px solid rgba(149, 0, 255, 0.4);
-}
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    animation: profile-animation var(--duration) infinite ease-in-out;
+    filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.6));
+    border: 2px solid rgba(149, 0, 255, 0.4);
+  }
 
-@keyframes profile-animation {
-  0% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.5));
+  @keyframes profile-animation {
+    0% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.5));
+    }
+    50% {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 15px rgba(94, 96, 255, 0.8));
+    }
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.5));
+    }
   }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(94, 96, 255, 0.8));
-  }
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.5));
-  }
-}
 
   @keyframes ripple {
     0% {

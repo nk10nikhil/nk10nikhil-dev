@@ -69,7 +69,7 @@ const Hero = () => {
         <div className="absolute top-2/3 left-1/3 w-72 h-72 bg-blue-700/20 rounded-full filter blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 py-10 md:py-16 z-10">
+      <div className="container mx-auto px-4 md:px-6 py-10 md:py-16 z-10 mt-[-5px]">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="w-full md:w-1/2 space-y-6">
             <motion.div
@@ -112,9 +112,9 @@ const Hero = () => {
               transition={{ delay: 0.4, duration: 0.5 }}
               className="text-lg md:text-xl text-muted-foreground max-w-xl"
             >
-              I'm a passionate Software Engineer with a strong interest in
-              building scalable, high-performance web applications and improving
-              user experience. I specialize in building Full-Stack Applications
+              I'm a passionate Software Engineer with a strong focus on building
+              scalable, high-performance web applications and crafting seamless
+              user experiences. I specialize in developing Full-Stack solutions
               using modern technologies.
             </motion.p>
 
@@ -133,9 +133,14 @@ const Hero = () => {
                   View Projects <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button
+                size="lg"
+                variant="outline"
+                asChild
+                className="hover:bg-gradient-to-br from-primary via-purple-500 to-indigo-400 hover:bg-primary/90"
+              >
                 <a
-                  href="https://drive.google.com/file/d/14Yis5VQNZB2KUUpsNUfGTUXAUVAmmebz/view?usp=sharing"
+                  href="https://drive.google.com/file/d/1Wrz9hcFArlLr_GJEKxn-n8UmkKNiVphe/view?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -151,15 +156,16 @@ const Hero = () => {
               className="flex flex-wrap gap-3 pt-4"
             >
               {[
-                "React",
                 "Next.js",
+                "React",
                 "TypeScript",
                 "MongoDB",
                 "AWS",
                 "Express.js",
                 "DSA",
-                "C++",
+                "C / C++",
                 "Python",
+                "Java",
               ].map((tech, index) => (
                 <span
                   key={tech}
@@ -197,7 +203,7 @@ const Hero = () => {
                         <span className="code-line">
                           <span className="number">1</span>
                           <span className="keyword">class</span>{" "}
-                          <span className="function">FullStackDeveloper</span>{" "}
+                          <span className="function">SoftwateEngineer</span>{" "}
                           {"{"}
                         </span>
                         <span className="code-line">
@@ -217,9 +223,9 @@ const Hero = () => {
                           {"    "}
                           <span className="variable">this</span>.
                           <span className="property">skills</span> = [
-                          <span className="string">"React"</span>,{" "}
                           <span className="string">"Next.js"</span>,{" "}
-                          <span className="string">"AWS"</span>];
+                          <span className="string">"Cloud"</span>,{" "}
+                          <span className="string">"AI/ML"</span>];
                         </span>
                         <span className="code-line">
                           <span className="number">5</span>

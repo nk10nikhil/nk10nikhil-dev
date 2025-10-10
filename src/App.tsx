@@ -32,7 +32,7 @@ const App = () => {
       setTimeout(() => {
         setLoading(false);
       }, 300);
-    }, 2000); // 2 seconds initial loading time
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
