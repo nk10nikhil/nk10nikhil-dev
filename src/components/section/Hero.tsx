@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
@@ -36,7 +35,7 @@ const Hero = () => {
     // Simulating content load
     const timer = setTimeout(() => {
       setLoaded(true);
-    }, 100);
+    }, 30);
 
     return () => clearTimeout(timer);
   }, []);
@@ -79,8 +78,8 @@ const Hero = () => {
               transition={{ delay: 0.2, duration: 0.5 }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pt-10">
-                <span className="text-gradient">Full-Stack Developer</span>
-                <br /> Crafting Cutting-Edge Innovative Digital Solutions
+                <span className="text-gradient">Software Engineer</span>
+                <br /> Crafting Cutting-Edge Innovative Solutions
               </h1>
 
               <div className="hero-text">
@@ -105,7 +104,6 @@ const Hero = () => {
                   </span>
                 </h1>
               </div>
-
             </motion.div>
 
             <motion.p
@@ -114,7 +112,10 @@ const Hero = () => {
               transition={{ delay: 0.4, duration: 0.5 }}
               className="text-lg md:text-xl text-muted-foreground max-w-xl"
             >
-              I'm a passionate Software Engineer with a strong interest in building scalable, high-performance web applications and improving user experience. I specialize in building Full-Stack Applications using modern technologies.
+              I'm a passionate Software Engineer with a strong interest in
+              building scalable, high-performance web applications and improving
+              user experience. I specialize in building Full-Stack Applications
+              using modern technologies.
             </motion.p>
 
             <motion.div
@@ -123,13 +124,21 @@ const Hero = () => {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="flex flex-wrap gap-4"
             >
-              <Button size="lg" className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90" asChild>
+              <Button
+                size="lg"
+                className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90"
+                asChild
+              >
                 <Link to="/projects">
                   View Projects <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="https://drive.google.com/file/d/14Yis5VQNZB2KUUpsNUfGTUXAUVAmmebz/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://drive.google.com/file/d/14Yis5VQNZB2KUUpsNUfGTUXAUVAmmebz/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Download CV <Download className="ml-2 h-4 w-4" />
                 </a>
               </Button>
@@ -141,7 +150,17 @@ const Hero = () => {
               transition={{ delay: 0.8, duration: 0.5 }}
               className="flex flex-wrap gap-3 pt-4"
             >
-              {["React", "Next.js", "TypeScript", "MongoDB", "AWS", "Express.js", "DSA", "C++", "Python"].map((tech, index) => (
+              {[
+                "React",
+                "Next.js",
+                "TypeScript",
+                "MongoDB",
+                "AWS",
+                "Express.js",
+                "DSA",
+                "C++",
+                "Python",
+              ].map((tech, index) => (
                 <span
                   key={tech}
                   className="px-3 py-1 rounded-full text-sm bg-secondary text-secondary-foreground"
@@ -159,13 +178,11 @@ const Hero = () => {
             className="w-full md:w-1/2 flex justify-center overflow-hidden"
           >
             <div className="flex flex-col items-center justify-center">
-
               <div className="my-24" />
 
               <div className="absolute z-20 top-[650px] md:top-[200px]">
                 <FloatingTeddy />
               </div>
-
 
               <div className="max-w-xl sm:max-w-xl md:max-w-xl relative">
                 <div className="glass-morphism rounded-xl p-2 md:p-3 backdrop-blur-xl animate-float">
@@ -180,7 +197,8 @@ const Hero = () => {
                         <span className="code-line">
                           <span className="number">1</span>
                           <span className="keyword">class</span>{" "}
-                          <span className="function">FullStackDeveloper</span> {"{"}
+                          <span className="function">FullStackDeveloper</span>{" "}
+                          {"{"}
                         </span>
                         <span className="code-line">
                           <span className="number">2</span>
@@ -190,22 +208,25 @@ const Hero = () => {
                         <span className="code-line">
                           <span className="number">3</span>
                           {"    "}
-                          <span className="variable">this</span>.<span className="property">name</span>{" "}
-                          = <span className="string">"Nikhil Kumar"</span>;
+                          <span className="variable">this</span>.
+                          <span className="property">name</span> ={" "}
+                          <span className="string">"Nikhil Kumar"</span>;
                         </span>
                         <span className="code-line">
                           <span className="number">4</span>
                           {"    "}
-                          <span className="variable">this</span>.<span className="property">skills</span>{" "}
-                          = [<span className="string">"React"</span>,{" "}
+                          <span className="variable">this</span>.
+                          <span className="property">skills</span> = [
+                          <span className="string">"React"</span>,{" "}
                           <span className="string">"Next.js"</span>,{" "}
                           <span className="string">"AWS"</span>];
                         </span>
                         <span className="code-line">
                           <span className="number">5</span>
                           {"    "}
-                          <span className="variable">this</span>.<span className="property">passions</span>{" "}
-                          = [<span className="string">"DSA"</span>,{" "}
+                          <span className="variable">this</span>.
+                          <span className="property">passions</span> = [
+                          <span className="string">"DSA"</span>,{" "}
                           <span className="string">"C++"</span>];
                         </span>
                         <span className="code-line">
@@ -224,8 +245,14 @@ const Hero = () => {
               </div>
 
               {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 h-12 w-12 rounded-lg bg-indigo-600/80 animate-float" style={{ animationDelay: '1.5s' }} />
-              <div className="absolute -bottom-3 -left-3 h-8 w-8 rounded-full bg-primary/80 animate-float" style={{ animationDelay: '0.7s' }} />
+              <div
+                className="absolute -top-4 -right-4 h-12 w-12 rounded-lg bg-indigo-600/80 animate-float"
+                style={{ animationDelay: "1.5s" }}
+              />
+              <div
+                className="absolute -bottom-3 -left-3 h-8 w-8 rounded-full bg-primary/80 animate-float"
+                style={{ animationDelay: "0.7s" }}
+              />
             </div>
           </motion.div>
         </div>
