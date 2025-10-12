@@ -24,13 +24,13 @@ const Index = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0}}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{
         duration: 0.8,
         filter: { duration: 1.2, ease: "easeOut" },
-        opacity: { duration: 0.6, ease: "easeIn" }
+        opacity: { duration: 0.6, ease: "easeIn" },
       }}
       className="bg-transparent min-h-screen relative"
     >
@@ -44,8 +44,8 @@ const Index = () => {
       <main>
         <Hero />
         <TechStack />
-        <SkillsSection />
         <FeaturedProjects />
+        <SkillsSection />
         <Services />
         <ToolbarHighlight />
         <TechnologyHighlight />
