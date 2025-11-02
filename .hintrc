@@ -17,7 +17,7 @@
     "compat-api/html": [
       "default",
       {
-        "ignore": ["iframe[loading]"]
+        "ignore": ["iframe[loading]", "meta[name=theme-color]"]
       }
     ],
     "axe/keyboard": [
