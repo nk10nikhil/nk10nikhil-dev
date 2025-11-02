@@ -1,9 +1,6 @@
 {
-  "extends": [
-    "development"
-  ],
+  "extends": ["development"],
   "hints": {
-    "no-inline-styles": "off",
     "axe/name-role-value": [
       "default",
       {
@@ -14,34 +11,19 @@
     "compat-api/css": [
       "default",
       {
-        "ignore": [
-          "user-select",
-          "backdrop-filter"
-        ]
+        "ignore": ["user-select", "backdrop-filter"]
       }
     ],
     "compat-api/html": [
       "default",
       {
-        "ignore": [
-          "iframe[loading]"
-        ]
+        "ignore": ["iframe[loading]"]
       }
     ],
-    "typescript-config/is-valid": "off",
-    "typescript-config/consistent-casing": "off",
-    "typescript-config/strict": "off",
     "axe/keyboard": [
       "default",
       {
         "nested-interactive": "off"
-      }
-    ],
-    "disown-opener": "off",
-    "axe/aria": [
-      "default",
-      {
-        "aria-valid-attr-value": "off"
       }
     ]
   }

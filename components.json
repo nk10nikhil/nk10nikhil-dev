@@ -15,6 +15,12 @@
     "utils": "@/lib/utils",
     "ui": "@/components/ui",
     "lib": "@/lib",
-    "hooks": "@/hooks"
+    "hooks": "@/hooks",
+    "elements": "@/components/elements",
+    "sections": "@/components/section",
+    "pages": "@/pages",
+    "types": "@/types",
+    "constants": "@/constants",
+    "assets": "@/assets"
   }
 }

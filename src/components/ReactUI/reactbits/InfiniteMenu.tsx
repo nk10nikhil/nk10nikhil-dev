@@ -1336,11 +1336,11 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           translate-x-[20%]
           -translate-y-1/2
           transition-all
-          ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
+          ease-in-out
           ${
             isMoving
-              ? "opacity-0 pointer-events-none duration-[100ms]"
-              : "opacity-100 pointer-events-auto duration-[500ms]"
+              ? "opacity-0 pointer-events-none duration-100"
+              : "opacity-100 pointer-events-auto duration-500"
           }
         `}
           >
@@ -1356,11 +1356,11 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           top-1/2
           right-[1%]
           transition-all
-          ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
+          ease-in-out
           ${
             isMoving
-              ? "opacity-0 pointer-events-none duration-[100ms] translate-x-[-60%] -translate-y-1/2"
-              : "opacity-100 pointer-events-auto duration-[500ms] translate-x-[-90%] -translate-y-1/2"
+              ? "opacity-0 pointer-events-none duration-100 translate-x-[-60%] -translate-y-1/2"
+              : "opacity-100 pointer-events-auto duration-500 translate-x-[-90%] -translate-y-1/2"
           }
         `}
           >
@@ -1383,11 +1383,11 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           rounded-full
           cursor-pointer
           transition-all
-          ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
+          ease-in-out
           ${
             isMoving
-              ? "bottom-[-80px] opacity-0 pointer-events-none duration-[100ms] scale-0 -translate-x-1/2"
-              : "bottom-[3.8em] opacity-100 pointer-events-auto duration-[500ms] scale-100 -translate-x-1/2"
+              ? "bottom-[-80px] opacity-0 pointer-events-none duration-100 scale-0 -translate-x-1/2"
+              : "bottom-[3.8em] opacity-100 pointer-events-auto duration-500 scale-100 -translate-x-1/2"
           }
         `}
           >
