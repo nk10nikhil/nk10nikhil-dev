@@ -1,0 +1,5 @@
+<!-- filepath: c:\nk10nikhil\Portfolio\nk10nikhil\public\robots.txt -->
+User-agent: *
+Allow: /
+
+Sitemap: https://nk10nikhil.vercel.app/sitemap.xml
