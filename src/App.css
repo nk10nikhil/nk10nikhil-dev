@@ -60,9 +60,11 @@
   z-index: -1;
   backdrop-filter: blur(10px);
   border-radius: inherit;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
 }
 
 /* 3D Card Effect */

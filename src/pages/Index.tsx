@@ -14,7 +14,6 @@ import CodeSnippet from "@/components/section/CodeSnippet";
 import TechnologyHighlight from "@/components/section/TechnologyHighlight";
 import ToolbarHighlight from "@/components/section/ToolbarHighlight";
 import SkillsSection from "@/components/section/SkillsSection";
-import P5Background from "@/components/elements/P5Background";
 import TechSkills from "@/components/section/TechSkills";
 
 const Index = () => {
@@ -35,7 +34,6 @@ const Index = () => {
       className="bg-transparent min-h-screen relative"
     >
       {/* Background Elements */}
-      {/* <P5Background className="blur-sm" /> */}
       <BlurBackground />
       <FloatingObjects />
 

@@ -21,13 +21,23 @@ export default defineConfig(({ mode }) => ({
         open: true,
         gzipSize: true,
         brotliSize: true,
+        filename: "dist/stats.html",
       }),
-    // Compress assets
+    // Compress assets with Brotli
     mode === "production" &&
       compression({
         algorithm: "brotliCompress",
+        ext: ".br",
+        threshold: 1024, // Only compress files larger than 1KB
       }),
-  ],
+    // Also add Gzip compression for broader compatibility
+    mode === "production" &&
+      compression({
+        algorithm: "gzip",
+        ext: ".gz",
+        threshold: 1024,
+      }),
+  ].filter(Boolean),
 
   resolve: {
     alias: {
@@ -42,29 +52,52 @@ export default defineConfig(({ mode }) => ({
     // Generate sourcemaps for production (optional, remove if not needed)
     sourcemap: mode === "development",
 
-    // Optimize chunk sizes
+    // Optimize chunk sizes with better splitting
     rollupOptions: {
       output: {
         manualChunks: {
-          // Split vendor code into separate chunk
-          vendor: ["react", "react-dom"],
+          // React core libraries
+          "react-vendor": ["react", "react-dom"],
+
+          // Router if you're using it
+          "router-vendor": ["react-router-dom"],
+
+          // UI libraries (adjust based on what you're using)
+          "ui-vendor": ["framer-motion", "lucide-react"],
+
+          // Utility libraries
+          utils: ["clsx", "tailwind-merge"],
+
+          // Any other heavy dependencies you have
+          // Check your stats.html after build to identify large deps
         },
+        // Optimize asset file names
+        chunkFileNames: "assets/js/[name]-[hash].js",
+        entryFileNames: "assets/js/[name]-[hash].js",
+        assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
       },
     },
 
-    // Increase chunk size warning limit (default is 500kb)
+    // Increase chunk size warning limit
     chunkSizeWarningLimit: 1000,
 
     // Minify options
     minify: "esbuild",
 
+    // CSS code splitting
+    cssCodeSplit: true,
+
     // Target modern browsers for smaller bundle
     target: "esnext",
+
+    // Reduce render-blocking resources
+    assetsInlineLimit: 4096, // Inline assets smaller than 4kb
   },
 
   // Optimize dependencies
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: ["react", "react-dom", "react-router-dom"],
+    exclude: [], // Add any deps you want to exclude from pre-bundling
   },
 
   // Preview server config (for production build preview)

@@ -5,7 +5,6 @@ import Footer from "@/components/section/Footer";
 import ContactSection from "@/components/section/ContactSection";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import P5Background from "@/components/elements/P5Background";
 import SocialButton from "@/components/elements/SocialButton";
 
 const Contact = () => {
@@ -22,7 +21,6 @@ const Contact = () => {
       className="bg-transparent min-h-screen relative"
     >
       {/* Background Elements */}
-      {/* <P5Background className="blur-sm" /> */}
       <BlurBackground />
       <FloatingObjects />
 

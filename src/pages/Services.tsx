@@ -4,7 +4,6 @@ import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import P5Background from "@/components/elements/P5Background";
 import SkillsSection from "@/components/section/SkillsSection";
 import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { OrbitingCirclesDemo } from "@/components/elements/OrbitingCirclesDemo";

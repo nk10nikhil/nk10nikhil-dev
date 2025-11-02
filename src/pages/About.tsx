@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Download, ExternalLink } from "lucide-react";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import P5Background from "@/components/elements/P5Background";
 import { TextRevealCard } from "@/components/elements/TextRevealCard";
 import { AboutTimeline } from '@/components/elements/AboutTimeline';
 
@@ -94,7 +93,6 @@ const About = () => {
       `}</style>
 
       {/* Background Elements */}
-      {/* <P5Background className="blur-sm" /> */}
       <BlurBackground />
       <FloatingObjects />
       <Navbar />

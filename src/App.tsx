@@ -4,18 +4,38 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/elements/ThemeProvider";
-import { useState, useEffect } from "react";
-import Index from "./pages/Index";
-import Projects from "./pages/Projects";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-import Services from "./pages/Services";
-import Temp from "./pages/Temp";
+import { useState, useEffect, lazy, Suspense } from "react";
 import BackToTopButton from "./components/elements/BackToTopButton";
 import Loader from "./components/elements/Loader";
 
-const queryClient = new QueryClient();
+// Eager load the main page for instant access
+import Index from "./pages/Index";
+
+// Lazy load secondary pages (loaded after initial render)
+const Projects = lazy(() => import("./pages/Projects"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Services = lazy(() => import("./pages/Services"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Preload all lazy components after initial render
+const preloadComponents = () => {
+  import("./pages/Projects");
+  import("./pages/About");
+  import("./pages/Contact");
+  import("./pages/Services");
+  import("./pages/NotFound");
+};
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -24,20 +44,32 @@ const App = () => {
 
   useEffect(() => {
     // Initial loading period
-    const timer = setTimeout(() => {
-      // Mark content as ready to be shown (but still behind loader)
+    const contentTimer = setTimeout(() => {
       setContentReady(true);
 
       // Start transitioning out the loader after content is ready
-      setTimeout(() => {
+      const loaderTimer = setTimeout(() => {
         setLoading(false);
       }, 300);
+
+      return () => clearTimeout(loaderTimer);
     }, 1500);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(contentTimer);
   }, []);
 
-  // Handle the final transition completion
+  // Preload lazy components after initial load
+  useEffect(() => {
+    if (contentReady) {
+      // Wait a bit for initial page to settle, then preload other pages
+      const preloadTimer = setTimeout(() => {
+        preloadComponents();
+      }, 1000);
+
+      return () => clearTimeout(preloadTimer);
+    }
+  }, [contentReady]);
+
   const handleTransitionEnd = () => {
     setTransitionComplete(true);
   };
@@ -49,28 +81,34 @@ const App = () => {
           <Toaster />
           <Sonner />
 
-          {/* Always render the content, but initially with opacity 0 */}
-          <div style={{
-            opacity: contentReady ? 1 : 0,
-            transition: "opacity 0.5s ease-in",
-            position: "relative",
-            zIndex: 1
-          }}>
+          <div
+            className="relative z-[1]"
+            style={{
+              opacity: contentReady ? 1 : 0,
+              transition: "opacity 0.5s ease-in",
+            }}
+          >
             <BrowserRouter>
               {transitionComplete && <BackToTopButton />}
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/*" element={<NotFound />} />
-                <Route path="/temp" element={<Temp />} />
-              </Routes>
+              <Suspense
+                fallback={
+                  <div className="flex items-center justify-center min-h-screen">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                  </div>
+                }
+              >
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
             </BrowserRouter>
           </div>
 
-          {/* Loader that fades out */}
           {!transitionComplete && (
             <Loader isLoading={loading} onTransitionEnd={handleTransitionEnd} />
           )}

@@ -6,7 +6,6 @@ import Footer from "@/components/section/Footer";
 import { ArrowUpRight, Github } from "lucide-react";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import P5Background from "@/components/elements/P5Background";
 import StarOnGithubButton from "@/components/elements/StarOnGithubButton";
 import { cn } from "@/lib/utils";
 import { useRef, createContext, useContext } from "react";
@@ -511,7 +510,6 @@ const Projects = () => {
       className="bg-transparent min-h-screen relative"
     >
       {/* Background Elements */}
-      {/* <P5Background className="blur-sm" /> */}
       <BlurBackground />
       <FloatingObjects />
       <Navbar />

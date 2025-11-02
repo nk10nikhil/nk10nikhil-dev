@@ -98,10 +98,10 @@ const Temp = () => {
 
           <div className="flex space-x-4 mt-4 md:mt-0 text-sm text-muted-foreground">
 
-            <Link to="/temp" className="hover:text-foreground transition-colors">
+            <Link to="/NotFound" className="hover:text-foreground transition-colors">
               Privacy Policy
             </Link>
-            <Link to="/temp" className="hover:text-foreground transition-colors">
+            <Link to="/NotFound" className="hover:text-foreground transition-colors">
               Terms of Service
             </Link>
           </div>

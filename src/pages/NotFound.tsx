@@ -1,11 +1,13 @@
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import P5Background from "@/components/elements/P5Background";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+// Lazy load P5Background
+// const P5Background = lazy(() => import("@/components/elements/P5Background"));
 
 const NotFound = () => {
   const location = useLocation();
@@ -25,8 +27,10 @@ const NotFound = () => {
       transition={{ duration: 0.3 }}
       className="bg-transparent min-h-screen relative"
     >
-      {/* Background Elements */}
-      <P5Background className="blur-sm" />
+      {/* Background Elements - P5 lazy loaded */}
+      <Suspense fallback={<div className="fixed inset-0 bg-black/90" />}>
+        {/* <P5Background className="blur-sm" /> */}
+      </Suspense>
       <BlurBackground />
       <FloatingObjects />
 
@@ -42,7 +46,7 @@ const NotFound = () => {
           className=""
         />
         <a
-          className=" mt-5 relative p-[2px] w-fit rounded-[0.9em] bg-gradient-to-r from-sky-500 to-pink-500 transition-all duration-400 ease-in-out group"
+          className="mt-5 relative p-[2px] w-fit rounded-[0.9em] bg-gradient-to-r from-sky-500 to-pink-500 transition-all duration-400 ease-in-out group"
           role="button"
           href="/"
         >
