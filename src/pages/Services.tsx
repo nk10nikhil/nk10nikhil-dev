@@ -3,13 +3,6 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
 import BlurBackground from "@/components/elements/BlurBackground";
-import FloatingObjects from "@/components/elements/FloatingObjects";
-import SkillsSection from "@/components/section/SkillsSection";
-import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
-import { OrbitingCirclesDemo } from "@/components/elements/OrbitingCirclesDemo";
-import ParallaxScroll from "@/components/elements/ParallaxScroll";
-import TechStack from "@/components/section/TechStack";
-import LinkedCircularSkills from "@/components/elements/LinkedCircularSkills";
 import BackgroundHero from "@/components/section/BackgrounHero";
 import { CheckCircle2 } from "lucide-react";
 import ScrollingSections from "@/components/section/ScrollableSection";
@@ -49,7 +42,7 @@ const Services = () => {
       {/* Content */}
       <Navbar />
       <main className="pb-10">
-        <section className="container mx-0 px-0 md:px-0 mb-0 pb-0">
+        <section className="mx-0 px-0 mb-0 pb-0">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
