@@ -76,6 +76,7 @@ export default defineConfig(({ mode }) => ({
         entryFileNames: "assets/js/[name]-[hash].js",
         assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
       },
+      input: path.resolve(__dirname, "index.html"),
     },
 
     // Increase chunk size warning limit
@@ -96,7 +97,12 @@ export default defineConfig(({ mode }) => ({
 
   // Optimize dependencies
   optimizeDeps: {
-    include: ["react", "react-dom", "react-router-dom"],
+    include: [
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "@tanstack/react-query",
+    ],
     exclude: [], // Add any deps you want to exclude from pre-bundling
   },
 
