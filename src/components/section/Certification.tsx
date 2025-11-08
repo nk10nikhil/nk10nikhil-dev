@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ChevronLeft,
@@ -102,23 +102,6 @@ const Certification = () => {
         "Reporting",
       ],
     },
-    // {
-    //   id: "7",
-    //   title: "ISC2 Candidate",
-    //   institute: "ISC2",
-    //   date: "Jun 2025",
-    //   desc: "The ISC2 Candidate certification is a globally recognized credential for aspiring cybersecurity professionals. It validates foundational knowledge in information security, risk management, and IT governance. Holders are prepared to pursue advanced certifications and contribute to secure enterprise environments. Credential ID: 0d8f9769-7e07-485c-acdf-7b8aadb3a9d8.",
-    //   img: "/certificates/cert7.jpeg",
-    //   url: "https://isc2.org/certificate/0d8f9769-7e07-485c-acdf-7b8aadb3a9d8",
-    //   skills: [
-    //     "Information Security",
-    //     "Risk Management",
-    //     "IT Governance",
-    //     "Cybersecurity Fundamentals",
-    //     "Compliance",
-    //     "Threat Analysis",
-    //   ],
-    // },
     {
       id: "8",
       title: "Information Security Associate",
@@ -323,25 +306,43 @@ const Certification = () => {
     },
   ];
 
-  const showSlider = (type: "next" | "prev") => {
-    if (isTransitioning || !listRef.current) return;
+  const showSlider = useCallback(
+    (type: "next" | "prev") => {
+      if (isTransitioning || !listRef.current) return;
 
-    setIsTransitioning(true);
-    const items = listRef.current.querySelectorAll(".cert-item");
+      const items =
+        listRef.current.querySelectorAll<HTMLDivElement>(".cert-item");
+      if (!items.length) return;
 
-    if (type === "next") {
-      listRef.current.appendChild(items[0]);
-      carouselRef.current?.classList.add("next");
-    } else {
-      listRef.current.prepend(items[items.length - 1]);
-      carouselRef.current?.classList.add("prev");
-    }
+      setIsTransitioning(true);
 
-    setTimeout(() => {
-      carouselRef.current?.classList.remove("next", "prev");
-      setIsTransitioning(false);
-    }, 500);
-  };
+      if (type === "next") {
+        listRef.current.appendChild(items[0]);
+        carouselRef.current?.classList.add("next");
+      } else {
+        listRef.current.prepend(items[items.length - 1]);
+        carouselRef.current?.classList.add("prev");
+      }
+
+      window.setTimeout(() => {
+        carouselRef.current?.classList.remove("next", "prev");
+        setIsTransitioning(false);
+      }, 500);
+    },
+    [isTransitioning]
+  );
+
+  const hasMultipleCerts = certifications.length > 1;
+
+  useEffect(() => {
+    if (showDetail || !hasMultipleCerts) return;
+
+    const interval = window.setInterval(() => {
+      showSlider("next");
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, [showDetail, showSlider, hasMultipleCerts]);
 
   const handleSeeMore = () => {
     setShowDetail(true);
@@ -352,7 +353,7 @@ const Certification = () => {
   };
 
   return (
-    <section className="relative py-8 md:py-12 overflow-hidden">
+    <section className="relative pt-8 md:pt-16 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent pointer-events-none"></div>
       <div className="container mx-auto px-4">
@@ -387,7 +388,7 @@ const Certification = () => {
       {/* Carousel */}
       <div
         ref={carouselRef}
-        className={`cert-carousel relative h-[450px] md:h-[600px] mt-[-120px] ${
+        className={`cert-carousel relative min-h-[680px] md:h-[600px] mt-[-180px] md:mt-[-120px] ${
           showDetail ? "show-detail" : ""
         }`}
       >
@@ -410,19 +411,19 @@ const Certification = () => {
               <motion.img
                 src={cert.img}
                 alt={cert.title}
-                className="absolute right-0 top-[30%] -translate-y-1/2 w-[45%] rounded-2xl shadow-2xl border border-purple-500/20 transition-all duration-1000"
+                className="cert-image absolute top-[30%] -translate-y-1/2 w-[50%] rounded-2xl shadow-2xl border border-purple-500/20 transition-all duration-1000"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
               />
 
               {/* Introduce Section */}
-              <div className="introduce absolute top-1/2 -translate-y-1/2 w-[400px] pr-8 opacity-0 pointer-events-none">
+              <div className="introduce absolute top-1/2 -translate-y-1/2 w-[400px] pr-8 opacity-0 pointer-events-none md:block flex flex-col md:items-start items-center md:text-left text-center ">
                 <motion.div
                   initial={{ opacity: 0, y: -30, filter: "blur(10px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-sm text-purple-400 font-semibold mb-2 tracking-wider"
+                  className="text-sm text-purple-400 font-semibold mb-2 tracking-wider hidden md:block"
                 >
                   {cert.institute}
                 </motion.div>
@@ -431,7 +432,7 @@ const Certification = () => {
                   initial={{ opacity: 0, y: -30, filter: "blur(10px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ delay: 0.4, duration: 0.5 }}
-                  className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200"
+                  className="text-base text-white text-bold md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200"
                 >
                   {cert.title}
                 </motion.h3>
@@ -450,7 +451,7 @@ const Certification = () => {
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ delay: 0.8, duration: 0.5 }}
                   onClick={handleSeeMore}
-                  className="group px-5 py-2 border-b-2 border-purple-500 bg-transparent font-bold tracking-[3px] text-white hover:bg-purple-500/10 transition-all duration-300 flex items-center gap-2"
+                  className="group px-5 py-2 border-b-2 border-purple-500 bg-transparent font-bold tracking-[3px] text-white hover:bg-purple-500/10 transition-all duration-300 md:flex flex-cols items-center gap-2 hidden"
                 >
                   SEE MORE
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -563,8 +564,93 @@ const Certification = () => {
       </div>
 
       <style>{`
+        @media (max-width: 768px) {
+          .cert-carousel {
+            height: auto;
+            padding-bottom: 3rem;
+          }
+
+          .cert-list {
+            height: auto;
+          }
+
+          .cert-list .cert-item {
+            width: 100%;
+            font-size: 10px;
+            padding: 1.5rem 1.25rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+          }
+
+          .cert-list .cert-item .cert-image {
+            position: relative;
+            top: auto;
+            right: auto;
+            transform: none;
+            width: 70%;
+            margin: 0 auto 1.5rem;
+          }
+
+          .cert-list .cert-item .introduce,
+          .cert-list .cert-item .detail {
+            position: relative;
+            top: 25%;
+            transform: none;
+            width: 100%;
+            opacity: 0;
+            pointer-events: none;
+            text-align: center;
+            padding: 0;
+          }
+
+          .cert-list .cert-item:nth-child(2) .introduce {
+            opacity: 1;
+            pointer-events: auto;
+          }
+
+          .cert-list .cert-item .detail {
+            margin-top: 1.25rem;
+            text-align: left;
+          }
+
+          .cert-list .cert-item .detail .flex {
+            justify-content: flex-start;
+          }
+
+          .cert-carousel.show-detail .cert-item:nth-child(2) .introduce {
+            opacity: 0;
+            pointer-events: none;
+          }
+
+          .cert-carousel.show-detail .cert-item:nth-child(2) .cert-image {
+            width: 85%;
+            margin-bottom: 1.5rem;
+          }
+
+          .cert-carousel.show-detail .cert-item:nth-child(2) .detail {
+            opacity: 1;
+            pointer-events: auto;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.25rem;
+            border-radius: 1rem;
+          }
+
+          .cert-carousel.show-detail .cert-item:nth-child(2) .detail .flex {
+            justify-content: center;
+          }
+        }
+
+
         .cert-carousel {
           position: relative;
+        }
+
+        .cert-item .cert-image {
+          right: -100px;
         }
 
         .cert-list .cert-item:nth-child(1) {
@@ -696,9 +782,9 @@ const Certification = () => {
           pointer-events: none;
         }
 
-        .cert-carousel.show-detail .cert-item:nth-child(2) img {
-          right: 60%;
-          top: 10%;
+        .cert-carousel.show-detail .cert-item:nth-child(2) .cert-image {
+          right: calc(60% - 40px);
+          top: 20%;
           width: 40%;
         }
 
@@ -735,21 +821,21 @@ const Certification = () => {
             font-size: 10px;
           }
 
+          .cert-list .cert-item .cert-image {
+            right: 0px;
+            width: 100%;
+            top: 30%;
+          }
+
           .cert-list .cert-item:nth-child(2) .introduce {
-            width: 50%;
+            width: 95%;
             pr: 4;
           }
 
-          .cert-list .cert-item img {
-            width: 45%;
-            top: 40%;
-          }
-
-          .cert-carousel.show-detail .cert-item:nth-child(2) img {
-            width: 38%;
+          .cert-carousel.show-detail .cert-item:nth-child(2) .cert-image {
+            width: 30%;
             top: 30%;
-            right: 58%;
-            
+            right: calc(58% - 40px);
           }
 
           .cert-carousel.show-detail .cert-item:nth-child(2) .detail {
