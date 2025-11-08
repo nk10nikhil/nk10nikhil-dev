@@ -68,7 +68,9 @@ const ContactSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient">Get In Touch</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl mb-4 text-gradient font-bold">
+            Get In Touch
+          </h2>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
             Have a project in mind or want to discuss opportunities? Reach out!
           </p>
@@ -140,9 +142,11 @@ const ContactSection = () => {
                 className="absolute top-0 left-0 w-full h-full border-0 rounded-lg filter grayscale contrast-95 opacity-15"
                 loading="lazy"
                 allowFullScreen
-                style={{ pointerEvents: 'none' }}
+                style={{ pointerEvents: "none" }}
               />
-              <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
+              <h3 className="text-xl font-semibold mb-6">
+                Contact Information
+              </h3>
               <div className="space-y-6">
                 {contactInfo.map((item, index) => (
                   <div key={index} className="flex items-start">
@@ -150,7 +154,9 @@ const ContactSection = () => {
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">{item.label}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {item.label}
+                      </p>
                       {item.link ? (
                         <a
                           href={item.link}
@@ -174,9 +180,12 @@ const ContactSection = () => {
                 className="absolute inset-0 w-full h-full object-cover opacity-50"
               />
               <div className="relative z-10">
-                <h3 className="text-xl font-semibold mb-3">Let's Work Together</h3>
+                <h3 className="text-xl font-semibold mb-3">
+                  Let's Work Together
+                </h3>
                 <p className="text-muted-foreground mb-4">
-                  Ready to transform your ideas into reality? Get in touch today!
+                  Ready to transform your ideas into reality? Get in touch
+                  today!
                 </p>
                 <SocialLinkBar />
               </div>

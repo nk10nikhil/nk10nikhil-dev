@@ -1,10 +1,14 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  Github,
+  ExternalLink,
+  Star,
+  Sparkles,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { useEffect } from "react";
+import CardSwap, { Card } from "@/components/ui/card-swap";
 
 const projects = [
   {
@@ -14,142 +18,282 @@ const projects = [
       "A full-stack authentication system with user registration, login, and password reset functionalities.",
     tags: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
     image: "/projects/data_protection_cloud.png",
-    link: "https://github.com/nk10nikhil"
+    link: "https://github.com/nk10nikhil",
+    github: "https://github.com/nk10nikhil",
+    stars: 24,
+    category: "Full Stack",
   },
   {
     id: 2,
-    title: "AI-Powered SaaS Platform",
+    title: "Our Restaurant – Booking & Branding Web App",
     description:
-      "A SaaS platform for creating, training, and deploying machine learning models with real-time collaboration.",
-    tags: ["Next.js", "MongoDB", "Socket.io", "Express"],
-    image: "/projects/aisaas.png",
-    link: "https://github.com/nk10nikhil"
+      "Responsive restaurant web app with real-time booking and Google Maps integration.",
+    tags: ["React", "JavaScript", "CSS", "Google Maps API"],
+    image: "/projects/restaurant.png",
+    link: "https://restaurantworld.vercel.app/",
+    github: "https://github.com/nk10nikhil/restaurantworld",
+    stars: 19,
+    category: "Frontend",
   },
   {
     id: 3,
-    title: "Data Entry Job Automation - Python",
+    title: "Everyday Life – E-Commerce Website",
     description:
-      "A Python script to automate data entry jobs by extracting data from PDFs and entering it into a Google Sheet.",
-    tags: ["Python", "Pandas", "Google Sheets API"],
-    image: "/projects/dataautomation.png",
-    link: "https://github.com/nk10nikhil"
+      "Sleek responsive e-commerce site for household items, optimized for performance.",
+    tags: ["React", "JavaScript", "CSS", "Webpack", "Lighthouse"],
+    image: "/projects/everydaylife.png",
+    link: "https://everydaylife.vercel.app/",
+    github: "https://github.com/nk10nikhil/everydaylife",
+    stars: 21,
+    category: "Frontend",
   },
   {
     id: 4,
-    title: "Flight Deal Finder (Python, APIs)",
-    description: "A Python script to find cheap flight deals by scraping data from flight booking websites.",
-    tags: ["Python", "Requests", "BeautifulSoup"],
-    image: "/projects/flight.png",
-    link: "https://github.com/nk10nikhil"
+    title: "Harbour Haven - Beverage Store",
+    description:
+      "A modern beverage store website built with React and Tailwind CSS, featuring a responsive design and smooth animations.",
+    tags: ["React", "Tailwind CSS", "JavaScript", "Responsive Design"],
+    image: "/projects/harbor.png",
+    link: "https://harborhaven.vercel.app/",
+    github: "https://github.com/nk10nikhil/harbourhaven",
+    stars: 20,
+    category: "Frontend",
   },
   {
     id: 5,
-    title: "Full-Stack Q&A System (Next.js, Appwrite)",
-    description: "A full-stack Q&A system with user authentication, asking questions, and answering questions.",
-    tags: ["Next.js", "Appwrite", "Tailwind CSS"],
-    image: "/projects/qna.png",
-    link: "https://github.com/nk10nikhil"
-  }
+    title: "E-commerce Platform with Secure Payments",
+    description:
+      "Built a full-stack e-commerce platform that processes 6,000+ transactions monthly with Razorpay integration, JWT, and optimized UI.",
+    tags: [
+      "React",
+      "Next.js",
+      "Tailwind CSS",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Razorpay",
+      "JWT",
+    ],
+    image: "/projects/ecommerce.png",
+    link: "https://myprojectbazaar.vercel.app/",
+    github: "https://github.com/nk10nikhil/myprojectbazaar",
+    stars: 34,
+    category: "Full Stack",
+  },
 ];
 
 const FeaturedProjects = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? projects.length - 1 : prevIndex - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === projects.length - 1 ? 0 : prevIndex + 1));
-  };
-
-  useEffect(() => {
-    const interval = setInterval(handleNext, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getVisibleProjects = () => {
-    const visibleProjects = [];
-    const numVisible = window.innerWidth >= 1024 ? 3 : 1;
-
-    for (let i = 0; i < numVisible; i++) {
-      visibleProjects.push(projects[(currentIndex + i) % projects.length]);
-    }
-
-    return visibleProjects;
-  };
-
   return (
-    <section className="py-16 md:py-24 pb-20 md:pt-16 md:pb-20 bg-primary/5 text-primary">
-      <div className="container mx-auto px-4 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end justify-center mb-4 md:mb-6"
-        >
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gradient text-center">Featured Projects</h2>
-            <p className="text-lg text-muted-foreground text-center max-w-xl mx-auto mb-4">
-              A collection of my full stack projects demonstrating my skills in both front-end and back-end development.
-            </p>
-          </div>
-        </motion.div>
-
-        <div className="flex justify-between items-center mb-6">
-          <Button variant="outline" onClick={handlePrev}>
-            <ChevronLeft className="h-6 w-6" />
-          </Button>
-          <Button variant="outline" className="mt-0 mb-4 mx-auto md:mt-0 text-white max-w-60 bg-gradient-to-br from-primary via-purple-500 to-indigo-400 " asChild>
-            <Link to="/projects">
-              View All Projects <ArrowUpRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-          <Button variant="outline" onClick={handleNext}>
-            <ChevronRight className="h-6 w-6" />
-          </Button>
+    <section className="relative pt-10 md:pt-16  bg-primary/5 text-primary overflow-hidden min-h-[600px] md:min-h-[700px]">
+      <div className="container mx-auto px-4 md:px-12">
+        <div className="text-center">
+          {/* Small badge indicator */}
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+            className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-primary/10 border border-primary/20"
+          >
+            <Sparkles className="w-4 h-4 text-white" />
+            <span className="text-sm font-semibold text-gray-200">
+              Industry Standards Projects
+            </span>
+          </motion.div>
         </div>
+        {/* Left Side - Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="z-10"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gradient text-center lg:text-left">
+              Featured Projects
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-lg text-center lg:text-left">
+              A collection of my software projects demonstrating my skills in
+              both
+              <span className="text-primary font-semibold">
+                {" "}
+                Full-Stack
+              </span>{" "}
+              and
+              <span className="text-primary font-semibold"> AI/ML</span>{" "}
+              development.
+            </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {getVisibleProjects().map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
-              <Card className="overflow-hidden border-none shadow-lg glass-morphism h-full">
-                <div className="relative aspect-video overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  />
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                <div>
+                  <h4 className="font-semibold text-lg">Modern Tech Stack</h4>
+                  <p className="text-muted-foreground">
+                    Built with React, Next.js, Node.js, and more
+                  </p>
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
-                      >
-                        {tag}
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                <div>
+                  <h4 className="font-semibold text-lg">Production Ready</h4>
+                  <p className="text-muted-foreground">
+                    Scalable, performant, and user-friendly applications
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary mt-2" />
+                <div>
+                  <h4 className="font-semibold text-lg">Open Source</h4>
+                  <p className="text-muted-foreground">
+                    Available on GitHub for collaboration and learning
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <Button
+              className="mt-4 bg-gradient-to-br from-primary via-purple-500 to-indigo-400 text-white hover:opacity-90 transition-opacity"
+              asChild
+            >
+              <Link to="/projects">
+                View All Projects <ArrowUpRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </motion.div>
+
+          {/* Right Side - Card Stack */}
+          <div className="relative h-[400px] sm:h-[500px] md:h-[550px] lg:h-[600px] transform -translate-x-[160px] -translate-y-[80px] md:-translate-x-[230px] md:-translate-y-[130px]">
+            <CardSwap
+              width={500}
+              height={250}
+              cardDistance={50}
+              verticalDistance={60}
+              delay={2700}
+              pauseOnHover={true}
+              skewAmount={4}
+              easing="elastic"
+              onCardClick={(idx) => console.log(`Clicked card ${idx}`)}
+            >
+              {projects.map((project) => (
+                <Card
+                  key={project.id}
+                  className="overflow-hidden cursor-pointer group shadow-2xl border-0 backdrop-blur-sm"
+                >
+                  {/* Title Header with Category Badge */}
+                  <div className="relative p-3 pb-2 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-black/95 border-b border-gray-700/50">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="text-base md:text-lg font-bold text-white line-clamp-1 flex-1 group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 whitespace-nowrap">
+                        {project.category}
                       </span>
-                    ))}
+                    </div>
+
+                    {/* Decorative gradient line */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
                   </div>
-                  <Button variant="ghost" className="text-primary hover:text-white/90 p-0 px-2" asChild>
-                    <a href={project.link} target="_blank" rel="noopener noreferrer">
-                      View Project <ArrowUpRight className="ml-1 h-4 w-4" />
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+
+                  {/* Landscape Layout: Image Left, Content Right */}
+                  <div className="flex h-[calc(100%-52px)]">
+                    {/* Left Side - Project Image with Overlay Effects */}
+                    <div className="relative w-[42%] overflow-hidden">
+                      {/* Image */}
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+                      />
+
+                      {/* Gradient Overlays */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/60" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                      {/* Hover Overlay with Quick Actions */}
+                      <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2">
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 transition-all"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Github className="w-4 h-4 text-white" />
+                        </a>
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full bg-primary/20 hover:bg-primary/30 backdrop-blur-sm border border-primary/30 transition-all"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="w-4 h-4 text-primary" />
+                        </a>
+                      </div>
+
+                      {/* Stars Badge */}
+                      <div className="absolute top-2 left-2 flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/10">
+                        <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                        <span className="text-[10px] text-white font-semibold">
+                          {project.stars}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Right Side - Project Content */}
+                    <div className="w-[58%] p-3 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-black/95 flex flex-col justify-between backdrop-blur-sm">
+                      <div className="space-y-2">
+                        {/* Description */}
+                        <p className="text-gray-300 text-xs leading-relaxed line-clamp-3 group-hover:text-gray-200 transition-colors">
+                          {project.description}
+                        </p>
+
+                        {/* Tags with Better Styling */}
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {project.tags.slice(0, 3).map((tag, index) => (
+                            <span
+                              key={tag}
+                              className="text-[10px] px-2 py-1 rounded-md bg-gradient-to-r from-primary/10 to-primary/5 text-primary border border-primary/20 font-medium hover:border-primary/40 hover:from-primary/20 hover:to-primary/10 transition-all"
+                              style={{
+                                animationDelay: `${index * 0.1}s`,
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Bottom Action Bar */}
+                      <div className="flex items-center justify-between pt-2 border-t border-gray-700/50 mt-2">
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors font-semibold text-[11px] group/link"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <span>View Project</span>
+                          <ArrowUpRight className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                        </a>
+
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                          <span className="text-[10px] text-gray-400">
+                            Live
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </CardSwap>
+          </div>
         </div>
       </div>
     </section>

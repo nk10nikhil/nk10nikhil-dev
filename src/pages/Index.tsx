@@ -10,11 +10,12 @@ import ContactSection from "@/components/section/ContactSection";
 import Footer from "@/components/section/Footer";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import CodeSnippet from "@/components/section/CodeSnippet";
+// import CodeSnippet from "@/components/section/CodeSnippet";
 import TechnologyHighlight from "@/components/section/TechnologyHighlight";
 import ToolbarHighlight from "@/components/section/ToolbarHighlight";
 import SkillsSection from "@/components/section/SkillsSection";
 import TechSkills from "@/components/section/TechSkills";
+import Certification from "@/components/section/Certification";
 
 const Index = () => {
   useEffect(() => {
@@ -43,11 +44,12 @@ const Index = () => {
         <Hero />
         <TechStack />
         <FeaturedProjects />
+        <Certification />
         <SkillsSection />
         <Services />
         <ToolbarHighlight />
         <TechnologyHighlight />
-        <CodeSnippet />
+        {/* <CodeSnippet /> */}
         <TechSkills />
         <ContactSection />
       </main>

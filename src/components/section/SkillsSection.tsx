@@ -37,16 +37,16 @@ const skillsData = [
     ],
   },
   {
-    category: "Blockchain Development",
+    category: "Full Stack Web Development",
     color: "bg-cyber-yellow",
     gradient: "from-green-500 to-emerald-500",
     icon: Blocks,
     skills: [
-      { name: "Solidity", level: 80 },
-      { name: "Web3.js", level: 75 },
-      { name: "Truffle", level: 70 },
-      { name: "Hardhat", level: 65 },
-      { name: "Ethers.js", level: 60 },
+      { name: "Nextjs", level: 95 },
+      { name: "React", level: 85 },
+      { name: "Node.js", level: 80 },
+      { name: "MongoDB", level: 70 },
+      { name: "Express.js", level: 65 },
     ],
   },
 ];
@@ -174,7 +174,7 @@ const SkillsSection = () => {
   return (
     <section
       id="skills"
-      className="relative px-6 bg-gradient-to-b from-cyber-dark/50 via-cyber-dark/80 to-cyber-dark/50 py-16 md:py-24 overflow-hidden"
+      className="relative px-6 bg-gradient-to-b from-cyber-dark/50 via-cyber-dark/80 to-cyber-dark/50 pt-16 md:pt-16 overflow-hidden"
     >
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-cyber-grid bg-[length:30px_30px] opacity-5 pointer-events-none" />

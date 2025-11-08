@@ -4,7 +4,7 @@ import { MarqueeDemo } from "../elements/MarqueeDemo";
 
 const ToolbarHighlight = () => {
   return (
-    <section className="py-16 md:py-24 bg-black/25 overflow-x-hidden">
+    <section className="py-16 md:py-16 bg-black/25 overflow-x-hidden">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center">
           <motion.div
@@ -22,8 +22,8 @@ const ToolbarHighlight = () => {
               transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
               className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-primary/10 border border-primary/20"
             >
-              <Sparkles className="w-3 h-3 text-primary" />
-              <span className="text-xs font-medium text-primary">
+              <Sparkles className="w-4 h-4 text-white" />
+              <span className="text-sm font-semibold text-gray-200">
                 Testimonials
               </span>
             </motion.div>

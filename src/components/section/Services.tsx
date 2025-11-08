@@ -30,7 +30,7 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-16">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,19 +47,19 @@ const Services = () => {
             transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
             className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-primary/10 border border-primary/20"
           >
-            <Sparkles className="w-3 h-3 text-primary" />
-            <span className="text-xs font-medium text-primary">What I Do</span>
+            <Sparkles className="w-4 h-4 text-cyber-blue" />
+            <span className="text-sm font-semibold text-gray-200">
+              What I Do
+            </span>
           </motion.div>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gradient">
             Services
           </h2>
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Comprehensive solutions to transform your ideas into powerful
-            digital experiences.
-            <br />I offer a wide range of services to help you build your
-            digital products and grow your business. From frontend development
-            to full-stack solutions, I've got you covered.
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-[-30px]">
+            I offer a wide range of services to help you build your digital
+            products and grow your business. From frontend development to
+            full-stack solutions, I've got you covered.
           </p>
         </motion.div>
 

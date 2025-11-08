@@ -73,7 +73,7 @@ const Navbar = () => {
     { name: "Services", path: "/services" },
     { name: "Projects", path: "/projects" },
     { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    // { name: "Contact", path: "/contact" },
   ];
 
   return (
@@ -126,7 +126,7 @@ const Navbar = () => {
               </a>
             </Button>
           </div>
-          <Button className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90"><a href="/contact">Contact Me</a></Button>
+          <Button className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90"><Link to="/contact">Contact Me</Link></Button>
         </div>
 
         {/* Mobile Navigation Toggle */}

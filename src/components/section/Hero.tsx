@@ -184,7 +184,7 @@ const Hero = () => {
             className="w-full md:w-1/2 flex justify-center overflow-hidden"
           >
             <div className="flex flex-col items-center justify-center">
-              <div className="my-24" />
+              <div className="my-16" />
 
               <div className="absolute z-20 top-[650px] md:top-[200px]">
                 <FloatingTeddy />

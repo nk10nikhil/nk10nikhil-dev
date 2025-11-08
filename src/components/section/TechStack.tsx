@@ -1,71 +1,158 @@
-import { color, motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { Sparkles } from "lucide-react";
 
 const technologies = [
   {
     name: "React",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
     color: "#61DAFB",
+    description:
+      "A powerful JavaScript library for building interactive user interfaces with component-based architecture and virtual DOM.",
+    link: "https://react.dev/",
   },
   {
     name: "TypeScript",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-    color: "#007ACC",
+    color: "#3178C6",
+    description:
+      "Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.",
+    link: "https://www.typescriptlang.org/",
   },
   {
     name: "Node.js",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
     color: "#339933",
+    description:
+      "JavaScript runtime built on Chrome's V8 engine for building fast, scalable network applications.",
+    link: "https://nodejs.org/",
   },
   {
     name: "MongoDB",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
     color: "#47A248",
+    description:
+      "NoSQL database that provides high performance, high availability, and easy scalability for modern applications.",
+    link: "https://www.mongodb.com/",
   },
   {
     name: "Express",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
     color: "#000000",
+    description:
+      "Fast, unopinionated, minimalist web framework for Node.js to build robust APIs and web applications.",
+    link: "https://expressjs.com/",
   },
   {
     name: "Next.js",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
     color: "#000000",
+    description:
+      "React framework with hybrid static & server rendering, TypeScript support, smart bundling, and route pre-fetching.",
+    link: "https://nextjs.org/",
   },
   {
     name: "Redux",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
     color: "#764ABC",
+    description:
+      "Predictable state container for JavaScript apps that helps you write applications that behave consistently.",
+    link: "https://redux.js.org/",
   },
   {
     name: "Tailwind CSS",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
     color: "#06B6D4",
+    description:
+      "Utility-first CSS framework for rapidly building custom user interfaces with highly composable classes.",
+    link: "https://tailwindcss.com/",
   },
   {
     name: "PostgreSQL",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-    color: "#336791",
+    color: "#4169E1",
+    description:
+      "Powerful, open source object-relational database system with strong reputation for reliability and data integrity.",
+    link: "https://www.postgresql.org/",
   },
   {
     name: "Docker",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
     color: "#2496ED",
+    description:
+      "Platform for developing, shipping, and running applications in containers for consistent environments.",
+    link: "https://www.docker.com/",
   },
   {
     name: "GraphQL",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
-    color: "#E535AB",
+    color: "#E10098",
+    description:
+      "Query language for APIs providing a complete and understandable description of the data in your API.",
+    link: "https://graphql.org/",
   },
   {
     name: "AWS",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
     color: "#FF9900",
+    description:
+      "Comprehensive cloud platform offering over 200 services from data centers globally for scalable solutions.",
+    link: "https://aws.amazon.com/",
   },
 ];
 
 const TechStack = () => {
+  const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const [clickedTech, setClickedTech] = useState<string | null>(null);
+  const [isExiting, setIsExiting] = useState(false);
+
+  const activeTech = clickedTech || hoveredTech;
+
+  const handleClick = (techName: string) => {
+    if (clickedTech === techName) {
+      // Close if already open
+      handleClose();
+    } else {
+      setIsExiting(false);
+      setClickedTech(techName);
+    }
+  };
+
+  const handleClose = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      setClickedTech(null);
+      setHoveredTech(null);
+      setIsExiting(false);
+    }, 300);
+  };
+
+  const handleHoverStart = (techName: string) => {
+    // Only allow hover if nothing is clicked
+    if (!clickedTech) {
+      setIsExiting(false);
+      setHoveredTech(techName);
+    }
+  };
+
+  const handleHoverEnd = () => {
+    // Only process hover end if nothing is clicked
+    if (!clickedTech) {
+      setIsExiting(true);
+      setTimeout(() => {
+        setHoveredTech(null);
+        setIsExiting(false);
+      }, 300);
+    }
+  };
+
+  const handleLearnMore = (link: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(link, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <section className="py-16 md:py-20 bg-gradient-to-b from-background to-secondary/30">
+    <section className="py-16 md:py-16 bg-gradient-to-b from-background to-secondary/30 overflow-visible">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -74,14 +161,20 @@ const TechStack = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
+          {/* Small badge indicator */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-block mb-6"
-          ></motion.div>
-          <h2 className="text-[2.16rem] md:text-6xl font-bold mb-4 heading-gradient mt-[-50px]">
+            transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-8"
+          >
+            <Sparkles className="w-4 h-4 text-cyber-blue" />
+            <span className="text-sm font-semibold text-gray-200">
+              Tech Stack
+            </span>
+          </motion.div>
+          <h2 className="text-[2.16rem] md:text-4xl font-bold mb-4 heading-gradient mt-[-50px] md:pt-12 pt-6">
             <div className="inline-flex items-center gap-0 px-0 py-2 rounded-full">
               <motion.span
                 animate={{ rotate: 0 }}
@@ -107,13 +200,7 @@ const TechStack = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.1, duration: 0.5 }}
-          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 md:gap-8"
-        >
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-6 md:gap-8">
           {technologies.map((tech, index) => (
             <motion.div
               key={tech.name}
@@ -121,20 +208,226 @@ const TechStack = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05, duration: 0.5 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="flex flex-col items-center"
+              onHoverStart={() => handleHoverStart(tech.name)}
+              onHoverEnd={handleHoverEnd}
+              onClick={() => handleClick(tech.name)}
+              className="flex flex-col items-center cursor-pointer"
             >
-              <div className="h-16 w-16 md:h-20 md:w-20 rounded-xl glass-morphism flex items-center justify-center p-4 mb-3">
-                <img
-                  src={tech.icon}
-                  alt={tech.name}
-                  className="h-full object-contain"
-                />
+              <div className="relative w-20 h-20">
+                <motion.div
+                  animate={{
+                    width:
+                      activeTech === tech.name && !isExiting
+                        ? window.innerWidth < 640
+                          ? "90vw"
+                          : window.innerWidth < 768
+                          ? "80vw"
+                          : "400px"
+                        : "80px",
+                    height:
+                      activeTech === tech.name && !isExiting
+                        ? window.innerWidth < 640
+                          ? "160px"
+                          : "200px"
+                        : "80px",
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    delay:
+                      activeTech === tech.name && !isExiting
+                        ? 0.2
+                        : isExiting
+                        ? 0.15
+                        : 0,
+                  }}
+                  className="absolute top-0 left-1/2 -translate-x-1/2 rounded-xl glass-morphism flex items-center justify-center overflow-visible"
+                  style={{
+                    zIndex: activeTech === tech.name ? 50 : 1,
+                  }}
+                >
+                  {/* Circle Effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-xl flex items-center justify-center"
+                    style={{
+                      background:
+                        activeTech === tech.name && !isExiting
+                          ? tech.color
+                          : "transparent",
+                    }}
+                    animate={{
+                      opacity: activeTech === tech.name && !isExiting ? 1 : 0,
+                    }}
+                    transition={{
+                      duration: 0.3,
+                      delay:
+                        activeTech === tech.name && !isExiting
+                          ? 0.4
+                          : isExiting
+                          ? 0
+                          : 0,
+                    }}
+                  >
+                    <motion.div
+                      className="absolute rounded-full border-8"
+                      style={{
+                        borderColor: tech.color,
+                        filter: `drop-shadow(0 0 10px ${tech.color}) drop-shadow(0 0 60px ${tech.color})`,
+                      }}
+                      animate={{
+                        width:
+                          activeTech === tech.name && !isExiting
+                            ? "100%"
+                            : "100%",
+                        height:
+                          activeTech === tech.name && !isExiting
+                            ? "100%"
+                            : "100%",
+                        borderRadius:
+                          activeTech === tech.name && !isExiting
+                            ? "20px"
+                            : "50%",
+                      }}
+                      transition={{
+                        duration: 0.3,
+                        delay:
+                          activeTech === tech.name && !isExiting
+                            ? 0.4
+                            : isExiting
+                            ? 0
+                            : 0,
+                      }}
+                    />
+                  </motion.div>
+
+                  {/* Icon */}
+                  <motion.img
+                    src={tech.icon}
+                    alt={tech.name}
+                    className="relative z-10"
+                    style={{
+                      filter:
+                        activeTech === tech.name && !isExiting
+                          ? "brightness(0) invert(1)"
+                          : "none",
+                    }}
+                    animate={{
+                      scale: activeTech === tech.name && !isExiting ? 0 : 1,
+                      width:
+                        activeTech === tech.name && !isExiting ? "0px" : "48px",
+                      height:
+                        activeTech === tech.name && !isExiting ? "0px" : "48px",
+                    }}
+                    transition={{
+                      duration: 0.3,
+                      delay:
+                        activeTech === tech.name && !isExiting
+                          ? 0
+                          : isExiting
+                          ? 0
+                          : 0.3,
+                    }}
+                  />
+
+                  {/* Large Icon on Hover */}
+                  <AnimatePresence>
+                    {activeTech === tech.name && !isExiting && (
+                      <motion.img
+                        src={tech.icon}
+                        alt={tech.name}
+                        className="absolute hidden md:block"
+                        style={{
+                          filter: "brightness(0) invert(1)",
+                        }}
+                        initial={{
+                          scale: 0,
+                          rotate: 315,
+                          top: "50%",
+                          right: "50%",
+                          translateX: "50%",
+                          translateY: "-50%",
+                        }}
+                        animate={{
+                          scale: 1,
+                          rotate: 15,
+                          top: "20%",
+                          right: "20%",
+                          width: "150px",
+                          height: "150px",
+                        }}
+                        exit={{
+                          scale: 0,
+                          rotate: 315,
+                        }}
+                        transition={{
+                          duration: 0.3,
+                          delay: 0.4,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    )}
+                  </AnimatePresence>
+
+                  {/* Content Card */}
+                  <AnimatePresence>
+                    {activeTech === tech.name && (
+                      <motion.div
+                        className="absolute left-4 md:left-8 top-0 w-[85%] md:w-[50%] p-4 z-20"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{
+                          opacity: isExiting ? 0 : 1,
+                          x: isExiting ? -20 : 0,
+                        }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: isExiting ? 0 : 0.4,
+                        }}
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-white text-xl md:text-2xl font-bold uppercase leading-tight">
+                            {tech.name}
+                          </h3>
+                          {clickedTech && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleClose();
+                              }}
+                              className="text-white/80 hover:text-white text-2xl leading-none md:hidden"
+                            >
+                              ×
+                            </button>
+                          )}
+                        </div>
+                        <p className="text-white/90 text-xs md:text-xs mb-3 leading-relaxed">
+                          {tech.description}
+                        </p>
+                        <button
+                          onClick={(e) => handleLearnMore(tech.link, e)}
+                          className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-lg text-xs md:text-sm font-semibold hover:bg-white/30 transition-colors cursor-pointer"
+                        >
+                          Learn More →
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </div>
-              <span className="text-sm font-medium">{tech.name}</span>
+
+              {/* Tech Name Below Icon (hidden on hover) */}
+              <motion.span
+                className="text-sm font-medium mt-3"
+                animate={{
+                  opacity: activeTech === tech.name ? 0 : 1,
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                {tech.name}
+              </motion.span>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
