@@ -132,7 +132,7 @@ ML-powered predictive dashboard
 [![Live Demo](https://img.shields.io/badge/Live_Demo-00C7B7?style=for-the-badge&logo=vercel&logoColor=white)](https://networkup.vercel.app/)
 
 Secure real-time messaging platform  
-✅ 2,500+ concurrent users | 🔐 JWT encryption | 🧪 95% test coverage
+✅ 500+ concurrent users | 🔐 JWT encryption | 🧪 95% test coverage
 
 </div>
 
