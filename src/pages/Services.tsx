@@ -34,7 +34,7 @@ const Services = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-transparent min-h-screen relative"
+      className="bg-transparent min-h-screen relative overflow-hidden"
     >
       {/* Background Elements */}
       <BlurBackground />

@@ -1,10 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
 
 // Lazy load P5Background
 // const P5Background = lazy(() => import("@/components/elements/P5Background"));
@@ -45,16 +46,16 @@ const NotFound = () => {
           words="Please click the button below to go back to the home page"
           className=""
         />
-        <a
+        <Link
           className="mt-5 relative p-[2px] w-fit rounded-[0.9em] bg-gradient-to-r from-sky-500 to-pink-500 transition-all duration-400 ease-in-out group"
           role="button"
-          href="/"
+          to="/"
         >
           <span className="absolute inset-0 m-auto rounded-[0.9em] -z-10 blur-0 transition-[filter] duration-400 ease-in-out bg-gradient-to-r from-sky-500 to-pink-500 group-hover:blur-[1.2em] group-active:blur-[0.2em]"></span>
           <button className="relative text-strong py-2 px-3 rounded-xl border-none bg-black text-white cursor-pointer shadow-[2px_2px_3px_rgba(0,0,0,0.7)] transition-all duration-300 ease-in-out">
             Go To Home
           </button>
-        </a>
+        </Link>
         <DigitalLamp />
       </div>
     </motion.div>
