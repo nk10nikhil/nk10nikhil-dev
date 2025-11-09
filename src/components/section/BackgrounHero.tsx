@@ -72,7 +72,7 @@ function ElegantShape({
 export default function BackgroundHero({
   badge = "Nikhil Kumar",
   title1 = "Elevate Your",
-  title2 = "Website Development",
+  title2 = "Digital Development",
 }: {
   badge?: string;
   title1?: string;
