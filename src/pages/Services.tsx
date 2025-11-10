@@ -24,8 +24,8 @@ const Services = () => {
     >
       {/* Background Elements */}
       <BlurBackground />
-      {/* Content */}
       <Navbar />
+
       {/* Main Body */}
       <section className="mx-0 px-0 mb-0 pb-0">
         <motion.div
@@ -37,19 +37,7 @@ const Services = () => {
           {/* Hero Section */}
           <BackgroundHero />
           <LogoScroll />
-        </motion.div>
-      </section>
 
-      {/* Services Section */}
-      <section className="container mx-0 px-0 pt-8 md:pt-16 bg-transparent">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          {/* Small badge indicator */}
           <motion.div
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
@@ -62,45 +50,15 @@ const Services = () => {
               Services
             </span>
           </motion.div>
-
-          {/* Heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300"
-          >
+          <p className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">
             What Digital Services I Offer
-          </motion.h2>
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto mb-12"
-          >
+          </p>
+          <p className="text-white/70 text-lg md:text-xl max-w-3xl mx-auto mb-12">
             Comprehensive digital solutions tailored to bring your vision to
             life with cutting-edge technology and creative excellence.
-          </motion.p>
-
-          {/* Slider */}
+          </p>
           <ProductivitySlider />
-        </motion.div>
-      </section>
 
-      {/* Testimonials Section */}
-      <section className="container mx-0 px-0 py-4 md:py-4 bg-transparent">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          {/* Small badge indicator */}
           <motion.div
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
@@ -120,15 +78,11 @@ const Services = () => {
             Don't just take our word for it. Here's what our satisfied clients
             have to say about their experience.
           </p>
+          <div className="w-screen">
+            <TestimonialMarquee />
+          </div>
         </motion.div>
-
-        <div className="w-screen">
-          <TestimonialMarquee />
-        </div>
       </section>
-
-      {/* Work with us Section */}
-
       <Footer />
     </motion.div>
   );
