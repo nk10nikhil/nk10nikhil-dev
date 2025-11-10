@@ -22,12 +22,12 @@ export default function ProductivitySlider() {
       bg: "/services/service31.jpeg",
       thumb: "/services/service32.jpeg",
     },
-    {
-      title: "Web3 & Blockchain",
-      desc: "Decentralized applications and smart contracts",
-      bg: "/services/service41.jpeg",
-      thumb: "/services/service42.jpeg",
-    },
+    // {
+    //   title: "Web3 & Blockchain",
+    //   desc: "Decentralized applications and smart contracts",
+    //   bg: "/services/service41.jpeg",
+    //   thumb: "/services/service42.jpeg",
+    // },
     {
       title: "AI Integration",
       desc: "Intelligent features powered by machine learning",
@@ -40,18 +40,18 @@ export default function ProductivitySlider() {
       bg: "/services/service61.jpeg",
       thumb: "/services/service62.jpeg",
     },
-    {
-      title: "Cloud Solutions",
-      desc: "Scalable and secure cloud infrastructure",
-      bg: "/services/service71.jpeg",
-      thumb: "/services/service72.jpeg",
-    },
-    {
-      title: "DevOps & CI/CD",
-      desc: "Streamlined development and deployment pipelines",
-      bg: "/services/service81.jpeg",
-      thumb: "/services/service82.jpeg",
-    }
+    // {
+    //   title: "Cloud Solutions",
+    //   desc: "Scalable and secure cloud infrastructure",
+    //   bg: "/services/service71.jpeg",
+    //   thumb: "/services/service72.jpeg",
+    // },
+    // {
+    //   title: "DevOps & CI/CD",
+    //   desc: "Streamlined development and deployment pipelines",
+    //   bg: "/services/service81.jpeg",
+    //   thumb: "/services/service82.jpeg",
+    // }
   ];
 
   const [current, setCurrent] = useState(0);
