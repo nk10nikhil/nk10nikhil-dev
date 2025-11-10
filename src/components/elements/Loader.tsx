@@ -13,8 +13,6 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
 
   useEffect(() => {
     if (!isLoading) {
-      // Add a slight delay before starting transition out
-      // to ensure content behind is ready
       const timer = setTimeout(() => {
         setIsVisible(false);
       }, 200);
@@ -22,7 +20,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
     }
   }, [isLoading]);
 
-  // Preload critical images during loader display
+  // Preload critical images
   useEffect(() => {
     const preloadImages = [
       "/profile.png",
@@ -55,7 +53,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
         />
       </div>
 
-      {/* Original Loader Content */}
+      {/* Orb Container */}
       <div className="orb-container">
         <Orb
           hue={265}
@@ -64,6 +62,8 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
           forceHoverState={true}
         />
       </div>
+
+      {/* Loader Animation */}
       <div className="loader-container">
         <div className="loader">
           <div className="box">

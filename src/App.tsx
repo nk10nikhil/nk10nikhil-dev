@@ -88,11 +88,17 @@ const App = () => {
           <Toaster />
           <Sonner />
 
+          {/* Always render loader first when not complete */}
+          {!transitionComplete && (
+            <Loader isLoading={loading} onTransitionEnd={handleTransitionEnd} />
+          )}
+
           <div
-            className="relative z-[1]"
+            className="relative z-[1] bg-background min-h-screen"
             style={{
               opacity: contentReady ? 1 : 0,
               transition: "opacity 0.4s ease-in",
+              pointerEvents: contentReady ? "auto" : "none",
             }}
           >
             <BrowserRouter>
@@ -109,10 +115,6 @@ const App = () => {
               </Suspense>
             </BrowserRouter>
           </div>
-
-          {!transitionComplete && (
-            <Loader isLoading={loading} onTransitionEnd={handleTransitionEnd} />
-          )}
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
