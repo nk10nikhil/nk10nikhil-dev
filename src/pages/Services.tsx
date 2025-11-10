@@ -47,7 +47,7 @@ const Services = () => {
       </section>
 
       {/* Services Section */}
-      <section className="w-full px-4 md:px-6 pt-8 md:pt-16 max-w-7xl mx-auto bg-transparent">
+      <section className="w-full px-4 md:px-6 pt-8 md:pt-16 max-w-7xl mx-auto bg-transparent hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
