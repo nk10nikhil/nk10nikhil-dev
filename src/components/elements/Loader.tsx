@@ -8,7 +8,7 @@ interface LoaderProps {
   onTransitionEnd?: () => void;
 }
 
-const Loader = ({ isLoading, onTransitionEnd }: LoaderProps) => {
+const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -17,10 +17,26 @@ const Loader = ({ isLoading, onTransitionEnd }: LoaderProps) => {
       // to ensure content behind is ready
       const timer = setTimeout(() => {
         setIsVisible(false);
-      }, 300);
+      }, 200);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
+
+  // Preload critical images during loader display
+  useEffect(() => {
+    const preloadImages = [
+      "/profile.png",
+      "/images/ideas.svg",
+      "/images/concepts.svg",
+      "/images/designs.svg",
+      "/images/code.svg",
+    ];
+
+    preloadImages.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   return (
     <StyledWrapper
@@ -63,7 +79,9 @@ const Loader = ({ isLoading, onTransitionEnd }: LoaderProps) => {
       </div>
     </StyledWrapper>
   );
-};
+});
+
+Loader.displayName = "Loader";
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -76,7 +94,8 @@ const StyledWrapper = styled.div`
   justify-content: center;
   background: rgba(13, 13, 13, 0.95);
   z-index: 9999;
-  transition: opacity 1.2s ease, backdrop-filter 1.5s ease;
+  transition: opacity 1s ease, backdrop-filter 1.2s ease;
+  will-change: opacity, backdrop-filter, transform;
 
   &.visible {
     opacity: 1;
@@ -86,9 +105,8 @@ const StyledWrapper = styled.div`
   &.hidden {
     opacity: 0;
     backdrop-filter: blur(40px);
-    transform: scale(1.05);
-    transition: opacity 1.2s ease, backdrop-filter 1.5s ease,
-      transform 1.3s ease;
+    transform: scale(1.05) translateZ(0);
+    transition: opacity 1s ease, backdrop-filter 1.2s ease, transform 1.1s ease;
   }
 
   /* LetterGlitch Background Layer */
@@ -97,7 +115,7 @@ const StyledWrapper = styled.div`
     inset: 0;
     z-index: 0;
     opacity: 0.3;
-    transition: opacity 1.2s ease;
+    transition: opacity 1s ease;
   }
 
   &.hidden .glitch-background {
@@ -110,9 +128,9 @@ const StyledWrapper = styled.div`
   }
 
   &.hidden .orb-container {
-    transform: scale(1.2);
+    transform: scale(1.2) translateZ(0);
     opacity: 0.5;
-    transition: transform 1.5s ease, opacity 1s ease;
+    transition: transform 1.2s ease, opacity 0.8s ease;
   }
 
   .loader-container {
@@ -141,7 +159,8 @@ const StyledWrapper = styled.div`
     position: relative;
     z-index: 1;
     margin: 0 auto;
-    transition: transform 1.5s ease-out, opacity 1.2s ease-out;
+    transition: transform 1.2s ease-out, opacity 1s ease-out;
+    will-change: transform, opacity;
   }
 
   .loader {
@@ -167,6 +186,7 @@ const StyledWrapper = styled.div`
     box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 10px -0px;
     backdrop-filter: blur(3px);
     animation: ripple var(--duration) infinite ease-in-out;
+    will-change: transform;
   }
 
   .loader .box:nth-child(1) {
@@ -227,39 +247,38 @@ const StyledWrapper = styled.div`
     animation: profile-animation var(--duration) infinite ease-in-out;
     filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.6));
     border: 2px solid rgba(149, 0, 255, 0.4);
+    will-change: transform, filter;
   }
 
   @keyframes profile-animation {
     0% {
-      transform: scale(1);
+      transform: scale(1) translateZ(0);
       filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.5));
     }
     50% {
-      transform: scale(1.05);
+      transform: scale(1.05) translateZ(0);
       filter: drop-shadow(0 0 15px rgba(94, 96, 255, 0.8));
     }
     100% {
-      transform: scale(1);
+      transform: scale(1) translateZ(0);
       filter: drop-shadow(0 0 8px rgba(240, 0, 255, 0.5));
     }
   }
 
   @keyframes ripple {
     0% {
-      transform: scale(1);
+      transform: scale(1) translateZ(0);
       box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 10px -0px;
     }
     50% {
-      transform: scale(1.3);
+      transform: scale(1.3) translateZ(0);
       box-shadow: rgba(0, 0, 0, 0.3) 0px 30px 20px -0px;
     }
     100% {
-      transform: scale(1);
+      transform: scale(1) translateZ(0);
       box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 10px -0px;
     }
   }
-
-  /* Profile image uses profile-animation instead */
 `;
 
 export default Loader;

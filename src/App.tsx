@@ -20,22 +20,31 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Preload all lazy components after initial render
 const preloadComponents = () => {
-  import("./pages/Projects");
-  import("./pages/About");
-  import("./pages/Contact");
-  import("./pages/Services");
-  import("./pages/NotFound");
+  // Start preloading in background
+  setTimeout(() => {
+    import("./pages/Projects");
+    import("./pages/About");
+    import("./pages/Contact");
+    import("./pages/Services");
+  }, 100);
 };
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000,
+      staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnWindowFocus: false,
       retry: 1,
     },
   },
 });
+
+// Lightweight fallback loader
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -43,32 +52,30 @@ const App = () => {
   const [transitionComplete, setTransitionComplete] = useState(false);
 
   useEffect(() => {
-    // Initial loading period
+    // Reduced initial loading period for faster First Contentful Paint
     const contentTimer = setTimeout(() => {
       setContentReady(true);
 
       // Start transitioning out the loader after content is ready
       const loaderTimer = setTimeout(() => {
         setLoading(false);
-      }, 300);
+      }, 200);
 
       return () => clearTimeout(loaderTimer);
-    }, 1500);
+    }, 1200); // Reduced from 1500ms
 
     return () => clearTimeout(contentTimer);
   }, []);
 
-  // Preload lazy components after initial load
+  // Preload lazy components during loader display
   useEffect(() => {
-    if (contentReady) {
-      // Wait a bit for initial page to settle, then preload other pages
-      const preloadTimer = setTimeout(() => {
-        preloadComponents();
-      }, 1000);
+    // Start preloading as soon as component mounts
+    const preloadTimer = setTimeout(() => {
+      preloadComponents();
+    }, 500); // Start preloading while loader is still showing
 
-      return () => clearTimeout(preloadTimer);
-    }
-  }, [contentReady]);
+    return () => clearTimeout(preloadTimer);
+  }, []);
 
   const handleTransitionEnd = () => {
     setTransitionComplete(true);
@@ -77,7 +84,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" forcedTheme="dark">
-        <TooltipProvider>
+        <TooltipProvider delayDuration={300}>
           <Toaster />
           <Sonner />
 
@@ -85,18 +92,12 @@ const App = () => {
             className="relative z-[1]"
             style={{
               opacity: contentReady ? 1 : 0,
-              transition: "opacity 0.5s ease-in",
+              transition: "opacity 0.4s ease-in",
             }}
           >
             <BrowserRouter>
               {transitionComplete && <BackToTopButton />}
-              <Suspense
-                fallback={
-                  <div className="flex items-center justify-center min-h-screen">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-                  </div>
-                }
-              >
+              <Suspense fallback={<PageLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/projects" element={<Projects />} />

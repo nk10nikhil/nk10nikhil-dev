@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { Link } from "react-router-dom";
 import FloatingTeddy from "../elements/FloatingTeddy";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -11,31 +11,55 @@ const Hero = () => {
   const [loaded, setLoaded] = useState(false);
   const [count, setCount] = useState(0);
   const targetCount = 30;
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
 
-  const words = [
-    { text: "Ideas", imgPath: "/images/ideas.svg" },
-    { text: "Concepts", imgPath: "/images/concepts.svg" },
-    { text: "Designs", imgPath: "/images/designs.svg" },
-    { text: "Code", imgPath: "/images/code.svg" },
-    { text: "Ideas", imgPath: "/images/ideas.svg" },
-    { text: "Concepts", imgPath: "/images/concepts.svg" },
-    { text: "Designs", imgPath: "/images/designs.svg" },
-    { text: "Code", imgPath: "/images/code.svg" },
-  ];
+  const words = useMemo(
+    () => [
+      { text: "Ideas", imgPath: "/images/ideas.svg" },
+      { text: "Concepts", imgPath: "/images/concepts.svg" },
+      { text: "Designs", imgPath: "/images/designs.svg" },
+      { text: "Code", imgPath: "/images/code.svg" },
+      { text: "Ideas", imgPath: "/images/ideas.svg" },
+      { text: "Concepts", imgPath: "/images/concepts.svg" },
+      { text: "Designs", imgPath: "/images/designs.svg" },
+      { text: "Code", imgPath: "/images/code.svg" },
+    ],
+    []
+  );
 
-  useGSAP(() => {
-    gsap.fromTo(
-      ".hero-text h1",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
-    );
-  });
+  // Defer GSAP animation until component is visible and loaded
+  useGSAP(
+    () => {
+      if (!loaded || hasAnimated.current) return;
+
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        if (heroTextRef.current) {
+          gsap.fromTo(
+            heroTextRef.current.querySelectorAll("h1"),
+            { y: 50, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              stagger: 0.15,
+              duration: 0.8,
+              ease: "power2.out",
+              force3D: true, // GPU acceleration
+            }
+          );
+          hasAnimated.current = true;
+        }
+      });
+    },
+    { dependencies: [loaded], scope: heroTextRef }
+  );
 
   useEffect(() => {
-    // Simulating content load
+    // Simulating content load - reduced delay
     const timer = setTimeout(() => {
       setLoaded(true);
-    }, 30);
+    }, 10);
 
     return () => clearTimeout(timer);
   }, []);
@@ -43,30 +67,56 @@ const Hero = () => {
   useEffect(() => {
     if (!loaded) return;
 
-    // Counter animation
+    // Counter animation - optimized
     if (count < targetCount) {
       const interval = setTimeout(() => {
         setCount((prev) => {
-          const increment = Math.max(1, Math.floor((targetCount - prev) / 10));
+          const increment = Math.max(1, Math.floor((targetCount - prev) / 8));
           return Math.min(prev + increment, targetCount);
         });
-      }, 100);
+      }, 80);
 
       return () => clearTimeout(interval);
     }
   }, [count, loaded]);
+
+  const techStack = useMemo(
+    () => [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "MongoDB",
+      "AWS",
+      "Express.js",
+      "DSA",
+      "C / C++",
+      "Python",
+      "Java",
+    ],
+    []
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.5 }}
       className="min-h-screen flex flex-col justify-center relative overflow-hidden"
     >
-      {/* Background gradients */}
+      {/* Background gradients - simplified */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-700/30 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-indigo-700/20 rounded-full filter blur-3xl" />
-        <div className="absolute top-2/3 left-1/3 w-72 h-72 bg-blue-700/20 rounded-full filter blur-3xl" />
+        <div
+          className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-700/30 rounded-full"
+          style={{ filter: "blur(60px)", willChange: "transform" }}
+        />
+        <div
+          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-indigo-700/20 rounded-full"
+          style={{ filter: "blur(60px)", willChange: "transform" }}
+        />
+        <div
+          className="absolute top-2/3 left-1/3 w-72 h-72 bg-blue-700/20 rounded-full"
+          style={{ filter: "blur(60px)", willChange: "transform" }}
+        />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 py-10 md:py-16 z-10 mt-[-5px]">
@@ -75,7 +125,8 @@ const Hero = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+              ref={heroTextRef}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight pt-10">
                 <span className="text-gradient">Software Engineer</span>
@@ -96,6 +147,7 @@ const Hero = () => {
                             src={word.imgPath}
                             alt="person"
                             className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-purple-500"
+                            loading="lazy"
                           />
                           <span className="text-gradient">{word.text}</span>
                         </span>
@@ -109,7 +161,7 @@ const Hero = () => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
               className="text-lg md:text-xl text-muted-foreground max-w-xl"
             >
               I'm a passionate Software Engineer with a strong focus on building
@@ -121,7 +173,7 @@ const Hero = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
               className="flex flex-wrap gap-4"
             >
               <Button
@@ -152,21 +204,10 @@ const Hero = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
+              transition={{ delay: 0.4, duration: 0.4 }}
               className="flex flex-wrap gap-3 pt-4"
             >
-              {[
-                "Next.js",
-                "React",
-                "TypeScript",
-                "MongoDB",
-                "AWS",
-                "Express.js",
-                "DSA",
-                "C / C++",
-                "Python",
-                "Java",
-              ].map((tech, index) => (
+              {techStack.map((tech) => (
                 <span
                   key={tech}
                   className="px-3 py-1 rounded-full text-sm bg-secondary text-secondary-foreground"
@@ -180,7 +221,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
             className="w-full md:w-1/2 flex justify-center overflow-hidden"
           >
             <div className="flex flex-col items-center justify-center">
@@ -253,11 +294,11 @@ const Hero = () => {
               {/* Floating elements */}
               <div
                 className="absolute -top-4 -right-4 h-12 w-12 rounded-lg bg-indigo-600/80 animate-float"
-                style={{ animationDelay: "1.5s" }}
+                style={{ animationDelay: "1.5s", willChange: "transform" }}
               />
               <div
                 className="absolute -bottom-3 -left-3 h-8 w-8 rounded-full bg-primary/80 animate-float"
-                style={{ animationDelay: "0.7s" }}
+                style={{ animationDelay: "0.7s", willChange: "transform" }}
               />
             </div>
           </motion.div>
