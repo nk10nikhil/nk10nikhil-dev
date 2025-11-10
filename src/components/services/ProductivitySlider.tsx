@@ -51,7 +51,7 @@ export default function ProductivitySlider() {
       desc: "Streamlined development and deployment pipelines",
       bg: "/services/service81.jpeg",
       thumb: "/services/service82.jpeg",
-    }
+    },
   ];
 
   const [current, setCurrent] = useState(0);
@@ -94,7 +94,7 @@ export default function ProductivitySlider() {
   }, []);
 
   return (
-    <>
+    <div className="w-full max-w-7xl mx-auto px-0 md:px-4 bg-transparent">
       <style>{`
         :root {
           --gap: 1.25rem;
@@ -298,112 +298,130 @@ export default function ProductivitySlider() {
         }
 
         @media (max-width: 767px) {
-          :root {
-            --closed: 100%;
-            --open: 100%;
-            --gap: 0.8rem;
-          }
+  :root {
+    --closed: 100%;
+    --open: 100%;
+    --gap: 0.8rem;
+  }
 
-          .head {
-            padding: 30px 15px 20px;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-          }
+  .head {
+    padding: 30px 15px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 
-          .slider {
-            padding: 0 15px;
-          }
+  .slider {
+    padding: 0; /* Remove padding for full width */
+  }
 
-          .track {
-            flex-direction: column;
-            scroll-snap-type: y mandatory;
-            gap: 0.8rem;
-            padding-bottom: 20px;
-          }
+  .track {
+    flex-direction: column;
+    scroll-snap-type: y mandatory;
+    gap: 0.8rem;
+    padding: 0 0.5rem 20px; /* Reduce horizontal padding */
+  }
 
-          .project-card {
-            height: auto;
-            min-height: 80px;
-            flex: 0 0 auto;
-            width: 100%;
-            scroll-snap-align: start;
-          }
+  .project-card {
+    height: auto;
+    min-height: 80px;
+    flex: 0 0 auto;
+    width: calc(100vw - 1rem); /* Full width minus minimal margin */
+    max-width: 100%;
+    scroll-snap-align: start;
+  }
 
-          .project-card.active {
-            min-height: 300px;
-            transform: none;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-          }
+  .project-card.active {
+    min-height: 320px; /* Increased from 300px */
+    transform: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
 
-          .project-card__content {
-            flex-direction: row;
-            justify-content: flex-start;
-            padding: 1rem;
-            align-items: center;
-            gap: 1rem;
-          }
+  .project-card__content {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 1rem;
+    align-items: center;
+    gap: 1rem;
+  }
 
-          .project-card__title {
-            writing-mode: horizontal-tb;
-            transform: none;
-            font-size: 1.2rem;
-            margin-right: auto;
-          }
+  .project-card__title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 1.2rem;
+    margin-right: auto;
+  }
 
-          .project-card__thumb,
-          .project-card__desc,
-          .project-card__btn {
-            display: none;
-          }
+  .project-card__thumb,
+  .project-card__desc,
+  .project-card__btn {
+    display: none;
+  }
 
-          .project-card.active .project-card__content {
-            align-items: flex-start;
-            padding: 1.5rem;
-          }
+  .project-card.active .project-card__content {
+    align-items: flex-start;
+    padding: 1.5rem;
+  }
 
-          .project-card.active .project-card__title {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            margin-top: 2rem;
-          }
+  .project-card.active .project-card__title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
 
-          .project-card.active .project-card__thumb {
-            width: 150px;
-            height: 267px;
-            border-radius: 0.35rem;
-            margin-bottom: 1rem;
-          }
+  .project-card.active .project-card__thumb {
+    width: 150px;
+    height: 267px;
+    border-radius: 0.35rem;
+    margin-bottom: 1rem;
+  }
 
-          .project-card.active .project-card__desc {
-            font-size: 0.95rem;
-            max-width: 100%;
-            margin-bottom: 1rem;
-          }
+  .project-card.active .project-card__desc {
+    font-size: 0.95rem;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
 
-          .project-card.active .project-card__btn {
-            align-self: center;
-            width: 100%;
-            text-align: center;
-            padding: 0.7rem;
-          }
+  .project-card.active .project-card__btn {
+    align-self: center;
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem;
+  }
 
-          .dots {
-            display: none;
-          }
+  .dots {
+    display: none;
+  }
 
-          .controls {
-            width: 100%;
-            justify-content: space-between;
-            padding: 0 15px 20px;
-          }
+  .controls {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 0.5rem 20px; /* Reduced from 15px to 0.5rem */
+  }
 
-          .nav-btn {
-            width: 2rem;
-            height: 2rem;
-            font-size: 1.2rem;
-          }
-        }
+  .nav-btn {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.2rem;
+  }
+
+  /* Remove the duplicate mobile styles */
+  .slider-wrap {
+    padding: 0; /* Changed from 1rem 0.5rem */
+  }
+  .card {
+    width: 100%; /* Changed from 100vw */
+    max-width: none; /* Removed max-width constraint */
+    min-height: 300px;
+  }
+  .card-img {
+    height: 140px;
+  }
+  .head h2 {
+    font-size: 1.25rem;
+    padding: 0 0.5rem; /* Reduced from 1rem */
+  }
+}
       `}</style>
 
       <section className="bg-transparent">
@@ -448,6 +466,6 @@ export default function ProductivitySlider() {
           </div>
         )}
       </section>
-    </>
+    </div>
   );
 }
