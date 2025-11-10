@@ -56,10 +56,11 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React core libraries
+          // React core libraries - keep together!
           if (
-            id.includes("node_modules/react") ||
-            id.includes("node_modules/react-dom")
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/scheduler/")
           ) {
             return "react-vendor";
           }
@@ -129,7 +130,7 @@ export default defineConfig(({ mode }) => ({
           }
 
           // Other node_modules
-          if (id.includes("node_modules")) {
+          if (id.includes("node_modules/")) {
             return "vendor";
           }
 
@@ -187,7 +188,9 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: [
       "react",
+      "react/jsx-runtime",
       "react-dom",
+      "react-dom/client",
       "react-router-dom",
       "@tanstack/react-query",
       "framer-motion",
@@ -199,7 +202,7 @@ export default defineConfig(({ mode }) => ({
       "three",
       "p5",
       "react-p5",
-    ], // Exclude heavy 3D libraries from pre-bundling
+    ],
   },
 
   // Preview server config (for production build preview)
