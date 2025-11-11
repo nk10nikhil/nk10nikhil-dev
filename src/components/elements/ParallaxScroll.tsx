@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
-import { Pane } from 'tweakpane';
+import React, { useEffect } from "react";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { Pane } from "tweakpane";
 
 export default function App() {
   useEffect(() => {
     const config = {
-      theme: 'dark',
+      theme: "dark",
       animate: true,
       snap: true,
       start: gsap.utils.random(0, 100, 1),
@@ -28,9 +28,9 @@ export default function App() {
       root.dataset.animate = config.animate;
       root.dataset.snap = config.snap;
       root.dataset.debug = config.debug;
-      root.style.setProperty('--start', config.start);
-      root.style.setProperty('--hue', config.start);
-      root.style.setProperty('--end', config.end);
+      root.style.setProperty("--start", config.start);
+      root.style.setProperty("--hue", config.start);
+      root.style.setProperty("--end", config.end);
 
       if (!config.animate) {
         chromaEntry?.scrollTrigger.disable(true, false);
@@ -38,7 +38,7 @@ export default function App() {
         dimmerScrub?.disable(true, false);
         scrollerScrub?.disable(true, false);
         gsap.set(items, { opacity: 1 });
-        gsap.set(root, { '--chroma': 0 });
+        gsap.set(root, { "--chroma": 0 });
       } else {
         gsap.set(items, { opacity: (i) => (i !== 0 ? 0.2 : 1) });
         dimmerScrub.enable(true, true);
@@ -51,7 +51,7 @@ export default function App() {
     const sync = (event) => {
       if (
         !document.startViewTransition ||
-        event.target.controller.view.labelElement.innerText !== 'Theme'
+        event.target.controller.view.labelElement.innerText !== "Theme"
       ) {
         return update();
       }
@@ -60,7 +60,7 @@ export default function App() {
 
     gsap.registerPlugin(ScrollTrigger);
 
-    items = gsap.utils.toArray('ul li');
+    items = gsap.utils.toArray("ul li");
 
     gsap.set(items, { opacity: (i) => (i !== 0 ? 0.2 : 1) });
 
@@ -82,53 +82,55 @@ export default function App() {
     dimmerScrub = ScrollTrigger.create({
       trigger: items[0],
       endTrigger: items[items.length - 1],
-      start: 'top top',
-      end: 'top top',
+      start: "top top",
+      end: "top top",
       animation: dimmer,
       scrub: 0.2,
     });
 
-    const scroller = gsap.timeline().fromTo(
-      document.documentElement,
-      { '--hue': config.start },
-      { '--hue': config.end, ease: 'none' }
-    );
+    const scroller = gsap
+      .timeline()
+      .fromTo(
+        document.documentElement,
+        { "--hue": config.start },
+        { "--hue": config.end, ease: "none" }
+      );
 
     scrollerScrub = ScrollTrigger.create({
       trigger: items[0],
       endTrigger: items[items.length - 1],
-      start: 'top top',
-      end: 'top top',
+      start: "top top",
+      end: "top top",
       animation: scroller,
       scrub: 0.2,
     });
 
     chromaEntry = gsap.fromTo(
       document.documentElement,
-      { '--chroma': 0 },
+      { "--chroma": 0 },
       {
-        '--chroma': 0.3,
-        ease: 'none',
+        "--chroma": 0.3,
+        ease: "none",
         scrollTrigger: {
           scrub: 0.2,
           trigger: items[0],
-          start: 'top top+=40',
-          end: 'top top',
+          start: "top top+=40",
+          end: "top top",
         },
       }
     );
 
     chromaExit = gsap.fromTo(
       document.documentElement,
-      { '--chroma': 0.3 },
+      { "--chroma": 0.3 },
       {
-        '--chroma': 0,
-        ease: 'none',
+        "--chroma": 0,
+        ease: "none",
         scrollTrigger: {
           scrub: 0.2,
           trigger: items[items.length - 2],
-          start: 'top top',
-          end: 'top top-=40',
+          start: "top top",
+          end: "top top-=40",
         },
       }
     );
@@ -143,25 +145,45 @@ export default function App() {
         href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
         rel="stylesheet"
       />
-      <link
-        href="https://unpkg.com/normalize.css"
-        rel="stylesheet"
-      />
+      <link href="https://unpkg.com/normalize.css" rel="stylesheet" />
 
       {/* Page Structure */}
       <main>
-
         <section className="fluid">
-          <h2><span aria-hidden="true">I_Know:&nbsp;</span>
+          <h2>
+            <span aria-hidden="true">I_Know:&nbsp;</span>
           </h2>
-          <ul aria-hidden="true" style={{ '--count': 22 } as React.CSSProperties}>
+          <ul
+            aria-hidden="true"
+            style={{ "--count": 22 } as React.CSSProperties}
+          >
             {[
-              "HTML", "CSS", "JavaScript", "React", "Next.js", "Vercel",
-              "MySQL", "Mongo DB", "Web 3.0", "Pipelines", "GitHub", "UI Design",
-              "PHP", "Angular", "Microservices", "PostgreSQL", "Tailwind CSS", "Python",
-              "Django", "C++", "Data Structure", "Algorithm"
+              "HTML",
+              "CSS",
+              "JavaScript",
+              "React",
+              "Next.js",
+              "Vercel",
+              "MySQL",
+              "Mongo DB",
+              "Web 3.0",
+              "Pipelines",
+              "GitHub",
+              "UI Design",
+              "PHP",
+              "Angular",
+              "Microservices",
+              "PostgreSQL",
+              "Tailwind CSS",
+              "Python",
+              "Django",
+              "C++",
+              "Data Structure",
+              "Algorithm",
             ].map((item, index) => (
-              <li key={index} style={{ '--i': index } as React.CSSProperties}>{item}.</li>
+              <li key={index} style={{ "--i": index } as React.CSSProperties}>
+                {item}.
+              </li>
             ))}
           </ul>
         </section>

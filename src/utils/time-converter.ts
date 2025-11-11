@@ -110,7 +110,10 @@ export function formatDate(
     return "Invalid date";
   }
 
-  const optionsMap: Record<"short" | "medium" | "long" | "full", Intl.DateTimeFormatOptions> = {
+  const optionsMap: Record<
+    "short" | "medium" | "long" | "full",
+    Intl.DateTimeFormatOptions
+  > = {
     short: { month: "numeric", day: "numeric", year: "2-digit" },
     medium: { month: "short", day: "numeric", year: "numeric" },
     long: { month: "long", day: "numeric", year: "numeric" },

@@ -6,7 +6,6 @@ import FloatingObjects from "@/components/elements/FloatingObjects";
 import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
-
 // Lazy load P5Background
 // const P5Background = lazy(() => import("@/components/elements/P5Background"));
 

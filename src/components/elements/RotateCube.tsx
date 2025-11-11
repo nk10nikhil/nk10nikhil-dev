@@ -1,27 +1,27 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const RotateCube = () => {
-    return (
-      <StyledWrapper>
-        <div className="spinner">
-                <div />
-                <div />
-                <div />
-                <div />
-                <div />
-                <div />
-            </div>
-        </StyledWrapper>
-    );
-}
+  return (
+    <StyledWrapper>
+      <div className="spinner">
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </StyledWrapper>
+  );
+};
 
 const StyledWrapper = styled.div`
   .spinner {
     width: 40.4px;
     height: 40.4px;
-    --clr: #DE00FF;
-    --clr-alpha: rgb(247, 197, 159,.1);
+    --clr: #de00ff;
+    --clr-alpha: rgb(247, 197, 159, 0.1);
     animation: spinner 1.8s infinite ease;
     transform-style: preserve-3d;
   }
@@ -74,6 +74,7 @@ const StyledWrapper = styled.div`
     100% {
       transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
     }
-  }`;
+  }
+`;
 
 export default RotateCube;

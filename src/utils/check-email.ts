@@ -60,10 +60,10 @@ export function isValidEmail(email: string): boolean {
  * @returns Validation result object with details
  */
 export function validateEmail(email: string): {
-  isValid: boolean,
-  email: string,
-  errors: string[],
-  suggestions?: string,
+  isValid: boolean;
+  email: string;
+  errors: string[];
+  suggestions?: string;
 } {
   const errors: string[] = [];
   const trimmedEmail = email.trim().toLowerCase();

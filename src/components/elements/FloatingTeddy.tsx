@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import React from "react";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 const FloatingTeddy = () => {
   const [loaded, setLoaded] = useState(false);
@@ -41,7 +41,9 @@ const FloatingTeddy = () => {
             <img src="/robo.png" alt="Floating Teddy" className="image" />
             {/* Counter Card */}
             <div
-              className={`counter-card ${loaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-700`}
+              className={`counter-card ${
+                loaded ? "opacity-100" : "opacity-0"
+              } transition-opacity duration-700`}
             >
               <div className="glass-card rounded-3xl p-6 backdrop-blur-xl min-h-[100px] min-w-[200px] flex flex-col items-center justify-center text-center">
                 <div className="text-4xl font-bold text-white mb-2 tracking-tight">
@@ -87,7 +89,10 @@ const StyledWrapper = styled.div`
     position: absolute;
     bottom: 100%; /* Align bottom of the counter card */
     left: 100%; /* Align left side of the counter card with the right side of the image */
-    transform: translate(-50%, 50%); /* Adjust to clip bottom-left of the counter card with top-right of the image */
+    transform: translate(
+      -50%,
+      50%
+    ); /* Adjust to clip bottom-left of the counter card with top-right of the image */
     z-index: 20;
   }
 

@@ -1,28 +1,30 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 
 const CardGlowEffect = () => {
   const cardsRef = useRef(null);
 
   const handleMouseMove = (e) => {
-    const cards = cardsRef.current.querySelectorAll('.card');
+    const cards = cardsRef.current.querySelectorAll(".card");
     cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      card.style.setProperty('--xPos', `${x}px`);
-      card.style.setProperty('--yPos', `${y}px`);
+      card.style.setProperty("--xPos", `${x}px`);
+      card.style.setProperty("--yPos", `${y}px`);
     });
   };
 
   useEffect(() => {
     const loadFont = (url) => {
-      const link = document.createElement('link');
+      const link = document.createElement("link");
       link.href = url;
-      link.rel = 'stylesheet';
+      link.rel = "stylesheet";
       document.head.appendChild(link);
     };
 
-    loadFont('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap');
+    loadFont(
+      "https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap"
+    );
   }, []);
 
   return (
@@ -131,11 +133,7 @@ const CardGlowEffect = () => {
         }
       `}</style>
 
-      <div
-        className="cards"
-        ref={cardsRef}
-        onMouseMove={handleMouseMove}
-      >
+      <div className="cards" ref={cardsRef} onMouseMove={handleMouseMove}>
         {[...Array(6)].map((_, index) => (
           <div className="card" key={index}>
             <div className="card-content" />

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
@@ -7,7 +7,7 @@ import { Download, ExternalLink } from "lucide-react";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import { TextRevealCard } from "@/components/elements/TextRevealCard";
-import { AboutTimeline } from '@/components/elements/AboutTimeline';
+import { AboutTimeline } from "@/components/elements/AboutTimeline";
 
 const About = () => {
   useEffect(() => {
@@ -16,26 +16,42 @@ const About = () => {
 
   const cardsRef = useRef(null);
 
-  const [activeTab, setActiveTab] = useState('bio');
+  const [activeTab, setActiveTab] = useState("bio");
 
   const tabs = [
-    { id: 'bio', label: 'Bio', icon: '👨‍💻' },
-    { id: 'facts', label: 'Fun Facts', icon: '⚡' },
-    { id: 'values', label: 'Values', icon: '💡' }
+    { id: "bio", label: "Bio", icon: "👨‍💻" },
+    { id: "facts", label: "Fun Facts", icon: "⚡" },
+    { id: "values", label: "Values", icon: "💡" },
   ];
 
   const funFacts = [
-    { emoji: '☕', text: 'Coffee enthusiast with 300+ cups/year' },
-    { emoji: '🎮', text: 'Gamer who codes game logic for fun' },
-    { emoji: '📚', text: 'Read 25+ tech books this year' },
-    { emoji: '🌱', text: 'Open source contributor' }
+    { emoji: "☕", text: "Coffee enthusiast with 300+ cups/year" },
+    { emoji: "🎮", text: "Gamer who codes game logic for fun" },
+    { emoji: "📚", text: "Read 25+ tech books this year" },
+    { emoji: "🌱", text: "Open source contributor" },
   ];
 
   const values = [
-    { icon: '🚀', title: 'Innovation', desc: 'Always exploring new technologies and approaches' },
-    { icon: '🤝', title: 'Collaboration', desc: 'Believe in the power of teamwork and knowledge sharing' },
-    { icon: '📈', title: 'Growth', desc: 'Committed to continuous learning and improvement' },
-    { icon: '💯', title: 'Quality', desc: 'Focused on writing clean, maintainable code' }
+    {
+      icon: "🚀",
+      title: "Innovation",
+      desc: "Always exploring new technologies and approaches",
+    },
+    {
+      icon: "🤝",
+      title: "Collaboration",
+      desc: "Believe in the power of teamwork and knowledge sharing",
+    },
+    {
+      icon: "📈",
+      title: "Growth",
+      desc: "Committed to continuous learning and improvement",
+    },
+    {
+      icon: "💯",
+      title: "Quality",
+      desc: "Focused on writing clean, maintainable code",
+    },
   ];
 
   const workExperience = [
@@ -67,7 +83,6 @@ const About = () => {
   ];
 
   return (
-
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -75,7 +90,6 @@ const About = () => {
       transition={{ duration: 0.3 }}
       className="bg-transparent min-h-screen relative"
     >
-
       <style>{`
         .cards:hover .card {
           background: radial-gradient(
@@ -91,12 +105,10 @@ const About = () => {
           opacity: 1;
         }
       `}</style>
-
       {/* Background Elements */}
       <BlurBackground />
       <FloatingObjects />
       <Navbar />
-
       <main className="pt-10 md:pt-16">
         <section className="container mx-auto px-4 md:px-6 py-12">
           <div className="max-w-7xl mx-auto">
@@ -106,9 +118,15 @@ const About = () => {
               transition={{ duration: 0.5 }}
               className="mb-12 md:mb-16"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient flex justify-center">About Me</h1>
-              <TextRevealCard text="Passionate Full-Stack Developer dedicated to crafting exceptional digital experiences." revealText="Transforming creative visions into impactful digital experiences" className="mt-0 flex justify-center" children={undefined}>
-              </TextRevealCard>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient flex justify-center">
+                About Me
+              </h1>
+              <TextRevealCard
+                text="Passionate Full-Stack Developer dedicated to crafting exceptional digital experiences."
+                revealText="Transforming creative visions into impactful digital experiences"
+                className="mt-0 flex justify-center"
+                children={undefined}
+              ></TextRevealCard>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -129,17 +147,25 @@ const About = () => {
 
                   <div className="p-4 text-center">
                     <h2 className="text-xl font-semibold">Nikhil Kumar</h2>
-                    <p className="text-muted-foreground mb-4">Full-Stack Developer</p>
+                    <p className="text-muted-foreground mb-4">
+                      Full-Stack Developer
+                    </p>
                     <div className="flex justify-center space-x-3 mb-4">
-                      <Button size="sm" className="bg-purple-500 hover:bg-primary/90" asChild>
-                        <a href="https://drive.google.com/file/d/1eRYLTV2WoG46IpshJPg6iXnp1ekZaAg5/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+                      <Button
+                        size="sm"
+                        className="bg-purple-500 hover:bg-primary/90"
+                        asChild
+                      >
+                        <a
+                          href="https://drive.google.com/file/d/1eRYLTV2WoG46IpshJPg6iXnp1ekZaAg5/view?usp=sharing"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <Download className="h-4 w-4 mr-1" /> Resume
                         </a>
                       </Button>
                       <Button size="sm" variant="outline" asChild>
-                        <a href="mailto:nk10nikhil@gmail.com">
-                          Contact Me
-                        </a>
+                        <a href="mailto:nk10nikhil@gmail.com">Contact Me</a>
                       </Button>
                     </div>
                   </div>
@@ -147,7 +173,6 @@ const About = () => {
               </div>
 
               <div className="md:col-span-2 space-y-8">
-
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -156,13 +181,23 @@ const About = () => {
                   <h2 className="text-2xl font-semibold mb-4">My Story</h2>
                   <div className="glass-morphism rounded-xl p-6 space-y-4">
                     <p>
-                      I am a Full-Stack Developer with a passion for creating exceptional digital experiences. I have a keen interest in web development and cloud computing. I am proficient in React, Node.js, and MongoDB.
+                      I am a Full-Stack Developer with a passion for creating
+                      exceptional digital experiences. I have a keen interest in
+                      web development and cloud computing. I am proficient in
+                      React, Node.js, and MongoDB.
                     </p>
                     <p>
-                      I am currently pursuing a Bachelor's degree in Computer Science and Engineering. I have worked on several projects that have helped me gain experience in software development. I am always eager to learn new technologies and contribute to meaningful projects.
+                      I am currently pursuing a Bachelor's degree in Computer
+                      Science and Engineering. I have worked on several projects
+                      that have helped me gain experience in software
+                      development. I am always eager to learn new technologies
+                      and contribute to meaningful projects.
                     </p>
                     <p>
-                      I am looking for opportunities to work with a team of talented developers and contribute to projects that make a difference. I am excited about the future of technology and am eager to be a part of it.
+                      I am looking for opportunities to work with a team of
+                      talented developers and contribute to projects that make a
+                      difference. I am excited about the future of technology
+                      and am eager to be a part of it.
                     </p>
                   </div>
                 </motion.div>
@@ -172,15 +207,24 @@ const About = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                  <h2 className="text-2xl font-semibold mb-4">Work Experience</h2>
+                  <h2 className="text-2xl font-semibold mb-4">
+                    Work Experience
+                  </h2>
                   <div className="space-y-6">
                     {workExperience.map((job, index) => (
-                      <div key={index} className="glass-morphism rounded-xl p-6">
+                      <div
+                        key={index}
+                        className="glass-morphism rounded-xl p-6"
+                      >
                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
                           <h3 className="text-xl font-medium">{job.title}</h3>
-                          <span className="text-sm text-primary">{job.period}</span>
+                          <span className="text-sm text-primary">
+                            {job.period}
+                          </span>
                         </div>
-                        <p className="text-muted-foreground mb-3">{job.company}</p>
+                        <p className="text-muted-foreground mb-3">
+                          {job.company}
+                        </p>
                         <p className="mb-4">{job.description}</p>
                         <div className="flex flex-wrap gap-2">
                           {job.technologies.map((tech) => (
@@ -207,23 +251,30 @@ const About = () => {
                     className="cards space-y-6"
                     ref={cardsRef}
                     onMouseMove={(e) => {
-                      const cards = cardsRef.current.querySelectorAll('.card');
+                      const cards = cardsRef.current.querySelectorAll(".card");
                       cards.forEach((card) => {
                         const rect = card.getBoundingClientRect();
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
-                        card.style.setProperty('--xPos', `${x}px`);
-                        card.style.setProperty('--yPos', `${y}px`);
+                        card.style.setProperty("--xPos", `${x}px`);
+                        card.style.setProperty("--yPos", `${y}px`);
                       });
                     }}
                   >
                     {education.map((edu, index) => (
-                      <div key={index} className="card glass-morphism rounded-xl p-6">
+                      <div
+                        key={index}
+                        className="card glass-morphism rounded-xl p-6"
+                      >
                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
                           <h3 className="text-xl font-medium">{edu.degree}</h3>
-                          <span className="text-sm text-primary">{edu.period}</span>
+                          <span className="text-sm text-primary">
+                            {edu.period}
+                          </span>
                         </div>
-                        <p className="text-muted-foreground mb-3">{edu.institution}</p>
+                        <p className="text-muted-foreground mb-3">
+                          {edu.institution}
+                        </p>
                         <p>{edu.description}</p>
                       </div>
                     ))}
@@ -235,25 +286,47 @@ const About = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                 >
-                  <h2 className="text-2xl font-semibold mb-4">Certifications</h2>
+                  <h2 className="text-2xl font-semibold mb-4">
+                    Certifications
+                  </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
                       <div>
-                        <h3 className="font-medium">GitHub Foundatons Certification</h3>
+                        <h3 className="font-medium">
+                          GitHub Foundatons Certification
+                        </h3>
                         <p className="text-sm text-muted-foreground">Github</p>
                       </div>
-                      <Button size="sm" variant="ghost" className="text-primary" asChild>
-                        <a href="https://www.credly.com/badges/acb873a5-62a5-4b73-8803-1a43b1a8a5cb/print" target="_blank" rel="noopener noreferrer">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-primary"
+                        asChild
+                      >
+                        <a
+                          href="https://www.credly.com/badges/acb873a5-62a5-4b73-8803-1a43b1a8a5cb/print"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <ExternalLink className="h-4 w-4" />
                         </a>
                       </Button>
                     </div>
                     <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
                       <div>
-                        <h3 className="font-medium">Professional Diploma in WEB3 NFT Business</h3>
-                        <p className="text-sm text-muted-foreground">MTF Institute</p>
+                        <h3 className="font-medium">
+                          Professional Diploma in WEB3 NFT Business
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          MTF Institute
+                        </p>
                       </div>
-                      <Button size="sm" variant="ghost" className="text-primary" asChild>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-primary"
+                        asChild
+                      >
                         <a href="#" target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4" />
                         </a>
@@ -261,10 +334,20 @@ const About = () => {
                     </div>
                     <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
                       <div>
-                        <h3 className="font-medium">Professional Diploma in Software Testing & Quality Assurance</h3>
-                        <p className="text-sm text-muted-foreground">MTF Institute</p>
+                        <h3 className="font-medium">
+                          Professional Diploma in Software Testing & Quality
+                          Assurance
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          MTF Institute
+                        </p>
                       </div>
-                      <Button size="sm" variant="ghost" className="text-primary" asChild>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-primary"
+                        asChild
+                      >
                         <a href="#" target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4" />
                         </a>
@@ -272,10 +355,19 @@ const About = () => {
                     </div>
                     <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
                       <div>
-                        <h3 className="font-medium">Scrum Master Certification</h3>
-                        <p className="text-sm text-muted-foreground">Agile Enterprise Coach, London</p>
+                        <h3 className="font-medium">
+                          Scrum Master Certification
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Agile Enterprise Coach, London
+                        </p>
                       </div>
-                      <Button size="sm" variant="ghost" className="text-primary" asChild>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-primary"
+                        asChild
+                      >
                         <a href="#" target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4" />
                         </a>
@@ -283,10 +375,17 @@ const About = () => {
                     </div>
                     <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
                       <div>
-                        <h3 className="font-medium">NIELT: NSQF Level I & II (IT)</h3>
+                        <h3 className="font-medium">
+                          NIELT: NSQF Level I & II (IT)
+                        </h3>
                         <p className="text-sm text-muted-foreground">NIELT</p>
                       </div>
-                      <Button size="sm" variant="ghost" className="text-primary" asChild>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-primary"
+                        asChild
+                      >
                         <a href="#" target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4" />
                         </a>
@@ -299,7 +398,6 @@ const About = () => {
           </div>
         </section>
       </main>
-
       {/*}
       <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
@@ -600,7 +698,6 @@ const About = () => {
       </div>
     </div>
     */}
-
       <AboutTimeline /> <br />
       <Footer />
     </motion.div>

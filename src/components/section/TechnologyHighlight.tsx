@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import HoverCard from "../elements/HoverCard";
 
@@ -19,9 +18,10 @@ const TechnologyHighlight = () => {
               Problem Solving
             </h2>
             <p className="text-muted-foreground text-lg text-center">
-              I have a strong foundation in Data Structures and Algorithms. I have
-              solved over 500 problems on various online judges like Codeforces, CodeChef,
-              LeetCode, and HackerRank. I am proficient in C++, Java, and Python
+              I have a strong foundation in Data Structures and Algorithms. I
+              have solved over 500 problems on various online judges like
+              Codeforces, CodeChef, LeetCode, and HackerRank. I am proficient in
+              C++, Java, and Python
             </p>
           </motion.div>
 

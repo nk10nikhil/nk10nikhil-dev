@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,23 +5,22 @@ import { motion } from "framer-motion";
 import { Menu, X, Github, Linkedin, Twitter } from "lucide-react";
 import { ScrollProgress } from "@/components/elements/ScrollProgress";
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
 
   const texts = [
-    'Nikhil Kumar',
-    'Full Stack Developer',
-    'AI/ML Enthusiast',
-    'Blockchain Developer',
-    'Software Engineer',
-    'Cloud Engineer',
-    'Problem Solver',
+    "Nikhil Kumar",
+    "Full Stack Developer",
+    "AI/ML Enthusiast",
+    "Blockchain Developer",
+    "Software Engineer",
+    "Cloud Engineer",
+    "Problem Solver",
   ];
 
   useEffect(() => {
@@ -35,7 +33,7 @@ const Navbar = () => {
       }, 100);
     } else {
       timeoutId = setTimeout(() => {
-        setDisplayText('');
+        setDisplayText("");
         setCurrentIndex((prev) => (prev + 1) % texts.length);
       }, 700);
     }
@@ -45,7 +43,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
+      setShowCursor((prev) => !prev);
     }, 1000);
 
     return () => clearInterval(cursorInterval);
@@ -78,15 +76,20 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 rounded-lg ${scrolled
-        ? "py-2 neo-blur border-b border-white/10"
-        : "py-4 bg-transparent"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 rounded-lg ${
+        scrolled
+          ? "py-2 neo-blur border-b border-white/10"
+          : "py-4 bg-transparent"
+      }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow flex items-center justify-center">
-            <img src="/profile.png" alt="Nikhil Kumar" className="h-7 w-7 rounded-full" />
+            <img
+              src="/profile.png"
+              alt="Nikhil Kumar"
+              className="h-7 w-7 rounded-full"
+            />
           </div>
           <span className="font-bold text-lg">{displayText}</span>
         </Link>
@@ -97,10 +100,11 @@ const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
-              className={`relative px-1 py-2 transition-colors hover:text-purple-500 ${location.pathname === link.path
-                ? "text-gradient font-bold"
-                : "text-foreground"
-                }`}
+              className={`relative px-1 py-2 transition-colors hover:text-purple-500 ${
+                location.pathname === link.path
+                  ? "text-gradient font-bold"
+                  : "text-foreground"
+              }`}
             >
               {link.name}
               {location.pathname === link.path && (
@@ -116,17 +120,27 @@ const Navbar = () => {
           ))}
           <div className="flex space-x-2">
             <Button size="icon" variant="ghost" asChild>
-              <a href="https://github.com/nk10nikhil" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://github.com/nk10nikhil"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github className="h-5 w-5" />
               </a>
             </Button>
             <Button size="icon" variant="ghost" asChild>
-              <a href="https://linkedin.com/in/nk10nikhil" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://linkedin.com/in/nk10nikhil"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Linkedin className="h-5 w-5" />
               </a>
             </Button>
           </div>
-          <Button className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90"><Link to="/contact">Contact Me</Link></Button>
+          <Button className="bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90">
+            <Link to="/contact">Contact Me</Link>
+          </Button>
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -149,28 +163,39 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`py-2 px-4 rounded-md transition-colors ${location.pathname === link.path
-                  ? "bg-primary/10 text-purple-500 font-medium"
-                  : "text-foreground hover:bg-primary/5"
-                  }`}
+                className={`py-2 px-4 rounded-md transition-colors ${
+                  location.pathname === link.path
+                    ? "bg-primary/10 text-purple-500 font-medium"
+                    : "text-foreground hover:bg-primary/5"
+                }`}
               >
                 {link.name}
               </Link>
             ))}
             <div className="flex space-x-2 py-2 px-4">
               <Button size="icon" variant="ghost" asChild>
-                <a href="https://github.com/nk10nikhil" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://github.com/nk10nikhil"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Github className="h-5 w-5" />
                 </a>
               </Button>
               <Button size="icon" variant="ghost" asChild>
-                <a href="https://linkedin.com/in/nk10nikhil" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="https://linkedin.com/in/nk10nikhil"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Linkedin className="h-5 w-5" />
                 </a>
               </Button>
             </div>
             <div className="px-4 pb-2">
-              <Button className="w-full bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90"><Link to="/contact">Contact Me</Link></Button>
+              <Button className="w-full bg-gradient-to-br from-primary via-purple-500 to-indigo-400 animate-glow hover:bg-primary/90">
+                <Link to="/contact">Contact Me</Link>
+              </Button>
             </div>
           </div>
         </motion.div>
