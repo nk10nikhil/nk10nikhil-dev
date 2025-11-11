@@ -176,7 +176,7 @@ export default function ProductivitySlider() {
           justify-content: center;
           scroll-behavior: smooth;
           scroll-snap-type: x mandatory;
-          padding-bottom: 40px;
+          padding-bottom: 10px;
         }
         .track::-webkit-scrollbar {
           display: none;

@@ -1,6 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Send, Sparkles, Mail, Globe, Users, Zap } from "lucide-react";
+import {
+  Send,
+  Sparkles,
+  Mail,
+  Globe,
+  Users,
+  Zap,
+  TrendingUp,
+  Award,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -19,6 +28,8 @@ const Newsletter = () => {
     { name: "Sydney", lat: -33.8688, lng: 151.2093 },
     { name: "Dubai", lat: 25.2048, lng: 55.2708 },
     { name: "Singapore", lat: 1.3521, lng: 103.8198 },
+    { name: "Mumbai", lat: 19.076, lng: 72.8777 },
+    { name: "Toronto", lat: 43.6532, lng: -79.3832 },
   ];
 
   // Globe effect
@@ -35,7 +46,7 @@ const Newsletter = () => {
 
       const containerWidth = containerElement.offsetWidth;
       const containerHeight = containerElement.offsetHeight;
-      const size = Math.min(containerWidth, containerHeight, 280);
+      const size = Math.min(containerWidth, containerHeight, 320);
 
       canvas.width = size;
       canvas.height = size;
@@ -45,125 +56,147 @@ const Newsletter = () => {
     window.addEventListener("resize", updateCanvasSize);
 
     let animationId: number;
+    let rotation = 0;
 
-    const animate = () => {
+    const latLngTo3D = (lat: number, lng: number, r: number) => {
+      const phi = ((90 - lat) * Math.PI) / 180;
+      const theta = ((lng + 180) * Math.PI) / 180;
+
+      return {
+        x: r * Math.sin(phi) * Math.cos(theta),
+        y: r * Math.cos(phi),
+        z: r * Math.sin(phi) * Math.sin(theta),
+      };
+    };
+
+    const rotateY = (
+      point: { x: number; y: number; z: number },
+      angle: number
+    ) => {
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+
+      return {
+        x: point.x * cos - point.z * sin,
+        y: point.y,
+        z: point.x * sin + point.z * cos,
+      };
+    };
+
+    const drawGlobe = () => {
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const radius = canvas.width * 0.35;
+      const radius = canvas.width * 0.38;
 
-      let rotation = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const latLngTo3D = (lat: number, lng: number, r: number) => {
-        const phi = ((90 - lat) * Math.PI) / 180;
-        const theta = ((lng + 180) * Math.PI) / 180;
+      // Draw globe outline with gradient
+      const gradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        radius * 0.5,
+        centerX,
+        centerY,
+        radius
+      );
+      gradient.addColorStop(0, "hsla(32, 95%, 50%, 0.1)");
+      gradient.addColorStop(1, "hsla(32, 95%, 44%, 0.3)");
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fill();
 
-        return {
-          x: r * Math.sin(phi) * Math.cos(theta),
-          y: r * Math.cos(phi),
-          z: r * Math.sin(phi) * Math.sin(theta),
-        };
-      };
+      ctx.strokeStyle = "hsl(32, 95%, 44%)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.stroke();
 
-      const rotateY = (
-        point: { x: number; y: number; z: number },
-        angle: number
-      ) => {
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-
-        return {
-          x: point.x * cos - point.z * sin,
-          y: point.y,
-          z: point.x * sin + point.z * cos,
-        };
-      };
-
-      const drawGlobe = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw globe outline
-        ctx.strokeStyle = "hsl(32, 95%, 44%)";
-        ctx.lineWidth = 2;
+      // Draw latitude lines
+      ctx.strokeStyle = "hsla(32, 95%, 44%, 0.25)";
+      ctx.lineWidth = 1;
+      for (let lat = -60; lat <= 60; lat += 30) {
         ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        const y = centerY - (lat / 90) * radius;
+        const r = Math.sqrt(radius * radius - Math.pow((lat / 90) * radius, 2));
+        ctx.ellipse(centerX, y, r, r * 0.3, 0, 0, Math.PI * 2);
         ctx.stroke();
+      }
 
-        // Draw latitude lines
-        ctx.strokeStyle = "hsla(32, 95%, 44%, 0.3)";
-        ctx.lineWidth = 1;
-        for (let lat = -60; lat <= 60; lat += 30) {
-          ctx.beginPath();
-          const y = centerY - (lat / 90) * radius;
-          const r = Math.sqrt(
-            radius * radius - Math.pow((lat / 90) * radius, 2)
-          );
-          ctx.ellipse(centerX, y, r, r * 0.3, 0, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-
-        // Draw longitude lines
-        for (let lng = 0; lng < 360; lng += 30) {
-          ctx.beginPath();
-          for (let lat = -90; lat <= 90; lat += 5) {
-            const point3D = latLngTo3D(lat, lng, radius);
-            const rotated = rotateY(point3D, rotation);
-
-            if (rotated.z > 0) {
-              const x = centerX + rotated.x;
-              const y = centerY - rotated.y;
-
-              if (lat === -90) {
-                ctx.moveTo(x, y);
-              } else {
-                ctx.lineTo(x, y);
-              }
-            }
-          }
-          ctx.stroke();
-        }
-
-        // Draw location points
-        locations.forEach((location, index) => {
-          const point3D = latLngTo3D(location.lat, location.lng, radius);
+      // Draw longitude lines
+      for (let lng = 0; lng < 360; lng += 30) {
+        ctx.beginPath();
+        for (let lat = -90; lat <= 90; lat += 5) {
+          const point3D = latLngTo3D(lat, lng, radius);
           const rotated = rotateY(point3D, rotation);
 
           if (rotated.z > 0) {
             const x = centerX + rotated.x;
             const y = centerY - rotated.y;
 
-            // Draw point
-            ctx.fillStyle = "hsl(32, 95%, 60%)";
-            ctx.beginPath();
-            ctx.arc(x, y, 4, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Draw pulse effect
-            const time = Date.now() / 1000;
-            const pulseRadius = 8 + Math.sin(time * 2 + index) * 3;
-            ctx.strokeStyle = `hsla(32, 95%, 60%, ${0.5 - pulseRadius / 20})`;
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.arc(x, y, pulseRadius, 0, Math.PI * 2);
-            ctx.stroke();
-
-            // Draw connection lines to center
-            ctx.strokeStyle = "hsla(32, 95%, 44%, 0.2)";
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
+            if (lat === -90) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
           }
-        });
+        }
+        ctx.stroke();
+      }
 
-        rotation += 0.005;
-        animationId = requestAnimationFrame(drawGlobe);
-      };
+      // Draw location points with enhanced effects
+      locations.forEach((location, index) => {
+        const point3D = latLngTo3D(location.lat, location.lng, radius);
+        const rotated = rotateY(point3D, rotation);
 
-      drawGlobe();
+        if (rotated.z > 0) {
+          const x = centerX + rotated.x;
+          const y = centerY - rotated.y;
+          const depth = (rotated.z / radius + 1) / 2;
+
+          // Draw glow
+          const glowGradient = ctx.createRadialGradient(x, y, 0, x, y, 12);
+          glowGradient.addColorStop(0, "hsla(32, 95%, 60%, 0.6)");
+          glowGradient.addColorStop(1, "hsla(32, 95%, 60%, 0)");
+          ctx.fillStyle = glowGradient;
+          ctx.beginPath();
+          ctx.arc(x, y, 12, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Draw point
+          ctx.fillStyle = `hsla(32, 95%, ${60 + depth * 20}%, ${
+            0.8 + depth * 0.2
+          })`;
+          ctx.beginPath();
+          ctx.arc(x, y, 4 * depth, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Draw pulse effect
+          const time = Date.now() / 1000;
+          const pulseRadius = 8 + Math.sin(time * 2 + index) * 4;
+          ctx.strokeStyle = `hsla(32, 95%, 60%, ${
+            (0.6 - pulseRadius / 25) * depth
+          })`;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(x, y, pulseRadius, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Draw connection lines to center
+          ctx.strokeStyle = `hsla(32, 95%, 44%, ${0.15 * depth})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+      });
+
+      rotation += 0.003;
+      animationId = requestAnimationFrame(drawGlobe);
     };
 
-    animate();
+    drawGlobe();
 
     return () => {
       window.removeEventListener("resize", updateCanvasSize);
@@ -200,22 +233,24 @@ const Newsletter = () => {
       vy: number;
     }> = [];
 
-    // Create morphing shapes with marketing theme colors
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 15; i++) {
       shapes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 25 + 15,
+        size: Math.random() * 30 + 15,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.02,
         type: ["square", "triangle", "circle"][
           Math.floor(Math.random() * 3)
         ] as any,
-        color: ["hsl(32, 95%, 44%)", "hsl(32, 95%, 60%)", "hsl(32, 95%, 30%)"][
-          Math.floor(Math.random() * 3)
-        ],
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        color: [
+          "hsl(32, 95%, 44%)",
+          "hsl(32, 95%, 60%)",
+          "hsl(32, 95%, 30%)",
+          "hsl(270, 95%, 50%)",
+        ][Math.floor(Math.random() * 4)],
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
       });
     }
 
@@ -224,7 +259,7 @@ const Newsletter = () => {
       ctx.translate(shape.x, shape.y);
       ctx.rotate(shape.rotation);
       ctx.fillStyle = shape.color;
-      ctx.globalAlpha = 0.08;
+      ctx.globalAlpha = 0.06;
 
       switch (shape.type) {
         case "square":
@@ -263,7 +298,6 @@ const Newsletter = () => {
         shape.x += shape.vx;
         shape.y += shape.vy;
 
-        // Wrap around edges
         if (shape.x < -50) shape.x = canvas.width + 50;
         if (shape.x > canvas.width + 50) shape.x = -50;
         if (shape.y < -50) shape.y = canvas.height + 50;
@@ -303,7 +337,6 @@ const Newsletter = () => {
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast({
@@ -314,7 +347,6 @@ const Newsletter = () => {
       return;
     }
 
-    // Simulate subscription
     setIsSubscribed(true);
     toast({
       title: "Successfully subscribed! 🎉",
@@ -328,7 +360,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-10 md:py-16 relative overflow-hidden bg-black/20">
+    <section className="py-12 md:py-20 relative overflow-hidden bg-black/20">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       {/* Background Pattern */}
@@ -355,14 +387,27 @@ const Newsletter = () => {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-12"
         >
-          <div className="inline-block mb-4 px-4 py-2 border border-white/20 rounded-full font-medium text-white/90 backdrop-blur-sm bg-white/10 text-sm">
-            Stay Connected
-          </div>
-          <h2 className="text-3xl lg:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-marketing-800 to-marketing-600">
-            Join Our Newsletter
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-marketing-500/10 border border-marketing-500/20 mb-6"
+          >
+            <Mail className="w-4 h-4 text-marketing-400" />
+            <span className="text-sm text-marketing-300 font-medium">
+              Stay Connected
+            </span>
+          </motion.div>
+
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-marketing-200 to-white">
+              Join Our Newsletter
+            </span>
           </h2>
-          <p className="text-white/80 text-lg">
-            Get the latest insights and updates delivered to your inbox
+
+          <p className="text-white/70 text-base md:text-lg leading-relaxed">
+            Get exclusive insights, latest updates, and industry trends
+            delivered straight to your inbox
           </p>
         </motion.div>
 
@@ -378,28 +423,28 @@ const Newsletter = () => {
             whileHover={{ scale: 1.01 }}
             className="relative bg-gradient-to-br from-marketing-500/20 via-marketing-400/10 to-marketing-600/20 p-[2px] rounded-3xl"
           >
-            <div className="bg-black/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden border border-white/10 shadow-2xl">
+            <div className="bg-black/80 backdrop-blur-xl rounded-3xl p-6 md:p-10 lg:p-14 relative overflow-hidden border border-white/10 shadow-2xl">
               {/* Animated sparkles */}
-              {[...Array(6)].map((_, i) => (
+              {[...Array(8)].map((_, i) => (
                 <motion.div
                   key={i}
                   className="absolute hidden lg:block"
                   style={{
-                    left: `${15 + i * 12}%`,
-                    top: `${8 + i * 8}%`,
+                    left: `${10 + i * 11}%`,
+                    top: `${5 + i * 10}%`,
                   }}
                   animate={{
                     rotate: 360,
                     scale: [1, 1.5, 1],
-                    opacity: [0.3, 0.8, 0.3],
+                    opacity: [0.2, 0.6, 0.2],
                   }}
                   transition={{
-                    duration: 4 + i * 0.5,
+                    duration: 3 + i * 0.3,
                     repeat: Infinity,
                     ease: "linear",
                   }}
                 >
-                  <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-marketing-400/40" />
+                  <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-marketing-400/30" />
                 </motion.div>
               ))}
 
@@ -414,15 +459,15 @@ const Newsletter = () => {
                   >
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white leading-tight">
                       Stay{" "}
-                      <span className="bg-gradient-to-r from-marketing-400 to-marketing-500 bg-clip-text text-transparent">
+                      <span className="bg-gradient-to-r from-marketing-400 to-marketing-500 bg-clip-text text-gradient">
                         Ahead
                       </span>{" "}
                       of the Curve
                     </h3>
                     <p className="text-base md:text-lg text-white/70 leading-relaxed">
-                      Get exclusive insights, industry trends, and early access
-                      to our latest marketing innovations delivered straight to
-                      your inbox.
+                      Get exclusive development insights, tech trends, code
+                      tips, and early access to new projects delivered to your
+                      inbox weekly.
                     </p>
                   </motion.div>
 
@@ -452,7 +497,8 @@ const Newsletter = () => {
                             animate={{ scale: 1 }}
                             className="absolute inset-0 flex items-center justify-center bg-marketing-500/20 backdrop-blur-sm rounded-xl"
                           >
-                            <span className="text-marketing-300 font-semibold text-sm md:text-base">
+                            <span className="text-marketing-300 font-semibold text-sm md:text-base flex items-center gap-2">
+                              <Sparkles className="w-4 h-4" />
                               Thank you! 🎉
                             </span>
                           </motion.div>
@@ -463,54 +509,18 @@ const Newsletter = () => {
                         type="submit"
                         size="lg"
                         disabled={isSubscribed}
-                        className="bg-gradient-to-r from-marketing-500 to-marketing-600 hover:from-marketing-600 hover:to-marketing-700 text-white border-0 group px-6 md:px-8 py-3 md:py-4 transition-all duration-300 rounded-xl whitespace-nowrap"
+                        className="bg-gradient-to-r from-marketing-500 to-marketing-600 hover:from-marketing-600 hover:to-marketing-700 text-white border-0 group px-6 md:px-8 py-3 md:py-4 transition-all duration-300 rounded-xl whitespace-nowrap shadow-lg shadow-marketing-500/30"
                       >
                         <span className="mr-2">Subscribe</span>
                         <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </div>
+
+                    <p className="text-xs text-white/40 text-center sm:text-left">
+                      No spam, unsubscribe anytime. We respect your privacy.
+                    </p>
                   </motion.form>
 
-                  {/* Features */}
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4"
-                  >
-                    {[
-                      {
-                        icon: Zap,
-                        title: "Weekly Insights",
-                        desc: "Marketing analysis & trends",
-                      },
-                      {
-                        icon: Users,
-                        title: "Exclusive Content",
-                        desc: "Early access & previews",
-                      },
-                      {
-                        icon: Mail,
-                        title: "No Spam Promise",
-                        desc: "Quality over quantity",
-                      },
-                    ].map((feature, index) => (
-                      <motion.div
-                        key={index}
-                        whileHover={{ y: -3 }}
-                        className="text-center lg:text-left bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-marketing-500/30 transition-all duration-300"
-                      >
-                        <div className="w-8 h-8 mx-auto lg:mx-0 mb-2 bg-gradient-to-r from-marketing-500 to-marketing-600 rounded-lg flex items-center justify-center">
-                          <feature.icon className="w-4 h-4 text-white" />
-                        </div>
-                        <h4 className="font-semibold mb-1 text-white text-sm">
-                          {feature.title}
-                        </h4>
-                        <p className="text-xs text-white/60">{feature.desc}</p>
-                      </motion.div>
-                    ))}
-                  </motion.div>
                 </div>
 
                 {/* Right Globe */}
@@ -521,66 +531,55 @@ const Newsletter = () => {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="relative flex items-center justify-center"
                 >
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                  <div className="relative w-64 h-64 md:w-64 md:h-64 lg:w-64 lg:h-64">
                     <canvas
                       ref={globeCanvasRef}
                       className="w-full h-full"
                       style={{
-                        filter: "drop-shadow(0 0 25px hsla(32, 95%, 44%, 0.4))",
+                        filter: "drop-shadow(0 0 30px hsla(32, 95%, 44%, 0.5))",
                       }}
                     />
 
                     {/* Globe overlay content */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="text-center bg-black/20 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
+                      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                    >
+                      <div className="text-center bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-xl">
                         <Globe className="w-6 h-6 text-marketing-400 mx-auto mb-2" />
-                        <div className="text-marketing-300 text-sm font-medium">
+                        <div className="text-marketing-300 text-sm font-bold">
                           Global Reach
                         </div>
-                        <div className="text-white/60 text-xs">
+                        <div className="text-white/70 text-xs">
                           50+ Countries
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
 
                     {/* Floating stats */}
-                    <div className="absolute -top-4 -right-4 bg-gradient-to-r from-marketing-500 to-marketing-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    <motion.div
+                      initial={{ x: 20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 1 }}
+                      className="absolute -top-4 -right-4 bg-gradient-to-r from-marketing-500 to-marketing-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg"
+                    >
                       10K+ Subscribers
-                    </div>
-                    <div className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full border border-white/20">
-                      24/7 Updates
-                    </div>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 1.2 }}
+                      className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-full border border-white/20"
+                    >
+                      Weekly Updates
+                    </motion.div>
                   </div>
                 </motion.div>
               </div>
             </div>
-          </motion.div>
-
-          {/* Bottom Stats */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-4xl mx-auto"
-          >
-            {[
-              { value: "10K+", label: "Subscribers" },
-              { value: "50+", label: "Countries" },
-              { value: "98%", label: "Open Rate" },
-              { value: "24/7", label: "Support" },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -5 }}
-                className="text-center bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-marketing-500/30 transition-all duration-300"
-              >
-                <div className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-marketing-400 to-marketing-500 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-white/70">{stat.label}</div>
-              </motion.div>
-            ))}
           </motion.div>
         </motion.div>
       </div>

@@ -7,92 +7,98 @@ import {
   BarChart3,
   Handshake,
 } from "lucide-react";
-import { Separator } from "./ui/separator";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const Methodology = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   const steps = [
     {
-      icon: <Search className="h-10 w-10 text-white" />,
-      title: "Strategic Discovery",
+      icon: <Search className="h-8 w-8 md:h-10 md:w-10 text-white" />,
+      title: "Discovery & Planning",
       description:
-        "We dive deep into your brand ecosystem, conducting comprehensive research to understand your market position, audience behavior, and competitive landscape.",
+        "Understanding your vision, goals, and requirements to create a comprehensive project roadmap and strategy.",
       details: [
-        "Brand audit & analysis",
-        "Market research",
-        "Audience profiling",
-        "Competitor analysis",
-        "Goals assessment",
-        "Technology stack review",
+        "Requirements Analysis",
+        "Project Scope",
+        "Timeline Planning",
+        "Resource Allocation",
+        "Technology Stack",
+        "Risk Assessment",
       ],
     },
     {
-      icon: <Lightbulb className="h-10 w-10 text-white" />,
-      title: "Strategic Planning",
+      icon: <Lightbulb className="h-8 w-8 md:h-10 md:w-10 text-white" />,
+      title: "UI/UX Design",
       description:
-        "Based on our findings, we craft a comprehensive roadmap that aligns with your business objectives and maximizes market opportunities.",
+        "Creating intuitive and visually stunning interfaces that provide exceptional user experiences and align with your brand.",
       details: [
-        "Strategy development",
-        "Channel selection",
-        "Budget allocation",
-        "Timeline planning",
-        "KPI definition",
-        "Risk assessment",
+        "Wireframing",
+        "Prototyping",
+        "Visual Design",
+        "User Flow Mapping",
+        "Responsive Design",
+        "Design System",
       ],
     },
     {
-      icon: <Palette className="h-10 w-10 text-white" />,
-      title: "Creative Development",
+      icon: <Palette className="h-8 w-8 md:h-10 md:w-10 text-white" />,
+      title: "Development",
       description:
-        "Our creative team brings your vision to life through compelling designs, engaging content, and innovative solutions that resonate with your audience.",
+        "Building robust, scalable applications using cutting-edge technologies and following industry best practices.",
       details: [
-        "Brand identity design",
-        "Website development",
-        "Content creation",
-        "Visual assets",
-        "Campaign materials",
-        "User experience design",
+        "Frontend Development",
+        "Backend Architecture",
+        "Database Design",
+        "API Integration",
+        "Code Quality",
+        "Version Control",
       ],
     },
     {
-      icon: <Rocket className="h-10 w-10 text-white" />,
-      title: "Flawless Execution",
+      icon: <Rocket className="h-8 w-8 md:h-10 md:w-10 text-white" />,
+      title: "Testing & QA",
       description:
-        "We implement your strategy with precision, managing every detail from event logistics to digital campaigns, ensuring seamless delivery.",
+        "Rigorous testing and quality assurance to ensure flawless performance, security, and reliability across all platforms.",
       details: [
-        "Campaign launch",
-        "Event management",
-        "Influencer coordination",
-        "Sponsor activation",
-        "Quality assurance",
-        "Real-time monitoring",
+        "Unit Testing",
+        "Integration Testing",
+        "Performance Testing",
+        "Security Testing",
+        "Bug Fixing",
+        "Cross-browser Testing",
       ],
     },
     {
-      icon: <BarChart3 className="h-10 w-10 text-white" />,
-      title: "Performance Analytics",
+      icon: <BarChart3 className="h-8 w-8 md:h-10 md:w-10 text-white" />,
+      title: "Deployment",
       description:
-        "We continuously track, measure, and analyze performance across all channels, providing actionable insights for ongoing optimization.",
+        "Smooth launch with proper deployment strategies, monitoring setup, and ensuring optimal performance from day one.",
       details: [
-        "Performance tracking",
-        "ROI analysis",
-        "Detailed reporting",
-        "Data visualization",
-        "Trend analysis",
-        "Success metrics",
+        "CI/CD Pipeline",
+        "Cloud Deployment",
+        "Performance Monitoring",
+        "Security Setup",
+        "Documentation",
+        "Launch Support",
       ],
     },
     {
-      icon: <Handshake className="h-10 w-10 text-white" />,
-      title: "Long-term Partnership",
+      icon: <Handshake className="h-8 w-8 md:h-10 md:w-10 text-white" />,
+      title: "Support & Maintenance",
       description:
-        "Beyond project completion, we maintain ongoing relationships, providing continuous support, strategy refinement, and growth opportunities.",
+        "Ongoing support, updates, and optimization to keep your application running smoothly and evolving with your needs.",
       details: [
-        "Ongoing support",
-        "Strategy optimization",
-        "Relationship management",
-        "Future planning",
-        "Growth consulting",
-        "Success partnership",
+        "24/7 Monitoring",
+        "Regular Updates",
+        "Performance Optimization",
+        "Bug Fixes",
+        "Feature Enhancements",
+        "Technical Support",
       ],
     },
   ];
@@ -100,110 +106,164 @@ const Methodology = () => {
   return (
     <section
       id="methodology"
-      className="pt-10 md:pt-20 px-0 md:px-12 bg-black/20 relative overflow-hidden"
+      className="pt-10 md:pt-16 px-2 md:px-12 bg-transparent relative overflow-hidden"
+      ref={ref}
     >
-      <div className="absolute inset-0 opacity-10">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
               "radial-gradient(circle, #fff 1px, transparent 1px)",
-            backgroundSize: "10px 10px",
+            backgroundSize: "50px 50px",
           }}
         ></div>
       </div>
 
       {/* Background gradients */}
-      <div className="absolute inset-0 overflow-hidden opacity-20">
-        <div className="absolute -left-1/4 top-1/4 w-1/2 h-1/2 bg-marketing-500 rounded-full filter blur-3xl"></div>
-        <div className="absolute -right-1/4 bottom-1/4 w-1/2 h-1/2 bg-marketing-700 rounded-full filter blur-3xl"></div>
-      </div>
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="absolute -left-1/4 top-1/4 w-1/2 h-1/2 bg-indigo-500 rounded-full filter blur-3xl"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 4,
+        }}
+        className="absolute -right-1/4 bottom-1/4 w-1/2 h-1/2 bg-rose-500 rounded-full filter blur-3xl"
+      />
 
-      <div className="container mx-auto relative z-10">
-        <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16 reveal-on-scroll">
-          <div className="inline-block mb-4 px-4 py-2 border border-white/20 rounded-full font-medium text-white/90 backdrop-blur-sm bg-white/10 text-lg">
-            Our Proven Methodology
-          </div>
-          <h2 className="text-3xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-marketing-800 to-marketing-600">
-            From Vision to Victory: <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-marketing-800 to-marketing-600">
-              Our Six-Step Success Formula
+      <div className="container mx-auto relative z-10 px-2 md:px-4">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-4xl mx-auto mb-10 md:mb-16"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6"
+          >
+            <Rocket className="w-4 h-4 text-indigo-400" />
+            <span className="text-sm text-indigo-300 font-medium">
+              My Process
+            </span>
+          </motion.div>
+
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-white">
+              From Concept to Launch
+            </span>
+            <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">
+              A Systematic Approach
             </span>
           </h2>
-          <p className="text-white/80 text-lg md:text-xl">
-            Every great success story begins with a proven process. Our
-            systematic approach transforms ambitious visions into measurable
-            achievements, ensuring consistent results across all your marketing
-            initiatives.
-          </p>
-        </div>
 
+          <p className="text-white/60 text-base md:text-lg leading-relaxed">
+            Every successful project follows a proven process. My systematic
+            approach ensures quality, efficiency, and exceptional results at
+            every stage.
+          </p>
+        </motion.div>
+
+        {/* Timeline */}
         <div className="grid grid-cols-1 max-w-5xl mx-auto relative">
           {steps.map((step, index) => (
-            <div
+            <motion.div
               key={index}
-              className="reveal-on-scroll"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="mb-8 md:mb-12"
             >
-              <div className="flex items-start mb-8 md:mb-12 relative group">
-                <div className="mr-6 md:mr-8 relative z-10">
-                  <div className="bg-gradient-to-br from-marketing-600 to-marketing-800 w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:shadow-marketing-500/30 transition-all duration-300 group-hover:scale-110">
+              <div className="flex items-start relative group">
+                {/* Icon Column */}
+                <div className="mr-4 md:mr-8 relative z-10 flex-shrink-0">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="bg-gradient-to-br from-indigo-500 to-rose-500 w-14 h-14 md:w-20 md:h-20 rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:shadow-indigo-500/30 transition-all duration-300"
+                  >
                     {step.icon}
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-marketing-400 to-marketing-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-5 h-5 md:w-6 md:h-6 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white text-[10px] md:text-xs font-bold shadow-lg">
                       {index + 1}
                     </div>
-                  </div>
+                  </motion.div>
+
+                  {/* Connecting line */}
                   {index < steps.length - 1 && (
-                    <div className="absolute top-20 md:top-24 left-1/2 w-px h-32 md:h-24 bg-gradient-to-b from-marketing-500 to-marketing-700 -translate-x-1/2 opacity-50"></div>
+                    <div className="absolute top-16 md:top-24 left-1/2 w-0.5 h-20 md:h-24 bg-gradient-to-b from-indigo-500/50 to-rose-500/50 -translate-x-1/2"></div>
                   )}
                 </div>
 
-                <div className="flex-1 pt-2 group-hover:translate-x-2 transition-transform duration-300">
-                  <h3 className="text-xl md:text-3xl font-bold text-white mb-3 group-hover:text-marketing-400 transition-colors">
+                {/* Content Column */}
+                <div className="flex-1 pt-1 md:pt-2 group-hover:translate-x-2 transition-transform duration-300">
+                  <h3 className="text-lg md:text-3xl font-bold text-white mb-2 md:mb-3 group-hover:text-indigo-300 transition-colors">
                     {step.title}
                   </h3>
-                  <p className="text-white/70 mb-4 text-base md:text-lg leading-relaxed">
+
+                  <p className="text-white/60 mb-3 md:mb-4 text-sm md:text-lg leading-relaxed hidden md:block">
                     {step.description}
                   </p>
+
+                  {/* Details - Desktop only */}
                   <div className="mt-4 grid-cols-2 md:grid-cols-3 gap-2 hidden md:grid">
                     {step.details.map((detail, detailIndex) => (
+                      <motion.span
+                        key={detailIndex}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={inView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.15 + detailIndex * 0.05,
+                        }}
+                        className="px-3 py-2 bg-white/[0.02] text-indigo-300 rounded-lg text-sm font-medium border border-white/[0.05] hover:bg-white/[0.05] hover:border-indigo-500/30 transition-all duration-200 flex items-center"
+                      >
+                        <div className="w-1.5 h-1.5 bg-gradient-to-r from-indigo-400 to-rose-400 rounded-full mr-2 flex-shrink-0"></div>
+                        {detail}
+                      </motion.span>
+                    ))}
+                  </div>
+
+                  {/* Details - Mobile (compact) */}
+                  <div className="mt-3 flex flex-wrap gap-1.5 md:hidden">
+                    {step.details.slice(0, 4).map((detail, detailIndex) => (
                       <span
                         key={detailIndex}
-                        className="px-3 py-2 bg-gradient-to-r from-marketing-500/20 to-marketing-600/20 text-marketing-300 rounded-lg text-sm font-medium border border-marketing-500/30 hover:bg-marketing-500/30 transition-colors duration-200 flex items-center"
+                        className="px-2 py-1 bg-white/[0.02] text-indigo-300 rounded-md text-[10px] font-medium border border-white/[0.05] flex items-center"
                       >
-                        <div className="w-1.5 h-1.5 bg-marketing-400 rounded-full mr-2 flex-shrink-0"></div>
+                        <div className="w-1 h-1 bg-gradient-to-r from-indigo-400 to-rose-400 rounded-full mr-1.5 flex-shrink-0"></div>
                         {detail}
                       </span>
                     ))}
+                    {step.details.length > 3 && (
+                      <span className="px-2 py-1 bg-white/[0.02] text-white/40 rounded-md text-[10px] font-medium border border-white/[0.05]">
+                        +{step.details.length - 3} more
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center mt-16 reveal-on-scroll hidden md:block">
-          <div className="bg-gradient-to-r from-marketing-500/20 to-marketing-600/20 backdrop-blur-sm border border-marketing-500/30 rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Ready to Experience Our Process?
-            </h3>
-            <p className="text-white/70 mb-6">
-              Let's discuss how our proven methodology can transform your
-              brand's success story.
-            </p>
-            <button
-              onClick={() => {
-                const section = document.getElementById("contact");
-                if (section) {
-                  section.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className="bg-gradient-to-r from-marketing-500 to-marketing-600 hover:from-marketing-600 hover:to-marketing-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              Start Your Journey
-            </button>
-          </div>
         </div>
       </div>
     </section>

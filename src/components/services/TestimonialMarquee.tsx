@@ -5,6 +5,9 @@ import {
 } from "@/components/services/avatar";
 import { Card, CardContent } from "@/components/services/cards";
 import { Marquee } from "@/components/services/3d-testimonials";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { MessageSquare, Star } from "lucide-react";
 
 export type Testimonial = {
   name: string;
@@ -237,188 +240,244 @@ export default function TestimonialMarquee({
   repeat?: number;
   duration?: string;
 }) {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <div className="border-0 border-border rounded-lg relative flex h-96 w-screen  flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:500px]">
-      <div
-        className="flex flex-row items-center gap-2"
-        style={{
-          transform:
-            "translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
-        }}
-      >
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
+    <section className="py-12 md:py-16 relative overflow-hidden bg-transparent" ref={ref}>
+      {/* Header Section */}
+      <div className="container mx-auto px-4 mb-12 md:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto"
         >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          reverse
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        <Marquee
-          vertical
-          pauseOnHover
-          repeat={repeat}
-          className={`[--duration:${duration}]`}
-        >
-          {testimonials.map((review) => (
-            <TestimonialCard key={review.username} {...review} />
-          ))}
-        </Marquee>
-        {/* Gradient overlays for vertical marquee */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 mb-6"
+          >
+            <MessageSquare className="w-4 h-4 text-amber-400" />
+            <span className="text-sm text-amber-300 font-medium">
+              Client Testimonials
+            </span>
+          </motion.div>
+
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-amber-200 to-white">
+              What Clients Say
+            </span>
+          </h2>
+
+          <p className="text-white/60 text-base md:text-lg leading-relaxed">
+            Don't just take my word for it. Here's what clients have to say
+            about working with me.
+          </p>
+
+          {/* Rating stars */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex items-center justify-center gap-1 mt-6"
+          >
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+            ))}
+            <span className="ml-2 text-white/60 text-sm">
+              5.0 from 100+ reviews
+            </span>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+
+      {/* Testimonial Carousel - Exact Same */}
+      <div className="border-0 border-border rounded-lg relative flex h-96 w-screen flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:500px]">
+        <div
+          className="flex flex-row items-center gap-2"
+          style={{
+            transform:
+              "translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
+          }}
+        >
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            reverse
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          <Marquee
+            vertical
+            pauseOnHover
+            repeat={repeat}
+            className={`[--duration:${duration}]`}
+          >
+            {testimonials.map((review) => (
+              <TestimonialCard key={review.username} {...review} />
+            ))}
+          </Marquee>
+          {/* Gradient overlays for vertical marquee */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+        </div>
+      </div>
+    </section>
   );
 }
