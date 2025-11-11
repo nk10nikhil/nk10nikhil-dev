@@ -532,7 +532,7 @@ const Certification = () => {
         </div>
 
         {/* Navigation Arrows */}
-        <div className="arrows absolute bottom-4 md:bottom-6 w-[90%] max-w-[1140px] left-1/2 -translate-x-1/2 flex justify-between items-center">
+        <div className="arrows absolute bottom-4 md:bottom-6 w-[90%] max-w-[1140px] left-1/2 -translate-x-1/2 flex justify-between items-center -translate-y-10">
           <button
             onClick={() => showSlider("prev")}
             disabled={isTransitioning}

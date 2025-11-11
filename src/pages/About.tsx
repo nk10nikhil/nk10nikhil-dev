@@ -1,84 +1,194 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
 import { Button } from "@/components/ui/button";
-import { Download, ExternalLink } from "lucide-react";
+import {
+  Download,
+  Code2,
+  Award,
+  Briefcase,
+  GraduationCap,
+  Users,
+  Target,
+  Lightbulb,
+  Rocket,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Calendar,
+  Sparkles,
+  TrendingUp,
+  BookOpen,
+  Coffee,
+  Gamepad2,
+  Heart,
+  Zap,
+  Globe,
+} from "lucide-react";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import { TextRevealCard } from "@/components/elements/TextRevealCard";
-import { AboutTimeline } from "@/components/elements/AboutTimeline";
+import { cn } from "@/lib/utils";
+import Certification from "@/components/section/Certification";
 
 const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const cardsRef = useRef(null);
+  const [headerRef, headerInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const [valuesRef, valuesInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const [skillsRef, skillsInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const [experienceRef, experienceInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
-  const [activeTab, setActiveTab] = useState("bio");
-
-  const tabs = [
-    { id: "bio", label: "Bio", icon: "👨‍💻" },
-    { id: "facts", label: "Fun Facts", icon: "⚡" },
-    { id: "values", label: "Values", icon: "💡" },
-  ];
-
-  const funFacts = [
-    { emoji: "☕", text: "Coffee enthusiast with 300+ cups/year" },
-    { emoji: "🎮", text: "Gamer who codes game logic for fun" },
-    { emoji: "📚", text: "Read 25+ tech books this year" },
-    { emoji: "🌱", text: "Open source contributor" },
-  ];
-
+  // Core values
   const values = [
     {
-      icon: "🚀",
+      icon: Rocket,
       title: "Innovation",
-      desc: "Always exploring new technologies and approaches",
+      desc: "Always exploring new technologies and pushing boundaries",
+      color: "from-blue-500 to-cyan-500",
     },
     {
-      icon: "🤝",
+      icon: Users,
       title: "Collaboration",
-      desc: "Believe in the power of teamwork and knowledge sharing",
+      desc: "Believe in the power of teamwork and open-source",
+      color: "from-purple-500 to-pink-500",
     },
     {
-      icon: "📈",
+      icon: TrendingUp,
       title: "Growth",
       desc: "Committed to continuous learning and improvement",
+      color: "from-green-500 to-emerald-500",
     },
     {
-      icon: "💯",
+      icon: Target,
       title: "Quality",
-      desc: "Focused on writing clean, maintainable code",
+      desc: "Focused on writing clean, scalable, and maintainable code",
+      color: "from-orange-500 to-red-500",
     },
   ];
 
+  // Fun facts
+  const funFacts = [
+    {
+      icon: Coffee,
+      text: "Coffee enthusiast with 300+ cups/year",
+      color: "from-amber-500 to-orange-500",
+    },
+    {
+      icon: Gamepad2,
+      text: "Gamer who codes game logic for fun",
+      color: "from-purple-500 to-pink-500",
+    },
+    {
+      icon: BookOpen,
+      text: "Read 25+ tech books this year",
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: Heart,
+      text: "Passionate open-source contributor",
+      color: "from-rose-500 to-pink-500",
+    },
+  ];
+
+  // Top skills
+  const topSkills = [
+    "Full-Stack Development",
+    "React & Next.js",
+    "Node.js & MongoDB",
+    "DSA & Problem Solving",
+    "AI/ML Integration",
+    "Cloud Computing",
+    "JWT Authentication",
+    "RESTful APIs",
+  ];
+
+  // Work experience
   const workExperience = [
     {
-      title: "Aspiring Software Developer",
-      company: "Open to Opportunities",
-      period: "Present",
+      title: "Chief Technology Officer",
+      company: "WeBuilt_U",
+      period: "Jan 2025 - Present",
       description:
-        "Eager to start a career in software development. Passionate about learning new technologies and contributing to meaningful projects.",
-      technologies: ["React", "Node.js", "Git", "CSS"],
+        "Built WeBuilt_U's website from the ground up, leading full-stack development and tech strategy. Managing dev team, optimizing workflows, and ensuring performance, scalability, and seamless UX.",
+      technologies: [
+        "React",
+        "Next.js",
+        "Node.js",
+        "MongoDB",
+        "Team Leadership",
+      ],
+    },
+    {
+      title: "Open Source Developer",
+      company: "GoFr Summer of Code",
+      period: "Jun 2025 - Aug 2025",
+      description:
+        "Contributed to scalable web apps and secure auth systems. Key projects: GoFr Dev Dashboard (Next.js, MongoDB) and OpenAuth Gateway (JWT). Enhanced clean architecture and performance optimization.",
+      technologies: ["Next.js", "MongoDB", "JWT", "REST APIs"],
+    },
+    {
+      title: "Professional Freelancer",
+      company: "Freelancer.com",
+      period: "Jan 2024 - Jan 2025",
+      description:
+        "Delivered full-stack web solutions for clients—building responsive UIs, secure backends, dynamic features. Integrated payment systems, optimized performance, deployed via GitHub, Vercel, Netlify.",
+      technologies: ["React", "Node.js", "Firebase", "Payment Integration"],
+    },
+    {
+      title: "Team Leader",
+      company: "Smart India Hackathon 2024",
+      period: "Aug 2024 - Dec 2024",
+      description:
+        "Led a 6-member team to build a QR-based ticketing system serving 3,000+ attendees in 36 hours. Designed REST APIs, real-time dashboards, achieved 90+ Lighthouse score.",
+      technologies: ["React", "Next.js", "MongoDB", "QR System", "REST APIs"],
     },
   ];
 
+  // Education
   const education = [
     {
-      degree: "Bachelor's Degree in Computer Science",
+      degree: "Bachelor of Technology - Computer Science & Design",
       institution: "Galgotias College of Engineering and Technology",
-      period: "2023 - 2027",
+      period: "Oct 2023 - Nov 2027",
+      grade: "8.52 CGPA",
       description:
-        "Pursuing a Bachelor's degree in Computer Science with a focus on software development and cloud computing.",
+        "Pursuing B.Tech in CS & Design, focusing on Full-Stack Development, DSA, UI/UX, Logic Theory, and building innovative web applications. Active in open-source, hackathons, and technical problem-solving.",
+      highlights: [
+        "Smart India Hackathon 2024 Team Leader",
+        "Open Source Contributor",
+        "8.52 CGPA",
+      ],
     },
     {
-      degree: "Higher Secondary School",
-      institution: "Army Public School",
-      period: "2020 - 2022",
+      degree: "Higher Secondary Education (PCM)",
+      institution: "Army Public School (APS)",
+      period: "Jul 2020 - Jul 2022",
+      grade: "A1",
       description:
-        "Completed Higher Secondary School with a focus on Computer Science and Mathematics.",
+        "NDA-qualified, Class Representative, House Captain, Football Vice-Captain. Developed leadership, teamwork, strategic thinking, discipline, and analytical skills through academics and extracurriculars.",
+      highlights: [
+        "NDA Qualified",
+        "House Captain",
+        "Football Vice-Captain",
+        "Chess Player",
+      ],
     },
   ];
 
@@ -88,617 +198,503 @@ const About = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-transparent min-h-screen relative"
+      className="bg-transparent min-h-screen"
     >
-      <style>{`
-        .cards:hover .card {
-          background: radial-gradient(
-            10rem circle at var(--xPos) var(--yPos),
-            rgba(0, 255, 241, 0.2),
-            rgba(255, 255, 255, 0.05)
-          );
-        }
-        .card:hover {
-          transform: scale(0.97);
-        }
-        .card:hover::before {
-          opacity: 1;
-        }
-      `}</style>
       {/* Background Elements */}
       <BlurBackground />
       <FloatingObjects />
       <Navbar />
+
       <main className="pt-10 md:pt-16">
-        <section className="container mx-auto px-4 md:px-6 py-12">
-          <div className="max-w-7xl mx-auto">
+        {/* Hero Section */}
+        <section
+          className="container mx-auto px-4 md:px-6 pt-12"
+          ref={headerRef}
+        >
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="mb-12 md:mb-16 text-center max-w-7xl mx-auto"
+          >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={headerInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5 }}
-              className="mb-12 md:mb-16"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-6"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient flex justify-center">
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              <span className="text-sm text-purple-300 font-medium">
                 About Me
-              </h1>
-              <TextRevealCard
-                text="Passionate Full-Stack Developer dedicated to crafting exceptional digital experiences."
-                revealText="Transforming creative visions into impactful digital experiences"
-                className="mt-0 flex justify-center"
-                children={undefined}
-              ></TextRevealCard>
+              </span>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <div className="md:col-span-1 max-w-sm mx-auto">
-                <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="sticky top-24 glass-morphism rounded-xl overflow-hidden"
-                >
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src="/profile.png"
-                      alt="Nikhil Kumar"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-white">
+                Nikhil Kumar
+              </span>
+            </h1>
+          </motion.div>
 
-                  <div className="p-4 text-center">
-                    <h2 className="text-xl font-semibold">Nikhil Kumar</h2>
-                    <p className="text-muted-foreground mb-4">
-                      Full-Stack Developer
-                    </p>
-                    <div className="flex justify-center space-x-3 mb-4">
-                      <Button
-                        size="sm"
-                        className="bg-purple-500 hover:bg-primary/90"
-                        asChild
-                      >
-                        <a
-                          href="https://drive.google.com/file/d/1eRYLTV2WoG46IpshJPg6iXnp1ekZaAg5/view?usp=sharing"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Download className="h-4 w-4 mr-1" /> Resume
-                        </a>
-                      </Button>
-                      <Button size="sm" variant="outline" asChild>
-                        <a href="mailto:nk10nikhil@gmail.com">Contact Me</a>
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-
-              <div className="md:col-span-2 space-y-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <h2 className="text-2xl font-semibold mb-4">My Story</h2>
-                  <div className="glass-morphism rounded-xl p-6 space-y-4">
-                    <p>
-                      I am a Full-Stack Developer with a passion for creating
-                      exceptional digital experiences. I have a keen interest in
-                      web development and cloud computing. I am proficient in
-                      React, Node.js, and MongoDB.
-                    </p>
-                    <p>
-                      I am currently pursuing a Bachelor's degree in Computer
-                      Science and Engineering. I have worked on several projects
-                      that have helped me gain experience in software
-                      development. I am always eager to learn new technologies
-                      and contribute to meaningful projects.
-                    </p>
-                    <p>
-                      I am looking for opportunities to work with a team of
-                      talented developers and contribute to projects that make a
-                      difference. I am excited about the future of technology
-                      and am eager to be a part of it.
-                    </p>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  <h2 className="text-2xl font-semibold mb-4">
-                    Work Experience
-                  </h2>
-                  <div className="space-y-6">
-                    {workExperience.map((job, index) => (
-                      <div
-                        key={index}
-                        className="glass-morphism rounded-xl p-6"
-                      >
-                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-                          <h3 className="text-xl font-medium">{job.title}</h3>
-                          <span className="text-sm text-primary">
-                            {job.period}
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground mb-3">
-                          {job.company}
-                        </p>
-                        <p className="mb-4">{job.description}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {job.technologies.map((tech) => (
-                            <span
-                              key={tech}
-                              className="text-xs px-2 py-1 rounded-full bg-secondary text-secondary-foreground"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <h2 className="text-2xl font-semibold mb-4">Education</h2>
-                  <div
-                    className="cards space-y-6"
-                    ref={cardsRef}
-                    onMouseMove={(e) => {
-                      const cards = cardsRef.current.querySelectorAll(".card");
-                      cards.forEach((card) => {
-                        const rect = card.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        card.style.setProperty("--xPos", `${x}px`);
-                        card.style.setProperty("--yPos", `${y}px`);
-                      });
-                    }}
+          {/* Main Content Grid */}
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Left Sidebar - Sticky Profile Card */}
+              <aside className="lg:w-80 xl:w-96 flex-shrink-0 md:pb-16">
+                <div className="lg:sticky lg:top-20">
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={headerInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.2 }}
                   >
-                    {education.map((edu, index) => (
-                      <div
-                        key={index}
-                        className="card glass-morphism rounded-xl p-6"
-                      >
-                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-                          <h3 className="text-xl font-medium">{edu.degree}</h3>
-                          <span className="text-sm text-primary">
-                            {edu.period}
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground mb-3">
-                          {edu.institution}
-                        </p>
-                        <p>{edu.description}</p>
+                    <div className="glass-morphism rounded-2xl overflow-hidden">
+                      <div className="aspect-square overflow-hidden">
+                        <img
+                          src="/profile.png"
+                          alt="Nikhil Kumar"
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    ))}
-                  </div>
-                </motion.div>
 
+                      <div className="p-6">
+                        <h2 className="text-2xl font-bold text-center mb-2">
+                          Nikhil Kumar
+                        </h2>
+                        <p className="text-muted-foreground text-center mb-1">
+                          Full-Stack Software Engineer
+                        </p>
+                        <p className="text-sm text-muted-foreground/80 text-center mb-4 flex items-center justify-center gap-1">
+                          <MapPin className="w-4 h-4" /> Noida, India
+                        </p>
+
+                        <div className="flex justify-center gap-3 mb-4">
+                          <Button
+                            size="sm"
+                            className="bg-purple-500 hover:bg-purple-600 flex-1"
+                            asChild
+                          >
+                            <a
+                              href="/personal/Nikhil_Kumar_SDE_Resume.pdf"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Download className="h-4 w-4 mr-1" /> Resume
+                            </a>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="flex-1"
+                            asChild
+                          >
+                            <a href="mailto:nk10nikhil@gmail.com">
+                              <Mail className="h-4 w-4 mr-1" /> Contact
+                            </a>
+                          </Button>
+                        </div>
+
+                        {/* Social Links */}
+                        <div className="flex justify-center gap-3 pt-4 border-t border-white/10">
+                          <Button size="icon" variant="ghost" asChild>
+                            <a
+                              href="https://github.com/nk10nikhil"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Github className="h-5 w-5" />
+                            </a>
+                          </Button>
+                          <Button size="icon" variant="ghost" asChild>
+                            <a
+                              href="https://linkedin.com/in/nk10nikhil"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Linkedin className="h-5 w-5" />
+                            </a>
+                          </Button>
+                          <Button size="icon" variant="ghost" asChild>
+                            <a
+                              href="https://nk10nikhil.vercel.app"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Globe className="h-5 w-5" />
+                            </a>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </aside>
+
+              {/* Right Content - Scrollable */}
+              <div className="flex-1 min-w-0">
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={headerInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="space-y-16"
                 >
-                  <h2 className="text-2xl font-semibold mb-4">
-                    Certifications
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
-                      <div>
-                        <h3 className="font-medium">
-                          GitHub Foundatons Certification
-                        </h3>
-                        <p className="text-sm text-muted-foreground">Github</p>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-primary"
-                        asChild
-                      >
-                        <a
-                          href="https://www.credly.com/badges/acb873a5-62a5-4b73-8803-1a43b1a8a5cb/print"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    </div>
-                    <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
-                      <div>
-                        <h3 className="font-medium">
-                          Professional Diploma in WEB3 NFT Business
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          MTF Institute
+                  {/* Bio Section */}
+                  <div className="space-y-6">
+                    <div className="glass-morphism rounded-2xl p-6 md:p-8">
+                      <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                        <Lightbulb className="w-6 h-6 text-purple-400" />
+                        Who I Am
+                      </h2>
+                      <div className="space-y-4 text-white/80 leading-relaxed">
+                        <p>
+                          I'm{" "}
+                          <span className="text-white font-semibold">
+                            Nikhil Kumar
+                          </span>
+                          , a Computer Science & Design undergrad passionate
+                          about building{" "}
+                          <span className="text-purple-400 font-medium">
+                            scalable, secure, and user-focused
+                          </span>{" "}
+                          digital solutions. As{" "}
+                          <span className="text-white font-semibold">
+                            Co-Founder & CTO at WeBuilt_U
+                          </span>
+                          , I've led full-stack development from the ground
+                          up—architecting platforms, managing agile teams, and
+                          delivering products that drive real-world impact.
+                        </p>
+                        <p>
+                          My journey spans{" "}
+                          <span className="text-purple-400 font-medium">
+                            freelance projects, open-source contributions, and
+                            hackathon leadership
+                          </span>
+                          , where I've built everything from e-commerce
+                          platforms handling thousands of transactions to
+                          authentication gateways and performance-optimized
+                          dashboards. I specialize in{" "}
+                          <span className="text-white font-semibold">
+                            React, Next.js, Node.js, MongoDB, and JWT-based
+                            authentication
+                          </span>
+                          , with a strong focus on accessibility, performance,
+                          and clean architecture.
+                        </p>
+                        <p>
+                          Beyond development, I thrive in{" "}
+                          <span className="text-purple-400 font-medium">
+                            community-driven innovation
+                          </span>
+                          —as an open-source contributor (GoFr, GirlScript),
+                          campus ambassador, and hackathon lead (Smart India
+                          Hackathon). I'm certified in MongoDB, Oracle Cloud,
+                          and IT Service Management, and I'm constantly
+                          exploring{" "}
+                          <span className="text-white font-semibold">
+                            AI/ML, Web3, and Cloud technologies
+                          </span>{" "}
+                          to expand my impact.
                         </p>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-primary"
-                        asChild
-                      >
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
                     </div>
-                    <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
-                      <div>
-                        <h3 className="font-medium">
-                          Professional Diploma in Software Testing & Quality
-                          Assurance
-                        </h3>
+
+                    {/* Quick Info Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 hidden md:grid-cols-4">
+                      <div className="glass-morphism rounded-xl p-4 hover:scale-105 transition-transform duration-300">
+                        <GraduationCap className="w-8 h-8 text-purple-400 mb-2" />
+                        <h3 className="font-semibold mb-1">Education</h3>
                         <p className="text-sm text-muted-foreground">
-                          MTF Institute
+                          B.Tech in CS & Design
+                        </p>
+                        <p className="text-xs text-muted-foreground/60">
+                          CGPA: 8.52
                         </p>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-primary"
-                        asChild
-                      >
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    </div>
-                    <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
-                      <div>
-                        <h3 className="font-medium">
-                          Scrum Master Certification
-                        </h3>
+                      <div className="glass-morphism rounded-xl p-4 hover:scale-105 transition-transform duration-300">
+                        <Briefcase className="w-8 h-8 text-blue-400 mb-2" />
+                        <h3 className="font-semibold mb-1">Role</h3>
                         <p className="text-sm text-muted-foreground">
-                          Agile Enterprise Coach, London
+                          Co-Founder & CTO
+                        </p>
+                        <p className="text-xs text-muted-foreground/60">
+                          WeBuilt_U
                         </p>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-primary"
-                        asChild
-                      >
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
-                    </div>
-                    <div className="glass-morphism rounded-xl p-4 flex justify-between items-center">
-                      <div>
-                        <h3 className="font-medium">
-                          NIELT: NSQF Level I & II (IT)
-                        </h3>
-                        <p className="text-sm text-muted-foreground">NIELT</p>
+                      <div className="glass-morphism rounded-xl p-4 hover:scale-105 transition-transform duration-300">
+                        <Zap className="w-8 h-8 text-yellow-400 mb-2" />
+                        <h3 className="font-semibold mb-1">Focus</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Full-Stack Development
+                        </p>
+                        <p className="text-xs text-muted-foreground/60">
+                          MERN • AI/ML • Cloud
+                        </p>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-primary"
-                        asChild
-                      >
-                        <a href="#" target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </Button>
+                      <div className="glass-morphism rounded-xl p-4 hover:scale-105 transition-transform duration-300">
+                        <Heart className="w-8 h-8 text-rose-400 mb-2" />
+                        <h3 className="font-semibold mb-1">Passion</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Open Source & Innovation
+                        </p>
+                        <p className="text-xs text-muted-foreground/60">
+                          Community Builder
+                        </p>
+                      </div>
                     </div>
                   </div>
+
+                  {/* Core Values */}
+                  <motion.div
+                    ref={valuesRef}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <h2 className="text-3xl font-bold mb-8 text-center">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-white">
+                        Core Values
+                      </span>
+                    </h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {values.map((value, index) => {
+                        const Icon = value.icon;
+                        return (
+                          <motion.div
+                            key={value.title}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ y: -5, scale: 1.02 }}
+                            className="glass-morphism rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300"
+                          >
+                            <div
+                              className={cn(
+                                "w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br flex items-center justify-center",
+                                value.color
+                              )}
+                            >
+                              <Icon className="w-7 h-7 text-white" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">
+                              {value.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {value.desc}
+                            </p>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+
+                  {/* Fun Facts */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="hidden md:block"
+                  >
+                    <h2 className="text-3xl font-bold mb-8 text-center">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-white">
+                        Fun Facts
+                      </span>
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {funFacts.map((fact, index) => {
+                        const Icon = fact.icon;
+                        return (
+                          <motion.div
+                            key={fact.text}
+                            initial={{
+                              opacity: 0,
+                              x: index % 2 === 0 ? -20 : 20,
+                            }}
+                            animate={valuesInView ? { opacity: 1, x: 0 } : {}}
+                            transition={{
+                              duration: 0.5,
+                              delay: 0.4 + index * 0.1,
+                            }}
+                            whileHover={{ scale: 1.02 }}
+                            className="glass-morphism rounded-xl p-5 flex items-center gap-4 hover:shadow-xl transition-all duration-300"
+                          >
+                            <div
+                              className={cn(
+                                "w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center flex-shrink-0",
+                                fact.color
+                              )}
+                            >
+                              <Icon className="w-6 h-6 text-white" />
+                            </div>
+                            <p className="text-white/80">{fact.text}</p>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+
+                  {/* Top Skills */}
+                  <motion.div
+                    ref={skillsRef}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={skillsInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <h2 className="text-3xl font-bold mb-8 text-center">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-white">
+                        Top Skills
+                      </span>
+                    </h2>
+                    <div className="glass-morphism rounded-2xl p-6 md:p-8">
+                      <div className="flex flex-wrap gap-3 justify-center">
+                        {topSkills.map((skill, index) => (
+                          <motion.span
+                            key={skill}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={
+                              skillsInView ? { opacity: 1, scale: 1 } : {}
+                            }
+                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                            whileHover={{ scale: 1.1 }}
+                            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 text-sm font-medium hover:from-purple-500/30 hover:to-blue-500/30 transition-all duration-300 cursor-default"
+                          >
+                            {skill}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Work Experience */}
+                  <motion.div
+                    ref={experienceRef}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={experienceInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <h2 className="text-3xl font-bold mb-8 text-center">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-green-200 to-white">
+                        Work Experience
+                      </span>
+                    </h2>
+                    <div className="space-y-6">
+                      {workExperience.map((job, index) => (
+                        <motion.div
+                          key={job.title}
+                          initial={{ opacity: 0, x: -30 }}
+                          animate={experienceInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{ duration: 0.5, delay: index * 0.15 }}
+                          whileHover={{ scale: 1.01 }}
+                          className="glass-morphism rounded-2xl p-6 md:p-8 relative overflow-hidden group"
+                        >
+                          {/* Gradient overlay on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 to-blue-500/0 group-hover:from-purple-500/5 group-hover:to-blue-500/5 transition-all duration-500" />
+
+                          <div className="relative z-10">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between mb-3">
+                              <h3 className="text-xl font-bold">{job.title}</h3>
+                              <span className="text-sm text-purple-400 flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {job.period}
+                              </span>
+                            </div>
+                            <p className="text-muted-foreground mb-4 font-medium">
+                              {job.company}
+                            </p>
+                            <p className="text-white/80 mb-4 leading-relaxed">
+                              {job.description}
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {job.technologies.map((tech) => (
+                                <span
+                                  key={tech}
+                                  className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-medium text-purple-300"
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Education */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={experienceInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    <h2 className="text-3xl font-bold mb-8 text-center">
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-orange-200 to-white">
+                        Education
+                      </span>
+                    </h2>
+                    <div className="space-y-6">
+                      {education.map((edu, index) => (
+                        <motion.div
+                          key={edu.degree}
+                          initial={{
+                            opacity: 0,
+                            x: index % 2 === 0 ? -30 : 30,
+                          }}
+                          animate={experienceInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{
+                            duration: 0.5,
+                            delay: 0.4 + index * 0.15,
+                          }}
+                          whileHover={{ scale: 1.01 }}
+                          className="glass-morphism rounded-2xl p-6 md:p-8 relative overflow-hidden group"
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/0 to-red-500/0 group-hover:from-orange-500/5 group-hover:to-red-500/5 transition-all duration-500" />
+
+                          <div className="relative z-10">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between mb-3">
+                              <h3 className="text-xl font-bold">
+                                {edu.degree}
+                              </h3>
+                              <span className="text-sm text-orange-400 flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {edu.period}
+                              </span>
+                            </div>
+                            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                              <p className="text-muted-foreground font-medium">
+                                {edu.institution}
+                              </p>
+                              <span className="text-sm text-green-400 font-semibold">
+                                Grade: {edu.grade}
+                              </span>
+                            </div>
+                            <p className="text-white/80 mb-4 leading-relaxed">
+                              {edu.description}
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {edu.highlights.map((highlight) => (
+                                <span
+                                  key={highlight}
+                                  className="px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-xs font-medium text-orange-300"
+                                >
+                                  {highlight}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Top Certifications */}
+                    <Certification />
                 </motion.div>
               </div>
             </div>
           </div>
         </section>
       </main>
-      {/*}
-      <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
-          padding: '8px',
-          borderRadius: '9999px',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  padding: '12px 24px',
-                  borderRadius: '9999px',
-                  fontWeight: '500',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  background: activeTab === tab.id
-                    ? 'hsl(var(--primary))'
-                    : 'transparent',
-                  color: activeTab === tab.id
-                    ? 'white'
-                    : 'rgba(255, 255, 255, 0.6)',
-                  boxShadow: activeTab === tab.id
-                    ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-                    : 'none'
-                }}
-                onMouseEnter={(e) => {
-                  if (activeTab !== tab.id) {
-                    e.target.style.color = 'rgba(255, 255, 255, 1)';
-                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (activeTab !== tab.id) {
-                    e.target.style.color = 'rgba(255, 255, 255, 0.6)';
-                    e.target.style.background = 'transparent';
-                  }
-                }}
-              >
-                <span>{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
 
-      <div style={{ minHeight: '400px' }}>
-        {activeTab === 'bio' && (
-          <div style={{
-            animation: 'fadeIn 0.6s ease-out',
-            opacity: 1,
-            transform: 'translateY(0)'
-          }}>
-            <div style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              padding: '32px',
-              borderRadius: '12px',
-              border: '1px solid rgba(255, 255, 255, 0.1)'
-            }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
-                gap: '32px',
-                alignItems: 'center'
-              }}>
-                <div>
-                  <h3 style={{
-                    fontSize: '24px',
-                    fontWeight: 'bold',
-                    marginBottom: '16px',
-                    color: 'white'
-                  }}>
-                    Hello! I'm Nikhil
-                  </h3>
-                  <p style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    lineHeight: '1.6',
-                    marginBottom: '16px'
-                  }}>
-                    I'm a passionate Full-Stack Developer currently pursuing my Master of Computer Applications (MCA).
-                    With a strong foundation in both frontend and backend technologies, I love creating digital experiences
-                    that are not just functional, but also beautiful and user-friendly.
-                  </p>
-                  <p style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    lineHeight: '1.6',
-                    marginBottom: '16px'
-                  }}>
-                    My journey in tech started with curiosity about how websites work, and it has evolved into a
-                    deep passion for solving complex problems through code. I'm particularly interested in modern
-                    web technologies, cloud computing, and artificial intelligence.
-                  </p>
-                  <p style={{
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    lineHeight: '1.6'
-                  }}>
-                    When I'm not coding, you'll find me exploring new technologies, contributing to open source
-                    projects, or sharing knowledge with the developer community.
-                  </p>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <h4 style={{
-                      fontWeight: '600',
-                      color: 'hsl(var(--primary))',
-                      marginBottom: '4px'
-                    }}>
-                      🎓 Education
-                    </h4>
-                    <p style={{
-                      fontSize: '14px',
-                      color: 'rgba(255, 255, 255, 0.6)'
-                    }}>
-                      Master of Computer Applications
-                    </p>
-                  </div>
-                  <div style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <h4 style={{
-                      fontWeight: '600',
-                      color: 'hsl(var(--primary))',
-                      marginBottom: '4px'
-                    }}>
-                      📍 Location
-                    </h4>
-                    <p style={{
-                      fontSize: '14px',
-                      color: 'rgba(255, 255, 255, 0.6)'
-                    }}>
-                      India
-                    </p>
-                  </div>
-                  <div style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <h4 style={{
-                      fontWeight: '600',
-                      color: 'hsl(var(--primary))',
-                      marginBottom: '4px'
-                    }}>
-                      💼 Focus
-                    </h4>
-                    <p style={{
-                      fontSize: '14px',
-                      color: 'rgba(255, 255, 255, 0.6)'
-                    }}>
-                      Full-Stack Development
-                    </p>
-                  </div>
-                  <div style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(10px)',
-                    padding: '16px',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    transition: 'transform 0.3s ease',
-                    cursor: 'pointer'
-                  }}
-                    onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-                    onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-                  >
-                    <h4 style={{
-                      fontWeight: '600',
-                      color: 'hsl(var(--primary))',
-                      marginBottom: '4px'
-                    }}>
-                      🌟 Interests
-                    </h4>
-                    <p style={{
-                      fontSize: '14px',
-                      color: 'rgba(255, 255, 255, 0.6)'
-                    }}>
-                      AI, Cloud, Open Source
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'facts' && (
-          <div style={{
-            animation: 'fadeIn 0.6s ease-out',
-            opacity: 1,
-            transform: 'translateY(0)'
-          }}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
-              gap: '24px'
-            }}>
-              {funFacts.map((fact, index) => (
-                <div key={index} style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  padding: '24px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'transform 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                  onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-                  onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <div style={{ fontSize: '32px' }}>{fact.emoji}</div>
-                    <p style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{fact.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'values' && (
-          <div style={{
-            animation: 'fadeIn 0.6s ease-out',
-            opacity: 1,
-            transform: 'translateY(0)'
-          }}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
-              gap: '24px'
-            }}>
-              {values.map((value, index) => (
-                <div key={index} style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(10px)',
-                  padding: '24px',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  transition: 'transform 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                  onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
-                  onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
-                >
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '32px', marginBottom: '16px' }}>{value.icon}</div>
-                    <h4 style={{
-                      fontSize: '20px',
-                      fontWeight: 'bold',
-                      marginBottom: '8px',
-                      color: 'hsl(var(--primary))'
-                    }}>
-                      {value.title}
-                    </h4>
-                    <p style={{ color: 'rgba(255, 255, 255, 0.6)' }}>{value.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-    */}
-      <AboutTimeline /> <br />
       <Footer />
     </motion.div>
   );
