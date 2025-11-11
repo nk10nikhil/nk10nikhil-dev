@@ -4,6 +4,13 @@ export default {
   darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  // Safelist common dynamic classes to prevent purging
+  safelist: [
+    {
+      pattern: /^animate-/,
+      variants: ["hover", "group-hover"],
+    },
+  ],
   theme: {
     container: {
       center: true,

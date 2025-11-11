@@ -65,6 +65,11 @@ export default defineConfig(({ mode }) => ({
             return "react-core";
           }
 
+          // React Router - separate chunk for better caching
+          if (id.includes("node_modules/react-router")) {
+            return "react-router";
+          }
+
           // Heavy animation libraries
           if (id.includes("node_modules/framer-motion")) {
             return "framer";
@@ -75,6 +80,8 @@ export default defineConfig(({ mode }) => ({
           ) {
             return "gsap";
           }
+
+          // Three.js and P5.js - only if used heavily
           if (
             id.includes("node_modules/three") ||
             id.includes("node_modules/@react-three")
@@ -83,6 +90,11 @@ export default defineConfig(({ mode }) => ({
           }
           if (id.includes("node_modules/p5")) {
             return "p5";
+          }
+
+          // Styled Components - separate chunk
+          if (id.includes("node_modules/styled-components")) {
+            return "styled";
           }
 
           // UI component libraries
@@ -141,8 +153,8 @@ export default defineConfig(({ mode }) => ({
     // CSS code splitting
     cssCodeSplit: true,
 
-    // Target modern browsers for smaller bundle
-    target: "esnext",
+    // Target modern browsers for better compatibility while staying performant
+    target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],
 
     // Reduce render-blocking resources
     assetsInlineLimit: 4096, // Inline assets smaller than 4kb
