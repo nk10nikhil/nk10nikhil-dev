@@ -47,7 +47,7 @@ const Services = () => {
       </section>
 
       {/* Services Section */}
-      <section className="w-full px-4 md:px-6 pt-8 md:pt-16 max-w-7xl mx-auto bg-transparent hidden">
+      <section className="w-full px-4 md:px-6 pt-8 md:pt-16 max-w-7xl mx-auto bg-transparent hidden md:block">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -100,7 +100,7 @@ const Services = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="w-full py-8 md:pb-16 bg-transparent">
+      <section className="w-full py-8 md:pb-16 bg-transparent hidden md:block">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

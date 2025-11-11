@@ -52,89 +52,57 @@ export default defineConfig(({ mode }) => ({
     // Generate sourcemaps for production (optional, remove if not needed)
     sourcemap: mode === "development",
 
-    // Optimize chunk sizes with better splitting
+    // Optimize chunk sizes with simplified, reliable splitting
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React core libraries - keep together!
+          // Core React - must stay together
           if (
-            id.includes("node_modules/react/") ||
-            id.includes("node_modules/react-dom/") ||
-            id.includes("node_modules/scheduler/")
+            id.includes("node_modules/react") ||
+            id.includes("node_modules/scheduler")
           ) {
-            return "react-vendor";
+            return "react-core";
           }
 
-          // Router
-          if (id.includes("node_modules/react-router")) {
-            return "router-vendor";
-          }
-
-          // Animation libraries - split by type
+          // Heavy animation libraries
           if (id.includes("node_modules/framer-motion")) {
-            return "framer-motion";
+            return "framer";
           }
-
           if (
             id.includes("node_modules/gsap") ||
             id.includes("node_modules/@gsap")
           ) {
-            return "gsap-vendor";
+            return "gsap";
           }
-
-          // Three.js and related (heavy)
           if (
             id.includes("node_modules/three") ||
             id.includes("node_modules/@react-three")
           ) {
-            return "three-vendor";
+            return "three";
+          }
+          if (id.includes("node_modules/p5")) {
+            return "p5";
           }
 
-          // P5.js (heavy)
-          if (
-            id.includes("node_modules/p5") ||
-            id.includes("node_modules/react-p5")
-          ) {
-            return "p5-vendor";
+          // UI component libraries
+          if (id.includes("node_modules/@radix-ui")) {
+            return "radix-ui";
           }
 
-          // UI libraries
+          // Large icon libraries
           if (
             id.includes("node_modules/lucide-react") ||
-            id.includes("node_modules/@tabler/icons")
+            id.includes("node_modules/@tabler")
           ) {
-            return "icons-vendor";
+            return "icons";
           }
 
-          // Radix UI components
-          if (id.includes("node_modules/@radix-ui")) {
-            return "radix-vendor";
-          }
-
-          // Form libraries
-          if (
-            id.includes("node_modules/react-hook-form") ||
-            id.includes("node_modules/@hookform") ||
-            id.includes("node_modules/zod")
-          ) {
-            return "form-vendor";
-          }
-
-          // Utility libraries
-          if (
-            id.includes("node_modules/clsx") ||
-            id.includes("node_modules/tailwind-merge") ||
-            id.includes("node_modules/class-variance-authority")
-          ) {
-            return "utils-vendor";
-          }
-
-          // Other node_modules
+          // All other node_modules
           if (id.includes("node_modules/")) {
             return "vendor";
           }
 
-          // Return undefined for non-vendor code (app code)
+          // App code - let Vite decide
           return undefined;
         },
         // Optimize asset file names
@@ -184,7 +152,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
 
-  // Optimize dependencies
+  // Optimize dependencies - include all to avoid runtime optimization delays
   optimizeDeps: {
     include: [
       "react",
@@ -196,13 +164,10 @@ export default defineConfig(({ mode }) => ({
       "framer-motion",
       "lucide-react",
     ],
-    exclude: [
-      "@react-three/fiber",
-      "@react-three/drei",
-      "three",
-      "p5",
-      "react-p5",
-    ],
+    // Don't exclude heavy libraries - let Vite optimize them upfront
+    esbuildOptions: {
+      target: "esnext",
+    },
   },
 
   // Preview server config (for production build preview)
