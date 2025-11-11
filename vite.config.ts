@@ -56,10 +56,11 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // Core React - must stay together
+          // Core React - must stay together (check react-dom BEFORE generic react)
           if (
-            id.includes("node_modules/react") ||
-            id.includes("node_modules/scheduler")
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/scheduler/")
           ) {
             return "react-core";
           }
