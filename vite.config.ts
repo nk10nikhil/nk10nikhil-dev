@@ -180,7 +180,17 @@ export default defineConfig(({ mode }) => ({
     // Don't exclude heavy libraries - let Vite optimize them upfront
     esbuildOptions: {
       target: "esnext",
+      // Additional optimization for faster builds
+      treeShaking: true,
     },
+  },
+
+  // Performance optimizations
+  esbuild: {
+    // Remove all console logs and debugger statements in production
+    drop: mode === "production" ? ["console", "debugger"] : [],
+    // Use faster JavaScript parsing
+    legalComments: "none",
   },
 
   // Preview server config (for production build preview)

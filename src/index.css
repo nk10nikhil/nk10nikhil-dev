@@ -180,6 +180,34 @@
   #root {
     min-height: 100vh;
   }
+
+  /* Performance optimizations for smoother rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* GPU acceleration for transform and opacity */
+  .gpu-accelerate {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Optimize image rendering */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  /* Reduce layout shifts */
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 html {
@@ -201,6 +229,32 @@ html {
 
   .heading-gradient {
     @apply bg-gradient-to-r from-primary via-purple-400 to-indigo-500 bg-clip-text text-transparent;
+  }
+
+  /* Performance optimization utilities */
+  .optimize-render {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
+
+  .optimize-animation {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  .optimize-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Lazy load images with fade-in effect */
+  img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+
+  img[loading="lazy"].loaded {
+    opacity: 1;
   }
 }
 

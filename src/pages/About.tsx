@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import Navbar from "@/components/section/Navbar";
@@ -33,164 +33,169 @@ import FloatingObjects from "@/components/elements/FloatingObjects";
 import { cn } from "@/lib/utils";
 import Certification from "@/components/section/Certification";
 
+// Optimized viewport configuration for better performance
+const viewportConfig = {
+  triggerOnce: true,
+  threshold: 0.1,
+};
+
 const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [headerRef, headerInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-  const [valuesRef, valuesInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-  const [skillsRef, skillsInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-  const [experienceRef, experienceInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [headerRef, headerInView] = useInView(viewportConfig);
+  const [valuesRef, valuesInView] = useInView(viewportConfig);
+  const [skillsRef, skillsInView] = useInView(viewportConfig);
+  const [experienceRef, experienceInView] = useInView(viewportConfig);
 
-  // Core values
-  const values = [
-    {
-      icon: Rocket,
-      title: "Innovation",
-      desc: "Always exploring new technologies and pushing boundaries",
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      icon: Users,
-      title: "Collaboration",
-      desc: "Believe in the power of teamwork and open-source",
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: TrendingUp,
-      title: "Growth",
-      desc: "Committed to continuous learning and improvement",
-      color: "from-green-500 to-emerald-500",
-    },
-    {
-      icon: Target,
-      title: "Quality",
-      desc: "Focused on writing clean, scalable, and maintainable code",
-      color: "from-orange-500 to-red-500",
-    },
-  ];
+  // Memoize static data arrays to prevent re-creation on every render
+  const values = useMemo(
+    () => [
+      {
+        icon: Rocket,
+        title: "Innovation",
+        desc: "Always exploring new technologies and pushing boundaries",
+        color: "from-blue-500 to-cyan-500",
+      },
+      {
+        icon: Users,
+        title: "Collaboration",
+        desc: "Believe in the power of teamwork and open-source",
+        color: "from-purple-500 to-pink-500",
+      },
+      {
+        icon: TrendingUp,
+        title: "Growth",
+        desc: "Committed to continuous learning and improvement",
+        color: "from-green-500 to-emerald-500",
+      },
+      {
+        icon: Target,
+        title: "Quality",
+        desc: "Focused on writing clean, scalable, and maintainable code",
+        color: "from-orange-500 to-red-500",
+      },
+    ],
+    []
+  );
 
-  // Fun facts
-  const funFacts = [
-    {
-      icon: Coffee,
-      text: "Coffee enthusiast with 300+ cups/year",
-      color: "from-amber-500 to-orange-500",
-    },
-    {
-      icon: Gamepad2,
-      text: "Gamer who codes game logic for fun",
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: BookOpen,
-      text: "Read 25+ tech books this year",
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      icon: Heart,
-      text: "Passionate open-source contributor",
-      color: "from-rose-500 to-pink-500",
-    },
-  ];
+  const funFacts = useMemo(
+    () => [
+      {
+        icon: Coffee,
+        text: "Coffee enthusiast with 300+ cups/year",
+        color: "from-amber-500 to-orange-500",
+      },
+      {
+        icon: Gamepad2,
+        text: "Gamer who codes game logic for fun",
+        color: "from-purple-500 to-pink-500",
+      },
+      {
+        icon: BookOpen,
+        text: "Read 25+ tech books this year",
+        color: "from-blue-500 to-cyan-500",
+      },
+      {
+        icon: Heart,
+        text: "Passionate open-source contributor",
+        color: "from-rose-500 to-pink-500",
+      },
+    ],
+    []
+  );
 
-  // Top skills
-  const topSkills = [
-    "Full-Stack Development",
-    "React & Next.js",
-    "Node.js & MongoDB",
-    "DSA & Problem Solving",
-    "AI/ML Integration",
-    "Cloud Computing",
-    "JWT Authentication",
-    "RESTful APIs",
-  ];
+  const topSkills = useMemo(
+    () => [
+      "Full-Stack Development",
+      "React & Next.js",
+      "Node.js & MongoDB",
+      "DSA & Problem Solving",
+      "AI/ML Integration",
+      "Cloud Computing",
+      "JWT Authentication",
+      "RESTful APIs",
+    ],
+    []
+  );
 
-  // Work experience
-  const workExperience = [
-    {
-      title: "Chief Technology Officer",
-      company: "WeBuilt_U",
-      period: "Jan 2025 - Present",
-      description:
-        "Built WeBuilt_U's website from the ground up, leading full-stack development and tech strategy. Managing dev team, optimizing workflows, and ensuring performance, scalability, and seamless UX.",
-      technologies: [
-        "React",
-        "Next.js",
-        "Node.js",
-        "MongoDB",
-        "Team Leadership",
-      ],
-    },
-    {
-      title: "Open Source Developer",
-      company: "GoFr Summer of Code",
-      period: "Jun 2025 - Aug 2025",
-      description:
-        "Contributed to scalable web apps and secure auth systems. Key projects: GoFr Dev Dashboard (Next.js, MongoDB) and OpenAuth Gateway (JWT). Enhanced clean architecture and performance optimization.",
-      technologies: ["Next.js", "MongoDB", "JWT", "REST APIs"],
-    },
-    {
-      title: "Professional Freelancer",
-      company: "Freelancer.com",
-      period: "Jan 2024 - Jan 2025",
-      description:
-        "Delivered full-stack web solutions for clients—building responsive UIs, secure backends, dynamic features. Integrated payment systems, optimized performance, deployed via GitHub, Vercel, Netlify.",
-      technologies: ["React", "Node.js", "Firebase", "Payment Integration"],
-    },
-    {
-      title: "Team Leader",
-      company: "Smart India Hackathon 2024",
-      period: "Aug 2024 - Dec 2024",
-      description:
-        "Led a 6-member team to build a QR-based ticketing system serving 3,000+ attendees in 36 hours. Designed REST APIs, real-time dashboards, achieved 90+ Lighthouse score.",
-      technologies: ["React", "Next.js", "MongoDB", "QR System", "REST APIs"],
-    },
-  ];
+  const workExperience = useMemo(
+    () => [
+      {
+        title: "Chief Technology Officer",
+        company: "WeBuilt_U",
+        period: "Jan 2025 - Present",
+        description:
+          "Built WeBuilt_U's website from the ground up, leading full-stack development and tech strategy. Managing dev team, optimizing workflows, and ensuring performance, scalability, and seamless UX.",
+        technologies: [
+          "React",
+          "Next.js",
+          "Node.js",
+          "MongoDB",
+          "Team Leadership",
+        ],
+      },
+      {
+        title: "Open Source Developer",
+        company: "GoFr Summer of Code",
+        period: "Jun 2025 - Aug 2025",
+        description:
+          "Contributed to scalable web apps and secure auth systems. Key projects: GoFr Dev Dashboard (Next.js, MongoDB) and OpenAuth Gateway (JWT). Enhanced clean architecture and performance optimization.",
+        technologies: ["Next.js", "MongoDB", "JWT", "REST APIs"],
+      },
+      {
+        title: "Professional Freelancer",
+        company: "Freelancer.com",
+        period: "Jan 2024 - Jan 2025",
+        description:
+          "Delivered full-stack web solutions for clients—building responsive UIs, secure backends, dynamic features. Integrated payment systems, optimized performance, deployed via GitHub, Vercel, Netlify.",
+        technologies: ["React", "Node.js", "Firebase", "Payment Integration"],
+      },
+      {
+        title: "Team Leader",
+        company: "Smart India Hackathon 2024",
+        period: "Aug 2024 - Dec 2024",
+        description:
+          "Led a 6-member team to build a QR-based ticketing system serving 3,000+ attendees in 36 hours. Designed REST APIs, real-time dashboards, achieved 90+ Lighthouse score.",
+        technologies: ["React", "Next.js", "MongoDB", "QR System", "REST APIs"],
+      },
+    ],
+    []
+  );
 
-  // Education
-  const education = [
-    {
-      degree: "Bachelor of Technology - Computer Science & Design",
-      institution: "Galgotias College of Engineering and Technology",
-      period: "Oct 2023 - Nov 2027",
-      grade: "8.52 CGPA",
-      description:
-        "Pursuing B.Tech in CS & Design, focusing on Full-Stack Development, DSA, UI/UX, Logic Theory, and building innovative web applications. Active in open-source, hackathons, and technical problem-solving.",
-      highlights: [
-        "Smart India Hackathon 2024 Team Leader",
-        "Open Source Contributor",
-        "8.52 CGPA",
-      ],
-    },
-    {
-      degree: "Higher Secondary Education (PCM)",
-      institution: "Army Public School (APS)",
-      period: "Jul 2020 - Jul 2022",
-      grade: "A1",
-      description:
-        "NDA-qualified, Class Representative, House Captain, Football Vice-Captain. Developed leadership, teamwork, strategic thinking, discipline, and analytical skills through academics and extracurriculars.",
-      highlights: [
-        "NDA Qualified",
-        "House Captain",
-        "Football Vice-Captain",
-        "Chess Player",
-      ],
-    },
-  ];
+  const education = useMemo(
+    () => [
+      {
+        degree: "Bachelor of Technology - Computer Science & Design",
+        institution: "Galgotias College of Engineering and Technology",
+        period: "Oct 2023 - Nov 2027",
+        grade: "8.52 CGPA",
+        description:
+          "Pursuing B.Tech in CS & Design, focusing on Full-Stack Development, DSA, UI/UX, Logic Theory, and building innovative web applications. Active in open-source, hackathons, and technical problem-solving.",
+        highlights: [
+          "Smart India Hackathon 2024 Team Leader",
+          "Open Source Contributor",
+          "8.52 CGPA",
+        ],
+      },
+      {
+        degree: "Higher Secondary Education (PCM)",
+        institution: "Army Public School (APS)",
+        period: "Jul 2020 - Jul 2022",
+        grade: "A1",
+        description:
+          "NDA-qualified, Class Representative, House Captain, Football Vice-Captain. Developed leadership, teamwork, strategic thinking, discipline, and analytical skills through academics and extracurriculars.",
+        highlights: [
+          "NDA Qualified",
+          "House Captain",
+          "Football Vice-Captain",
+          "Chess Player",
+        ],
+      },
+    ],
+    []
+  );
 
   return (
     <motion.div
@@ -400,7 +405,7 @@ const About = () => {
                     </div>
 
                     {/* Quick Info Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 hidden md:grid-cols-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="glass-morphism rounded-xl p-4 hover:scale-105 transition-transform duration-300">
                         <GraduationCap className="w-8 h-8 text-purple-400 mb-2" />
                         <h3 className="font-semibold mb-1">Education</h3>
@@ -687,7 +692,7 @@ const About = () => {
                   </motion.div>
 
                   {/* Top Certifications */}
-                    <Certification />
+                  <Certification />
                 </motion.div>
               </div>
             </div>
