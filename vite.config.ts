@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer"; // Bundle analysis
 import compression from "vite-plugin-compression"; // Gzip/Brotli compression
+import viteImagemin from "vite-plugin-imagemin";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -36,6 +37,20 @@ export default defineConfig(({ mode }) => ({
         algorithm: "gzip",
         ext: ".gz",
         threshold: 1024,
+      }),
+    // Compress images in production build
+    mode === "production" &&
+      viteImagemin({
+        gifsicle: { optimizationLevel: 7 },
+        optipng: { optimizationLevel: 7 },
+        mozjpeg: { quality: 75 },
+        pngquant: { quality: [0.7, 0.9] },
+        svgo: {
+          plugins: [
+            { name: "removeViewBox" },
+            { name: "removeEmptyAttrs", active: false },
+          ],
+        },
       }),
   ].filter(Boolean),
 
