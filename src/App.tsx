@@ -90,7 +90,7 @@ const AppContent = () => {
       }, 200);
 
       return () => clearTimeout(loaderTimer);
-    }, 1200); // Reduced from 1500ms
+    }, 6000); // Reduced from 1500ms
 
     return () => clearTimeout(contentTimer);
   }, []);

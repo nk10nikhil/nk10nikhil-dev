@@ -11,7 +11,7 @@ const FloatingTeddy = () => {
     // Simulating content load
     const timer = setTimeout(() => {
       setLoaded(true);
-    }, 2500);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, []);

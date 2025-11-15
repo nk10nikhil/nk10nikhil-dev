@@ -11,8 +11,21 @@ interface LoaderProps {
 
 const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [showVideo, setShowVideo] = useState(true);
   const { progress } = usePreloader();
   const progressWidth = `${Math.min(progress, 100)}%`;
+
+  // Handle SVG animation end (using a timer)
+  useEffect(() => {
+    // Adjust this timeout based on how long you want to show the SVG (in milliseconds)
+    const svgDuration = 4500; // 5 seconds - adjust as needed
+
+    const timer = setTimeout(() => {
+      setShowVideo(false);
+    }, svgDuration);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!isLoading) {
@@ -32,6 +45,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
       "/images/concepts.svg",
       "/images/designs.svg",
       "/images/code.svg",
+      "/assets/sign.svg", // Preload the SVG
     ];
 
     preloadImages.forEach((src) => {
@@ -57,43 +71,104 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
         />
       </div>
 
-      {/* Orb Container */}
-      <div className="orb-container">
-        <Orb
-          hue={265}
-          hoverIntensity={0.8}
-          rotateOnHover={true}
-          forceHoverState={true}
-        />
-      </div>
+      {/* SVG Initial Loading Screen */}
+      {showVideo && (
+        <VideoContainer className="video-container">
+          <img
+            src="/assets/sign.svg"
+            alt="Loading animation"
+            className="loading-svg"
+          />
+        </VideoContainer>
+      )}
 
-      {/* Loader Animation */}
-      <div className="loader-container">
-        <div className="loader">
-          <div className="box">
-            <div className="logo">
-              <img src="/profile.png" alt="Profile" className="profile-img" />
+      {/* Orb Container - shows after SVG */}
+      {!showVideo && (
+        <>
+          <div className="orb-container">
+            <Orb
+              hue={265}
+              hoverIntensity={0.8}
+              rotateOnHover={true}
+              forceHoverState={true}
+            />
+          </div>
+
+          {/* Loader Animation */}
+          <div className="loader-container">
+            <div className="loader">
+              <div className="box">
+                <div className="logo">
+                  <img
+                    src="/profile.png"
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                </div>
+              </div>
+              <div className="box" />
+              <div className="box" />
+              <div className="box" />
+              <div className="box" />
             </div>
           </div>
-          <div className="box" />
-          <div className="box" />
-          <div className="box" />
-          <div className="box" />
-        </div>
-
-        {/* Progress Indicator */}
-        {/* <div className="progress-container">
-          <div className="progress-bar">
-            <ProgressFill width={progressWidth} />
-          </div>
-          <div className="progress-text">{Math.round(progress)}%</div>
-        </div> */}
-      </div>
+        </>
+      )}
     </StyledWrapper>
   );
 });
 
 Loader.displayName = "Loader";
+
+const VideoContainer = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: fadeIn 0.5s ease-in;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .loading-svg {
+    max-width: 600px;
+    max-height: 600px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+
+    /* Purple glow effect */
+    filter: drop-shadow(0 0 25px rgba(149, 0, 255, 0.6)) brightness(0)
+      saturate(100%) invert(25%) sepia(100%) saturate(5000%) hue-rotate(260deg)
+      brightness(1.2);
+
+    @media (max-width: 768px) {
+      max-width: 95vw;
+      max-height: 95vh;
+      filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.5));
+    }
+  }
+
+  @keyframes svgPulse {
+    0%,
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 25px rgba(149, 0, 255, 0.6));
+    }
+    50% {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 35px rgba(212, 98, 255, 0.8));
+    }
+  }
+`;
 
 const ProgressFill = styled.div<{ width: string }>`
   height: 100%;
@@ -206,13 +281,30 @@ const StyledWrapper = styled.div`
   }
 
   .orb-container {
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     position: relative;
     z-index: 1;
     margin: 0 auto;
     transition: transform 1.2s ease-out, opacity 1s ease-out;
     will-change: transform, opacity;
+    animation: orbFadeIn 0.8s ease-in;
+
+    @media (max-width: 768px) {
+      width: 90vw;
+      height: 90vw;
+    }
+  }
+
+  @keyframes orbFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   .loader {
@@ -227,6 +319,10 @@ const StyledWrapper = styled.div`
     height: var(--size);
     aspect-ratio: 1;
     position: relative;
+
+    @media (max-width: 768px) {
+      --size: 70vw;
+    }
   }
 
   .loader .box {
