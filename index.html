@@ -74,7 +74,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="/profile.png" />
+    <link rel="preload" as="image" href="/profile.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/images/ideas.svg" />
+    <link rel="preload" as="image" href="/images/concepts.svg" />
+    <link rel="preload" as="image" href="/images/designs.svg" />
+    <link rel="preload" as="image" href="/images/code.svg" />
     <link rel="preload" as="script" href="/src/main.tsx" />
     <link
       rel="preload"
@@ -83,6 +87,11 @@
       href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2"
       crossorigin
     />
+
+    <!-- Prefetch next-page resources -->
+    <link rel="prefetch" href="/projects" />
+    <link rel="prefetch" href="/about" />
+    <link rel="prefetch" href="/contact" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://nk10nikhil.vercel.app/" />

@@ -4,9 +4,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/elements/ThemeProvider";
+import { PreloaderProvider } from "@/contexts/PreloaderContext";
 import { useState, useEffect, lazy, Suspense } from "react";
 import BackToTopButton from "./components/elements/BackToTopButton";
 import Loader from "./components/elements/Loader";
+import { usePreloadResources } from "@/hooks/usePreloadResources";
+import { registerServiceWorker } from "@/utils/serviceWorkerRegistration";
+import { logPerformanceMetrics } from "@/utils/performanceMonitoring";
 
 // Eager load the main page for instant access
 import Index from "./pages/Index";
@@ -46,12 +50,36 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => {
+// Inner app component with preloader hook
+const AppContent = () => {
   const [loading, setLoading] = useState(true);
   const [contentReady, setContentReady] = useState(false);
   const [transitionComplete, setTransitionComplete] = useState(false);
 
+  // Use preload resources hook
+  usePreloadResources({
+    criticalImages: [
+      "/profile.png",
+      "/images/ideas.svg",
+      "/images/concepts.svg",
+      "/images/designs.svg",
+      "/images/code.svg",
+    ],
+  });
+
   useEffect(() => {
+    // Register service worker
+    registerServiceWorker();
+
+    // Log performance metrics after load
+    if (typeof window !== "undefined") {
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          logPerformanceMetrics();
+        }, 2000);
+      });
+    }
+
     // Reduced initial loading period for faster First Contentful Paint
     const contentTimer = setTimeout(() => {
       setContentReady(true);
@@ -81,40 +109,51 @@ const App = () => {
     setTransitionComplete(true);
   };
 
+  const contentStyle = {
+    opacity: contentReady ? 1 : 0,
+    transition: "opacity 0.4s ease-in",
+    pointerEvents: contentReady ? ("auto" as const) : ("none" as const),
+  };
+
+  return (
+    <>
+      {/* Always render loader first when not complete */}
+      {!transitionComplete && (
+        <Loader isLoading={loading} onTransitionEnd={handleTransitionEnd} />
+      )}
+
+      <div
+        className="relative z-[1] bg-background min-h-screen"
+        {...(contentStyle && { style: contentStyle })}
+      >
+        <BrowserRouter>
+          {transitionComplete && <BackToTopButton />}
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </div>
+    </>
+  );
+};
+
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" forcedTheme="dark">
         <TooltipProvider delayDuration={300}>
-          <Toaster />
-          <Sonner />
-
-          {/* Always render loader first when not complete */}
-          {!transitionComplete && (
-            <Loader isLoading={loading} onTransitionEnd={handleTransitionEnd} />
-          )}
-
-          <div
-            className="relative z-[1] bg-background min-h-screen"
-            style={{
-              opacity: contentReady ? 1 : 0,
-              transition: "opacity 0.4s ease-in",
-              pointerEvents: contentReady ? "auto" : "none",
-            }}
-          >
-            <BrowserRouter>
-              {transitionComplete && <BackToTopButton />}
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </div>
+          <PreloaderProvider>
+            <Toaster />
+            <Sonner />
+            <AppContent />
+          </PreloaderProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

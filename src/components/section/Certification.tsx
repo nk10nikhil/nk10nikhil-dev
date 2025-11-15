@@ -339,7 +339,7 @@ const Certification = () => {
 
     const interval = window.setInterval(() => {
       showSlider("next");
-    }, 5000);
+    }, 1000);
 
     return () => window.clearInterval(interval);
   }, [showDetail, showSlider, hasMultipleCerts]);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Orb from "./Orb";
 import LetterGlitch from "./LetterGlitch";
+import { usePreloader } from "@/contexts/PreloaderContext";
 
 interface LoaderProps {
   isLoading: boolean;
@@ -10,6 +11,8 @@ interface LoaderProps {
 
 const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
+  const { progress } = usePreloader();
+  const progressWidth = `${Math.min(progress, 100)}%`;
 
   useEffect(() => {
     if (!isLoading) {
@@ -18,6 +21,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
       }, 200);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [isLoading]);
 
   // Preload critical images
@@ -76,12 +80,34 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
           <div className="box" />
           <div className="box" />
         </div>
+
+        {/* Progress Indicator */}
+        {/* <div className="progress-container">
+          <div className="progress-bar">
+            <ProgressFill width={progressWidth} />
+          </div>
+          <div className="progress-text">{Math.round(progress)}%</div>
+        </div> */}
       </div>
     </StyledWrapper>
   );
 });
 
 Loader.displayName = "Loader";
+
+const ProgressFill = styled.div<{ width: string }>`
+  height: 100%;
+  width: ${(props) => props.width};
+  background: linear-gradient(
+    90deg,
+    rgba(149, 0, 255, 0.8) 0%,
+    rgba(212, 98, 255, 0.9) 50%,
+    rgba(240, 0, 255, 1) 100%
+  );
+  transition: width 0.3s ease-out;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(212, 98, 255, 0.5);
+`;
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -135,12 +161,38 @@ const StyledWrapper = styled.div`
 
   .loader-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: absolute;
     z-index: 2;
     pointer-events: none;
     animation: fade-in-out 8s infinite ease-in-out;
+    gap: 2rem;
+  }
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 280px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(100, 100, 100, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    backdrop-filter: blur(3px);
+  }
+
+  .progress-text {
+    color: rgba(212, 98, 255, 0.9);
+    font-size: 14px;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(212, 98, 255, 0.5);
   }
 
   @keyframes fade-in-out {

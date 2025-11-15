@@ -138,7 +138,13 @@ export default defineConfig(({ mode }) => ({
         entryFileNames: "assets/js/[name]-[hash].js",
         assetFileNames: "assets/[ext]/[name]-[hash].[ext]",
       },
-      input: path.resolve(__dirname, "index.html"),
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        // Build service worker separately
+        ...(mode === "production" && {
+          sw: path.resolve(__dirname, "src/service-worker.ts"),
+        }),
+      },
     },
 
     // Increase chunk size warning limit

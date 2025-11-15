@@ -6,6 +6,7 @@ import FloatingTeddy from "../elements/FloatingTeddy";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import OptimizedImage from "../elements/OptimizedImage";
 
 const Hero = () => {
   const [loaded, setLoaded] = useState(false);
@@ -143,12 +144,16 @@ const Hero = () => {
                           key={index}
                           className="flex items-center md:gap-3 gap-1 pb-2"
                         >
-                          <img
-                            src={word.imgPath}
-                            alt="person"
-                            className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-purple-500"
-                            loading="lazy"
-                          />
+                          <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center p-2">
+                            <OptimizedImage
+                              src={word.imgPath}
+                              alt={word.text}
+                              className="w-full h-full object-contain mt-5"
+                              width={96}
+                              height={96}
+                              priority={index < 20}
+                            />
+                          </div>
                           <span className="text-gradient">{word.text}</span>
                         </span>
                       ))}
