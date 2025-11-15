@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import Orb from "./Orb";
 import LetterGlitch from "./LetterGlitch";
@@ -15,14 +15,15 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const { progress } = usePreloader();
   const progressWidth = `${Math.min(progress, 100)}%`;
 
-  // Handle SVG animation end (using a timer)
+  // Handle GIF animation end (GIFs loop, so we'll use a timer)
   useEffect(() => {
-    // Adjust this timeout based on how long you want to show the SVG (in milliseconds)
-    const svgDuration = 4500; // 5 seconds - adjust as needed
+    // Adjust this timeout based on your GIF duration (in milliseconds)
+    // For example, if your GIF is 3 seconds long, use 3000
+    const gifDuration = 4500; // Change this to match your GIF duration
 
     const timer = setTimeout(() => {
       setShowVideo(false);
-    }, svgDuration);
+    }, gifDuration);
 
     return () => clearTimeout(timer);
   }, []);
@@ -45,7 +46,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
       "/images/concepts.svg",
       "/images/designs.svg",
       "/images/code.svg",
-      "/assets/sign.svg", // Preload the SVG
+      "/assets/sign.gif", // Preload the GIF
     ];
 
     preloadImages.forEach((src) => {
@@ -71,18 +72,18 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
         />
       </div>
 
-      {/* SVG Initial Loading Screen */}
+      {/* GIF Initial Loading Screen */}
       {showVideo && (
         <VideoContainer className="video-container">
           <img
-            src="/assets/sign.svg"
+            src="/assets/sign.gif"
             alt="Loading animation"
-            className="loading-svg"
+            className="loading-gif"
           />
         </VideoContainer>
       )}
 
-      {/* Orb Container - shows after SVG */}
+      {/* Orb Container - shows after GIF */}
       {!showVideo && (
         <>
           <div className="orb-container">
@@ -138,35 +139,25 @@ const VideoContainer = styled.div`
     }
   }
 
-  .loading-svg {
+  .loading-gif {
+    max-width: 600px;
+    max-height: 600px;
+    width: auto;
+    height: auto;
+    @media (max-width: 768px) {
+      width: 95vw;
+    }
+    object-fit: contain;
+  }
+
+  /* Keep video styles for fallback if needed */
+  .loading-video {
     max-width: 600px;
     max-height: 600px;
     width: auto;
     height: auto;
     object-fit: contain;
-
-    /* Purple glow effect */
-    filter: drop-shadow(0 0 25px rgba(149, 0, 255, 0.6)) brightness(0)
-      saturate(100%) invert(25%) sepia(100%) saturate(5000%) hue-rotate(260deg)
-      brightness(1.2);
-
-    @media (max-width: 768px) {
-      max-width: 95vw;
-      max-height: 95vh;
-      filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.5));
-    }
-  }
-
-  @keyframes svgPulse {
-    0%,
-    100% {
-      transform: scale(1);
-      filter: drop-shadow(0 0 25px rgba(149, 0, 255, 0.6));
-    }
-    50% {
-      transform: scale(1.05);
-      filter: drop-shadow(0 0 35px rgba(212, 98, 255, 0.8));
-    }
+    filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.3));
   }
 `;
 
@@ -281,19 +272,14 @@ const StyledWrapper = styled.div`
   }
 
   .orb-container {
-    width: 500px;
-    height: 500px;
+    width: 450px;
+    height: 450px;
     position: relative;
     z-index: 1;
     margin: 0 auto;
     transition: transform 1.2s ease-out, opacity 1s ease-out;
     will-change: transform, opacity;
     animation: orbFadeIn 0.8s ease-in;
-
-    @media (max-width: 768px) {
-      width: 90vw;
-      height: 90vw;
-    }
   }
 
   @keyframes orbFadeIn {
@@ -319,10 +305,6 @@ const StyledWrapper = styled.div`
     height: var(--size);
     aspect-ratio: 1;
     position: relative;
-
-    @media (max-width: 768px) {
-      --size: 70vw;
-    }
   }
 
   .loader .box {
