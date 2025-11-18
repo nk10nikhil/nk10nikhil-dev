@@ -349,7 +349,7 @@ const About = () => {
                           </h2>
                         </div>
 
-                        <div className="flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-1 items-center justify-center align-middle">
                           <Badge
                             variant="secondary"
                             className="text-xs px-2 py-0"
@@ -471,7 +471,7 @@ const About = () => {
                           </Button>
                           <Button size="icon" variant="ghost" asChild>
                             <a
-                              href="https://nk10nikhil.vercel.app"
+                              href="https://instagram.com/nk10nikhil"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
