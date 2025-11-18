@@ -8,7 +8,6 @@ import {
   TrendingUp,
   Users,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const reasons = [
   {

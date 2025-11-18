@@ -217,7 +217,7 @@ const StyledWrapper = styled.div`
     .orb-container {
       width: 220px;
       height: 220px;
-      margin-top: -500px;
+      margin-top: -470px;
     }
   }
 
