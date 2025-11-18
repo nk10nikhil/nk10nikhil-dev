@@ -1,6 +1,5 @@
 /// <reference types="vite/client" />
 
-// Environment variables type safety
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;
   readonly VITE_API_URL: string;
@@ -8,14 +7,12 @@ interface ImportMetaEnv {
   readonly VITE_LINKEDIN_URL: string;
   readonly VITE_TWITTER_URL: string;
   readonly VITE_EMAIL: string;
-  // Add more env variables as needed
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// Asset imports
 declare module "*.svg" {
   import * as React from "react";
   export const ReactComponent: React.FunctionComponent<
@@ -65,7 +62,6 @@ declare module "*.bmp" {
   export default src;
 }
 
-// CSS Modules
 declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export default classes;
@@ -81,13 +77,11 @@ declare module "*.module.sass" {
   export default classes;
 }
 
-// JSON files
 declare module "*.json" {
   const value: any;
   export default value;
 }
 
-// Video files
 declare module "*.mp4" {
   const src: string;
   export default src;
@@ -98,7 +92,6 @@ declare module "*.webm" {
   export default src;
 }
 
-// Audio files
 declare module "*.mp3" {
   const src: string;
   export default src;
@@ -114,7 +107,6 @@ declare module "*.ogg" {
   export default src;
 }
 
-// Font files
 declare module "*.woff" {
   const src: string;
   export default src;
@@ -140,7 +132,6 @@ declare module "*.eot" {
   export default src;
 }
 
-// 3D model files (for Three.js, etc.)
 declare module "*.gltf" {
   const src: string;
   export default src;
@@ -161,7 +152,6 @@ declare module "*.fbx" {
   export default src;
 }
 
-// Other data files
 declare module "*.txt" {
   const content: string;
   export default content;
@@ -177,7 +167,6 @@ declare module "*.csv" {
   export default content;
 }
 
-// Web Workers
 declare module "*?worker" {
   const workerConstructor: {
     new (): Worker;
@@ -192,7 +181,6 @@ declare module "*?worker&inline" {
   export default workerConstructor;
 }
 
-// Raw imports
 declare module "*?raw" {
   const content: string;
   export default content;
@@ -203,7 +191,6 @@ declare module "*?url" {
   export default src;
 }
 
-// Inline imports
 declare module "*?inline" {
   const content: string;
   export default content;

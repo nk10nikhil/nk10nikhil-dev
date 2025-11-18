@@ -41,7 +41,6 @@ export function useIntersectionObserver(
       },
       { threshold, root, rootMargin }
     );
-
     observer.observe(element);
 
     return () => {

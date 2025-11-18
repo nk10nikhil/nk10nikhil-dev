@@ -1,6 +1,5 @@
 import { useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import Navbar from "@/components/section/Navbar";
 import Hero from "@/components/section/Hero";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
@@ -23,7 +22,6 @@ const TechSkills = lazy(() => import("@/components/section/TechSkills"));
 const ContactSection = lazy(
   () => import("@/components/section/ContactSection")
 );
-const Footer = lazy(() => import("@/components/section/Footer"));
 
 // Lightweight section loader
 const SectionLoader = () => (
@@ -57,7 +55,6 @@ const Index = () => {
       <FloatingObjects />
 
       {/* Content */}
-      <Navbar />
       <main>
         <Hero />
         <Suspense fallback={<SectionLoader />}>
@@ -88,9 +85,7 @@ const Index = () => {
           <ContactSection />
         </Suspense>
       </main>
-      <Suspense fallback={<SectionLoader />}>
-        <Footer />
-      </Suspense>
+      <Suspense fallback={<SectionLoader />}></Suspense>
     </motion.div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Section } from "@/utils/data/sections";
+import { Section } from "@/data/sections";
 import { ChevronRight } from "lucide-react";
 
 interface SectionComponentProps {

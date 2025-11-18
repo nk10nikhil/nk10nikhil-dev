@@ -6,15 +6,7 @@ const CACHE_NAME = "portfolio-cache-v1";
 const RUNTIME_CACHE = "portfolio-runtime-v1";
 
 // Assets to precache
-const PRECACHE_ASSETS = [
-  "/",
-  "/index.html",
-  "/profile.png",
-  "/images/ideas.svg",
-  "/images/concepts.svg",
-  "/images/designs.svg",
-  "/images/code.svg",
-];
+const PRECACHE_ASSETS = ["/", "/index.html", "/profile.png"];
 
 // Install event - cache critical assets
 self.addEventListener("install", (event: ExtendableEvent) => {

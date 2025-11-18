@@ -75,15 +75,7 @@ export const PreloaderProvider: React.FC<PreloaderProviderProps> = ({
 
   // Initialize with minimum resources
   useEffect(() => {
-    // Count initial critical resources
-    const criticalImages = [
-      "/profile.png",
-      "/images/ideas.svg",
-      "/images/concepts.svg",
-      "/images/designs.svg",
-      "/images/code.svg",
-    ];
-
+    const criticalImages = ["/profile.png"];
     setTotalResources(criticalImages.length + 3); // Images + JS bundles estimate
   }, []);
 

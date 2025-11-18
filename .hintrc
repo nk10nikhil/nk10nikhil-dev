@@ -1,5 +1,7 @@
 {
-  "extends": ["development"],
+  "extends": [
+    "development"
+  ],
   "hints": {
     "axe/name-role-value": [
       "default",
@@ -11,13 +13,19 @@
     "compat-api/css": [
       "default",
       {
-        "ignore": ["user-select", "backdrop-filter"]
+        "ignore": [
+          "user-select",
+          "backdrop-filter"
+        ]
       }
     ],
     "compat-api/html": [
       "default",
       {
-        "ignore": ["iframe[loading]", "meta[name=theme-color]"]
+        "ignore": [
+          "iframe[loading]",
+          "meta[name=theme-color]"
+        ]
       }
     ],
     "axe/keyboard": [
@@ -25,6 +33,7 @@
       {
         "nested-interactive": "off"
       }
-    ]
+    ],
+    "no-inline-styles": "off"
   }
 }

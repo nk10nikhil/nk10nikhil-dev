@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import Navbar from "@/components/section/Navbar";
-import Footer from "@/components/section/Footer";
 import BlurBackground from "@/components/elements/BlurBackground";
 import BackgroundHero from "@/components/section/BackgrounHero";
 import LogoScroll from "@/components/elements/LogoScroll";
@@ -28,9 +26,6 @@ const Services = () => {
       <div className="fixed inset-0 -z-10">
         <BlurBackground />
       </div>
-
-      {/* Content */}
-      <Navbar />
 
       {/* Hero Section */}
       <section className="w-full px-0">
@@ -61,8 +56,6 @@ const Services = () => {
 
       {/* Newsletter Section */}
       <Newsletter />
-
-      <Footer />
     </motion.div>
   );
 };

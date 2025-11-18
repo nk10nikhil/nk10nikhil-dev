@@ -1,8 +1,6 @@
 "use client";
 import { useEffect, useState, useRef, createContext, useContext } from "react";
 import { motion } from "framer-motion";
-import Navbar from "@/components/section/Navbar";
-import Footer from "@/components/section/Footer";
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
@@ -693,7 +691,6 @@ const Projects = () => {
       {/* Background Elements */}
       <BlurBackground />
       <FloatingObjects />
-      <Navbar />
 
       <main className="pt-10 md:pt-20">
         <section className="container mx-auto px-4 md:px-6 pt-12">
@@ -742,7 +739,6 @@ const Projects = () => {
       <section className="container mx-auto px-4 md:px-6 md:pt-0">
         <br />
       </section>
-      <Footer />
     </motion.div>
   );
 };

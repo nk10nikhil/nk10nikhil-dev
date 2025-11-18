@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import Navbar from "@/components/section/Navbar";
-import Footer from "@/components/section/Footer";
 import ContactSection from "@/components/section/ContactSection";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
@@ -25,7 +23,6 @@ const Contact = () => {
       <FloatingObjects />
 
       {/* Content */}
-      <Navbar />
       <main className="">
         <section className="container mx-auto px-4 md:px-6 max-w-8xl">
           <motion.div
@@ -159,7 +156,6 @@ const Contact = () => {
           <ContactSection />
         </section>
       </main>
-      <Footer />
     </motion.div>
   );
 };

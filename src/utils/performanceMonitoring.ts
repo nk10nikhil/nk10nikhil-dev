@@ -10,7 +10,6 @@ export interface PerformanceMetrics {
   ttfb?: number; // Time to First Byte
   tti?: number; // Time to Interactive
 }
-
 /**
  * Get Core Web Vitals
  */

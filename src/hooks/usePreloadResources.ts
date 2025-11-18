@@ -12,13 +12,7 @@ export const usePreloadResources = (options: PreloadOptions = {}) => {
 
   useEffect(() => {
     const {
-      criticalImages = [
-        "/profile.png",
-        "/images/ideas.svg",
-        "/images/concepts.svg",
-        "/images/designs.svg",
-        "/images/code.svg",
-      ],
+      criticalImages = ["/profile.png"],
       fonts = [],
       scripts = [],
     } = options;

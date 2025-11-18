@@ -1,8 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import Navbar from "@/components/section/Navbar";
-import Footer from "@/components/section/Footer";
 import { Button } from "@/components/ui/button";
 import {
   Download,
@@ -208,7 +206,6 @@ const About = () => {
       {/* Background Elements */}
       <BlurBackground />
       <FloatingObjects />
-      <Navbar />
 
       <main className="pt-10 md:pt-16">
         {/* Hero Section */}
@@ -699,8 +696,6 @@ const About = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
     </motion.div>
   );
 };

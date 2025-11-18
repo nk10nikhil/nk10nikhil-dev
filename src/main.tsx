@@ -11,7 +11,6 @@ if (!rootElement) {
     'Failed to find the root element. Make sure there is a <div id="root"></div> in your HTML.'
   );
 }
-
 // Create root and render app
 createRoot(rootElement).render(
   <StrictMode>

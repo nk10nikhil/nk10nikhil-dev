@@ -41,7 +41,6 @@ export async function registerServiceWorker(): Promise<
           });
         }
       });
-
       // Handle controller change
       let refreshing = false;
       navigator.serviceWorker.addEventListener("controllerchange", () => {

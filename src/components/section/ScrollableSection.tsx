@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { sections } from "@/utils/data/sections";
+import { sections } from "@/data/sections";
 import SectionComponent from "./SectionComponent";
 
 interface ScrollableSectionProps {
