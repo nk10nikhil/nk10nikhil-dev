@@ -1,13 +1,10 @@
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-
-// Lazy load P5Background
-// const P5Background = lazy(() => import("@/components/elements/P5Background"));
 
 const NotFound = () => {
   const location = useLocation();
@@ -27,10 +24,6 @@ const NotFound = () => {
       transition={{ duration: 0.3 }}
       className="bg-transparent min-h-screen relative"
     >
-      {/* Background Elements - P5 lazy loaded */}
-      <Suspense fallback={<div className="fixed inset-0 bg-black/90" />}>
-        {/* <P5Background className="blur-sm" /> */}
-      </Suspense>
       <BlurBackground />
       <FloatingObjects />
 

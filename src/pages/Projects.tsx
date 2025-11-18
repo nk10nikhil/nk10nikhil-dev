@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState, useRef, createContext, useContext } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink } from "lucide-react";
 import BlurBackground from "@/components/elements/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import StarOnGithubButton from "@/components/elements/StarOnGithubButton";
 import { cn } from "@/lib/utils";
 import React from "react";
-import { gsap } from "gsap";
 
 // Three.js integration for enhanced visuals
 const MouseEnterContext = createContext<
@@ -106,12 +105,12 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = () => {
     setIsMouseEntered(true);
     if (!containerRef.current) return;
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseLeave = () => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
@@ -455,7 +454,7 @@ export function ProjectCard({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mt-[-40px]">
-      {filteredProjects.map((project, index) => (
+      {filteredProjects.map((project) => (
         <CardContainer className="inter-var">
           {/* Desktop View */}
           <CardBody className="bg-transparent relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-transparent dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[27rem] h-auto rounded-xl p-6 border hidden md:block">

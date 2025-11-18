@@ -6,8 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/elements/ThemeProvider";
 import { PreloaderProvider } from "@/contexts/PreloaderContext";
 import { useState, useEffect, lazy, Suspense } from "react";
-import BackToTopButton from "./components/elements/BackToTopButton";
-import Loader from "./components/elements/Loader";
+import BackToTopButton from "@/components/elements/BackToTopButton";
+import Loader from "@/components/elements/Loader";
 import { usePreloadResources } from "@/hooks/usePreloadResources";
 import { registerServiceWorker } from "@/utils/serviceWorkerRegistration";
 import { logPerformanceMetrics } from "@/utils/performanceMonitoring";
@@ -15,23 +15,22 @@ import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
 
 // Eager load the main page for instant access
-import Index from "./pages/Index";
+import Index from "@/pages/Index";
 
 // Lazy load secondary pages (loaded after initial render)
-const Projects = lazy(() => import("./pages/Projects"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const Services = lazy(() => import("./pages/Services"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-
+const Projects = lazy(() => import("@/pages/Projects"));
+const About = lazy(() => import("@/pages/About"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const Services = lazy(() => import("@/pages/Services"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 // Preload all lazy components after initial render
 const preloadComponents = () => {
   // Start preloading in background
   setTimeout(() => {
-    import("./pages/Projects");
-    import("./pages/About");
-    import("./pages/Contact");
-    import("./pages/Services");
+    import("@/pages/Projects");
+    import("@/pages/About");
+    import("@/pages/Contact");
+    import("@/pages/Services");
   }, 1000);
 };
 

@@ -85,7 +85,6 @@ const Index = () => {
           <ContactSection />
         </Suspense>
       </main>
-      <Suspense fallback={<SectionLoader />}></Suspense>
     </motion.div>
   );
 };

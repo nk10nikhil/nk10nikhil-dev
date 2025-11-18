@@ -4,8 +4,6 @@ import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 import {
   Download,
-  Code2,
-  Award,
   Briefcase,
   GraduationCap,
   Users,

@@ -41,7 +41,7 @@ const Contact = () => {
 
             <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto items-start">
               {/* Left Side - Benefits */}
-              <div className="flex flex-col items-start space-y-4 text-left pl-32 hidden md:block">
+              <div className="flex-col items-start space-y-4 text-left pl-32 hidden md:block">
                 <h2 className="text-2xl font-semibold mb-4">What You'll Get</h2>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">

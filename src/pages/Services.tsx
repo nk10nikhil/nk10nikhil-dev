@@ -26,7 +26,6 @@ const Services = () => {
       <div className="fixed inset-0 -z-10">
         <BlurBackground />
       </div>
-
       {/* Hero Section */}
       <section className="w-full px-0">
         <motion.div
