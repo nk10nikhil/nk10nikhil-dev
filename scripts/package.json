@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "convert-images": "node scripts/convert-images-to-webp.js",
-    "optimize-images": "node scripts/optimize-images.js"
-  }
-}
