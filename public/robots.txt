@@ -1,4 +1,3 @@
-<!-- filepath: c:\nk10nikhil\Portfolio\nk10nikhil\public\robots.txt -->
 User-agent: *
 Allow: /
 

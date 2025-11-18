@@ -280,7 +280,7 @@ const About = () => {
                             asChild
                           >
                             <a
-                              href="/personal/Nikhil_Kumar_SDE_Resume.pdf"
+                              href="/assets/Nikhil_Kumar_SDE_Resume.pdf"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
