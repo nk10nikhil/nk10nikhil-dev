@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Orb from "@/components/elements/Orb";
 import LetterGlitch from "@/components/elements/LetterGlitch";
-import { usePreloader } from "@/contexts/PreloaderContext";
 
 interface LoaderProps {
   isLoading: boolean;
@@ -12,8 +11,6 @@ interface LoaderProps {
 const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [showVideo, setShowVideo] = useState(true);
-  const { progress } = usePreloader();
-  const progressWidth = `${Math.min(progress, 100)}%`;
 
   // Handle GIF animation end (GIFs loop, so we'll use a timer)
   useEffect(() => {
@@ -32,7 +29,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
     if (!isLoading) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-      }, 200);
+      }, 100);
       return () => clearTimeout(timer);
     }
     return undefined;
@@ -40,14 +37,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
 
   // Preload critical images
   useEffect(() => {
-    const preloadImages = [
-      "/profile.png",
-      "/images/ideas.svg",
-      "/images/concepts.svg",
-      "/images/designs.svg",
-      "/images/code.svg",
-      "/assets/sign.gif", // Preload the GIF
-    ];
+    const preloadImages = ["/profile.png", "/assets/sign.gif"];
 
     preloadImages.forEach((src) => {
       const img = new Image();
@@ -64,7 +54,7 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
       <div className="glitch-background">
         <LetterGlitch
           glitchColors={["#1a0a2e", "#16213e", "#9500ff", "#b620e0"]}
-          glitchSpeed={50}
+          glitchSpeed={20}
           centerVignette={true}
           outerVignette={false}
           smooth={true}
@@ -118,7 +108,6 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
     </StyledWrapper>
   );
 });
-
 Loader.displayName = "Loader";
 
 const VideoContainer = styled.div`
@@ -144,10 +133,17 @@ const VideoContainer = styled.div`
     max-height: 600px;
     width: auto;
     height: auto;
-    @media (max-width: 768px) {
-      width: 95vw;
-    }
     object-fit: contain;
+
+    @media (max-width: 768px) {
+      position: fixed;
+      left: 50vw;
+      top: 50vh;
+      transform: translate(-50%, -50%);
+      max-width: 95vw;
+      max-height: 95vh;
+      z-index: 9999;
+    }
   }
 
   /* Keep video styles for fallback if needed */
@@ -159,20 +155,6 @@ const VideoContainer = styled.div`
     object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.3));
   }
-`;
-
-const ProgressFill = styled.div<{ width: string }>`
-  height: 100%;
-  width: ${(props) => props.width};
-  background: linear-gradient(
-    90deg,
-    rgba(149, 0, 255, 0.8) 0%,
-    rgba(212, 98, 255, 0.9) 50%,
-    rgba(240, 0, 255, 1) 100%
-  );
-  transition: width 0.3s ease-out;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(212, 98, 255, 0.5);
 `;
 
 const StyledWrapper = styled.div`
@@ -201,7 +183,44 @@ const StyledWrapper = styled.div`
     transition: opacity 1s ease, backdrop-filter 1.2s ease, transform 1.1s ease;
   }
 
-  /* LetterGlitch Background Layer */
+  /* Center content for all screen sizes */
+  .loader-container,
+  .orb-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Responsive adjustments for mobile */
+  @media (max-width: 768px) {
+    .loader-container,
+    .orb-container {
+      width: 100vw;
+      height: 100vh;
+      min-width: 0;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .loader {
+      --size: 180px;
+      height: var(--size);
+      aspect-ratio: 1;
+    }
+    .orb-container {
+      width: 220px;
+      height: 220px;
+    }
+  }
+
+  /* ...existing styles below... */
   .glitch-background {
     position: absolute;
     inset: 0;
@@ -214,7 +233,6 @@ const StyledWrapper = styled.div`
     opacity: 0;
   }
 
-  /* Enhanced animations for ripples during exit transition */
   &.hidden .box {
     animation-duration: calc(var(--duration) * 1.5);
   }

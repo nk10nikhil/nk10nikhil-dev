@@ -26,7 +26,7 @@ export const CardItem = ({
   rotateZ = 0,
   ...rest
 }: {
-  as?: any; // Change React.ElementType to any to fix typing issues
+  as?: any;
   children: React.ReactNode;
   className?: string;
   translateX?: number | string;

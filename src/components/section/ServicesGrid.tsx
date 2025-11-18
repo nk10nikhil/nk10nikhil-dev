@@ -123,73 +123,9 @@ export default function ServicesGrid() {
           </p>
         </motion.div>
 
-        {/* Mobile Services Grid - 2 Columns Horizontal Layout */}
-        <div className="grid grid-cols-2 gap-3 w-full md:hidden px-2">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: service.delay }}
-                className="relative group w-full"
-              >
-                {/* Card - Horizontal Layout */}
-                <div className="relative h-full p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm active:bg-white/[0.04] active:border-white/[0.1] transition-all duration-300">
-                  <div className="flex items-start gap-3">
-                    {/* Icon - Left Side */}
-                    <div className="relative flex-shrink-0">
-                      <div
-                        className={cn(
-                          "w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center",
-                          `bg-gradient-to-br ${service.gradient}`,
-                          "shadow-md"
-                        )}
-                      >
-                        <Icon className="w-5 h-5 text-white" />
-                      </div>
-
-                      {/* Glow effect */}
-                      <div
-                        className={cn(
-                          "absolute inset-0 rounded-lg blur-lg opacity-0 group-active:opacity-20 transition-opacity duration-300",
-                          `bg-gradient-to-br ${service.gradient}`
-                        )}
-                      />
-                    </div>
-
-                    {/* Content - Right Side */}
-                    <div className="flex-1 min-w-0">
-                      {/* Title */}
-                      <h3 className="text-sm font-semibold mb-1.5 text-white group-active:text-indigo-300 transition-colors duration-300 leading-tight">
-                        {service.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-white/50 text-xs leading-relaxed line-clamp-2">
-                        {service.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom accent line */}
-                <div
-                  className={cn(
-                    "absolute bottom-0 left-0 right-0 h-0.5 rounded-b-xl opacity-0 group-active:opacity-100 transition-opacity duration-300",
-                    `bg-gradient-to-r ${service.gradient}`
-                  )}
-                />
-              </motion.div>
-            );
-          })}
-        </div>
-
         {/* Desktop Slider */}
-        <div className="md:block hidden">
           <ProductivitySlider />
-        </div>
+
       </div>
     </section>
   );

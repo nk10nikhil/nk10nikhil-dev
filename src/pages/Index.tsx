@@ -23,7 +23,6 @@ const ContactSection = lazy(
   () => import("@/components/section/ContactSection")
 );
 
-// Lightweight section loader
 const SectionLoader = () => (
   <div className="flex items-center justify-center min-h-[200px]">
     <div className="animate-pulse w-full max-w-4xl mx-auto px-4">

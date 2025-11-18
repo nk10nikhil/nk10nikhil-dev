@@ -146,7 +146,6 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
-
               {/* Right Side - Social Buttons */}
               <div className="flex flex-col items-center md:items-start space-y-4 pl-0 md:pl-24 pt-0 md:pt-8">
                 <SocialButton />

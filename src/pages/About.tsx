@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Download,
   Briefcase,
@@ -9,9 +10,12 @@ import {
   Users,
   Target,
   Lightbulb,
+  Clock,
+  BadgeCheck,
   Rocket,
   Github,
   Linkedin,
+  Award,
   Mail,
   MapPin,
   Calendar,
@@ -29,7 +33,6 @@ import FloatingObjects from "@/components/elements/FloatingObjects";
 import { cn } from "@/lib/utils";
 import Certification from "@/components/section/Certification";
 
-// Optimized viewport configuration for better performance
 const viewportConfig = {
   triggerOnce: true,
   threshold: 0.1,
@@ -242,7 +245,7 @@ const About = () => {
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Left Sidebar - Sticky Profile Card */}
               <aside className="lg:w-80 xl:w-96 flex-shrink-0 md:pb-16">
-                <div className="lg:sticky lg:top-20">
+                <div className="lg:sticky lg:top-20 hidden md:block">
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     animate={headerInView ? { opacity: 1, x: 0 } : {}}
@@ -324,6 +327,165 @@ const About = () => {
                             </a>
                           </Button>
                         </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Mobile View */}
+                <div className="md:hidden">
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={headerInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    <div className="glass-morphism rounded-xl p-3">
+                      {/* Full width heading and badges */}
+                      <div className="mb-3">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <BadgeCheck className="w-4 h-4 text-blue-500" />
+                          <h2 className="text-lg font-bold">
+                            Full-Stack Developer
+                          </h2>
+                        </div>
+
+                        <div className="flex flex-wrap gap-1">
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0"
+                          >
+                            DSA
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0"
+                          >
+                            AI/ML
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0"
+                          >
+                            Cloud
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0"
+                          >
+                            UI/UX
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0"
+                          >
+                            DBA
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className="text-xs px-2 py-0"
+                          >
+                            DevOps
+                          </Badge>
+                        </div>
+                      </div>
+
+                      {/* Side by side content */}
+                      <div className="flex gap-3 justify-center items-center">
+                        {/* Left side - Image */}
+                        <img
+                          src="/profile.png"
+                          alt="Professional Profile"
+                          className="w-16 h-16 rounded-xl object-cover flex-shrink-0 ml-12"
+                        />
+
+                        {/* Right side - Details */}
+                        <div className="flex-1">
+                          <div className="space-y-1 mb-3">
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <Briefcase className="w-3 h-3" />
+                              <span>2+ Years Experience</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <MapPin className="w-3 h-3" />
+                              <span>Noida, India • Open to Remote</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <Clock className="w-3 h-3" />
+                              <span>Available: Immediate</span>
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <Award className="w-3 h-3" />
+                              <span>20+ Projects Completed</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Full width contact and resume buttons */}
+                      <div className="flex gap-2 mb-3">
+                        <Button
+                          size="sm"
+                          className="bg-purple-500 hover:bg-purple-600 flex-1"
+                          asChild
+                        >
+                          <a
+                            href="/assets/Nikhil_Kumar_SDE_Resume.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Download className="h-4 w-4 mr-1" /> Resume
+                          </a>
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1"
+                          asChild
+                        >
+                          <a href="mailto:nk10nikhil@gmail.com">
+                            <Mail className="h-4 w-4 mr-1" /> Contact
+                          </a>
+                        </Button>
+                      </div>
+
+                      {/* Full width icons and status */}
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-2 flex-1 justify-center">
+                          <Button size="icon" variant="ghost" asChild>
+                            <a
+                              href="https://github.com/nk10nikhil"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Github className="h-4 w-4" />
+                            </a>
+                          </Button>
+                          <Button size="icon" variant="ghost" asChild>
+                            <a
+                              href="https://linkedin.com/in/nk10nikhil"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Linkedin className="h-4 w-4" />
+                            </a>
+                          </Button>
+                          <Button size="icon" variant="ghost" asChild>
+                            <a
+                              href="https://nk10nikhil.vercel.app"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Globe className="h-4 w-4" />
+                            </a>
+                          </Button>
+                        </div>
+
+                        <Badge
+                          variant="outline"
+                          className="text-xs bg-green-500/10 text-green-600 mr-10"
+                        >
+                          Open for Work
+                        </Badge>
                       </div>
                     </div>
                   </motion.div>

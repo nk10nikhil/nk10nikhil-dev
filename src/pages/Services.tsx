@@ -8,6 +8,7 @@ import ServicesGrid from "@/components/section/ServicesGrid";
 import WhyChooseUs from "@/components/section/WhyChooseUs";
 import Methodology from "@/components/section/Methodology";
 import Newsletter from "@/components/section/Newsletter";
+import ToolbarHighlight from "@/components/section/ToolbarHighlight";
 
 const Services = () => {
   useEffect(() => {
@@ -40,20 +41,15 @@ const Services = () => {
           </div>
         </motion.div>
       </section>
-
-      {/* Services Grid Section */}
       <ServicesGrid />
-
-      {/* Why Choose Us Section */}
       <WhyChooseUs />
-
-      {/* Methodology Section */}
       <Methodology />
-
-      {/* Testimonials Section */}
-      <TestimonialMarquee />
-
-      {/* Newsletter Section */}
+      <div className="hidden md:block">
+        <TestimonialMarquee />
+      </div>
+      <div className="block md:hidden">
+        <ToolbarHighlight />
+      </div>
       <Newsletter />
     </motion.div>
   );
