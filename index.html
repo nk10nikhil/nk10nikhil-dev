@@ -6,49 +6,56 @@
 
     <!-- Primary Meta Tags -->
     <title>
-      Nikhil Kumar - Full Stack Developer | React, TypeScript, Node.js Expert
+      Nikhil Kumar - Full-Stack Software Engineer • DSA • AI/ML • Cloud
+      Computing • Turning Ideas into Impactful Code
     </title>
     <meta
       name="title"
-      content="Nikhil Kumar - Full Stack Developer | React, TypeScript, Node.js Expert"
+      content="Nikhil Kumar - Full-Stack Software Engineer • DSA • AI/ML • Cloud Computing • Turning Ideas into Impactful Code"
     />
     <meta
       name="description"
-      content="Experienced Full Stack Software Engineer specializing in React, TypeScript, Node.js, and modern web technologies. Building scalable applications and innovative solutions. View my portfolio, projects, and get in touch for collaboration."
+      content="Experienced Full-Stack Software Engineer specializing in DSA, AI/ML, Cloud Computing, and modern web technologies. Building scalable applications and innovative solutions. Proficient in JavaScript, React, Node.js, and cloud platforms. View my portfolio, projects, and get in touch for collaboration."
     />
     <meta
       name="keywords"
-      content="Full Stack Developer, React Developer, TypeScript, Node.js, JavaScript, Web Development, Software Engineer, Nikhil Kumar, Portfolio, Web Applications"
+      content="Full-Stack Software Engineer, DSA, AI/ML, Cloud Computing, JavaScript, Web Development, Software Engineer, Nikhil Kumar, Portfolio, Web Applications, React, Node.js, Machine Learning, Data Structures and Algorithms, Cloud Solutions"
     />
     <meta name="author" content="Nikhil Kumar" />
     <meta name="robots" content="index, follow" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.nk10nikhil.dev/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.nk10nikhil.dev/" />
     <meta
       property="og:title"
-      content="Nikhil Kumar - Full Stack Developer | React, TypeScript, Node.js Expert"
+      content="Nikhil Kumar - Full-Stack Software Engineer • DSA • AI/ML • Cloud • Turning Ideas into Impactful Code"
     />
     <meta
       property="og:description"
-      content="Experienced Full Stack Software Engineer specializing in React, TypeScript, Node.js, and modern web technologies. Building scalable applications and innovative solutions."
+      content="Experienced Full-Stack Software Engineer specializing in DSA, AI/ML, Cloud Computing, and modern web technologies. Building scalable applications and innovative solutions. Proficient in JavaScript, React, Node.js, and cloud platforms. View my portfolio, projects, and get in touch for collaboration."
     />
     <meta
       property="og:image"
       content="https://www.nk10nikhil.dev/profile.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Nikhil Kumar - Portfolio" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://www.nk10nikhil.dev/" />
     <meta
       property="twitter:title"
-      content="Nikhil Kumar - Full Stack Developer | React, TypeScript, Node.js Expert"
+      content="Nikhil Kumar - Full-Stack Software Engineer • DSA • AI/ML • Cloud • Turning Ideas into Impactful Code"
     />
     <meta
       property="twitter:description"
-      content="Experienced Full Stack Software Engineer specializing in React, TypeScript, Node.js, and modern web technologies. Building scalable applications and innovative solutions."
+      content="Experienced Full-Stack Software Engineer specializing in DSA, AI/ML, Cloud Computing, and modern web technologies. Building scalable applications and innovative solutions. Proficient in JavaScript, React, Node.js, and cloud platforms. View my portfolio, projects, and get in touch for collaboration."
     />
     <meta
       property="twitter:image"
@@ -60,8 +67,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/profile.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/profile.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/profile.png" />
-
-    <!-- Theme Color -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#000000" />
     <meta name="theme-color" content="#000000" />
 
     <!-- DNS Prefetch for performance -->
@@ -72,44 +79,33 @@
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
 
     <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="/profile.png" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/ideas.svg" />
-    <link rel="preload" as="image" href="/images/concepts.svg" />
-    <link rel="preload" as="image" href="/images/designs.svg" />
-    <link rel="preload" as="image" href="/images/code.svg" />
-    <link rel="preload" as="script" href="/src/main.tsx" />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2"
-      crossorigin
-    />
+    <link rel="preload" as="image" href="/profile.png" />
 
     <!-- Prefetch next-page resources -->
     <link rel="prefetch" href="/projects" />
+    <link rel="prefetch" href="/services" />
     <link rel="prefetch" href="/about" />
     <link rel="prefetch" href="/contact" />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.nk10nikhil.dev/" />
-
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-BGGW58D23X"
-    ></script>
+    <!-- Google tag (gtag.js) - Load asynchronously -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
-      gtag("config", "G-BGGW58D23X");
+      gtag("config", "G-BGGW58D23X", {
+        page_title: document.title,
+        page_location: window.location.href,
+      });
     </script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BGGW58D23X"
+    ></script>
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -126,24 +122,48 @@
         ],
         "jobTitle": "Full Stack Software Engineer",
         "worksFor": {
-          "@type": "Organization",
-          "name": "WeBuilt_U"
+          "@type": "Open Source Organization",
+          "name": "Freelance"
         },
-        "description": "Full Stack Software Engineer specializing in React, TypeScript, Node.js, and modern web technologies.",
+        "description": "Experienced Full Stack Software Engineer specializing in DSA, AI/ML, Cloud Computing, and modern web technologies. Building scalable applications and innovative solutions. View my portfolio, projects, and get in touch for collaboration.",
         "knowsAbout": [
-          "React",
-          "TypeScript",
-          "Node.js",
-          "JavaScript",
-          "Full Stack Development",
           "Web Development",
+          "Data Structures and Algorithms",
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Cloud Computing",
+          "C++",
+          "Full Stack Development",
           "Software Engineering"
         ]
       }
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <noscript>
+      <div
+        style="
+          text-align: center;
+          padding: 2rem;
+          font-family: Arial, sans-serif;
+        "
+      >
+        <h1>Nikhil Kumar - Full Stack Software Engineer</h1>
+        <p>
+          Experienced Full-Stack Software Engineer specializing in DSA, AI/ML,
+          Cloud Computing, and modern web technologies. Building scalable
+          applications and innovative solutions. View my portfolio, projects,
+          and get in touch for collaboration.
+        </p>
+        <p>Please enable JavaScript to view the full portfolio experience.</p>
+      </div>
+    </noscript>
+
+    <div id="root">
+      <!-- React app will be mounted here -->
+    </div>
+
+    <!-- Defer non-critical scripts -->
+    <script type="module" src="/src/main.tsx" defer></script>
   </body>
 </html>

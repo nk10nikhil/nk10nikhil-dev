@@ -24,7 +24,6 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
 
-      // TypeScript rules
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -38,12 +37,10 @@ export default tseslint.config(
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
 
-      // General rules
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "warn",
       "no-var": "error",
 
-      // React best practices
       "react-hooks/exhaustive-deps": "warn",
     },
   }
