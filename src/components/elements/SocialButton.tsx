@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import RotateCube from "./RotateCube";
+import RotateCube from "@/components/elements/RotateCube";
 
 const SocialButton = () => {
   return (
@@ -10,7 +10,7 @@ const SocialButton = () => {
           className="card"
           href="https://www.instagram.com/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             fillRule="nonzero"
@@ -46,7 +46,7 @@ const SocialButton = () => {
           className="card"
           href="https://twitter.com/nk10nikhil_"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             height="30px"
@@ -62,7 +62,7 @@ const SocialButton = () => {
           className="card"
           href="https://www.facebook.com/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             height="30px"
@@ -78,7 +78,7 @@ const SocialButton = () => {
           className="card"
           href="https://www.youtube.com/c/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             height="30px"
@@ -94,7 +94,7 @@ const SocialButton = () => {
           className="card"
           href="https://www.linkedin.com/in/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +151,7 @@ const SocialButton = () => {
           className="card"
           href="https://discord.gg/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +167,7 @@ const SocialButton = () => {
           className="card"
           href="www.github.com/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             height="30px"
@@ -183,7 +183,7 @@ const SocialButton = () => {
           className="card"
           href="https://t.me/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             height="30px"
@@ -211,7 +211,7 @@ const SocialButton = () => {
           className="card"
           href="https://www.reddit.com/user/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <svg
             xmlSpace="preserve"

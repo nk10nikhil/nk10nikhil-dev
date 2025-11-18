@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { Link } from "react-router-dom";
-import FloatingTeddy from "../elements/FloatingTeddy";
+import FloatingTeddy from "@/components/elements/FloatingTeddy";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import OptimizedImage from "../elements/OptimizedImage";
+import OptimizedImage from "@/components/elements/OptimizedImage";
 
 const Hero = () => {
   const [loaded, setLoaded] = useState(false);

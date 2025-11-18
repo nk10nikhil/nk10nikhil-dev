@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Send, Mail, Phone, MapPin } from "lucide-react";
-import SocialLinkBar from "../elements/SocialLinkBar";
+import SocialLinkBar from "@/components/elements/SocialLinkBar";
 
 const ContactSection = () => {
   const { toast } = useToast();

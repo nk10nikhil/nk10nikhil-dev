@@ -1,7 +1,7 @@
 import { useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import Hero from "@/components/section/Hero";
-import BlurBackground from "@/components/elements/BlurBackground";
+import BlurBackground from "@/components/section/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 
 // Lazy load sections that are below the fold

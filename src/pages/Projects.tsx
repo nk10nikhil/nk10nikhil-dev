@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef, createContext, useContext } from "react";
 import { motion } from "framer-motion";
 import { Github, ExternalLink } from "lucide-react";
-import BlurBackground from "@/components/elements/BlurBackground";
+import BlurBackground from "@/components/section/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import StarOnGithubButton from "@/components/elements/StarOnGithubButton";
 import { cn } from "@/lib/utils";

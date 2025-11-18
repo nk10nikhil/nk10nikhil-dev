@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import ContactSection from "@/components/section/ContactSection";
-import BlurBackground from "@/components/elements/BlurBackground";
+import BlurBackground from "@/components/section/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import SocialButton from "@/components/elements/SocialButton";
 

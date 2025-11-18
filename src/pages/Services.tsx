@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import BlurBackground from "@/components/elements/BlurBackground";
+import BlurBackground from "@/components/section/BlurBackground";
 import BackgroundHero from "@/components/section/BackgrounHero";
 import LogoScroll from "@/components/elements/LogoScroll";
-import TestimonialMarquee from "@/components/services/TestimonialMarquee";
-import ServicesGrid from "@/components/services/ServicesGrid";
-import WhyChooseUs from "@/components/services/WhyChooseUs";
-import Methodology from "@/components/services/Methodology";
-import Newsletter from "@/components/services/Newsletter";
+import TestimonialMarquee from "@/components/section/TestimonialMarquee";
+import ServicesGrid from "@/components/section/ServicesGrid";
+import WhyChooseUs from "@/components/section/WhyChooseUs";
+import Methodology from "@/components/section/Methodology";
+import Newsletter from "@/components/section/Newsletter";
 
 const Services = () => {
   useEffect(() => {

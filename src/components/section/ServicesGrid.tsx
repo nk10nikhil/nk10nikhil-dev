@@ -11,7 +11,7 @@ import {
   Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import ProductivitySlider from "./ProductivitySlider";
+import ProductivitySlider from"@/components/elements/ProductivitySlider";
 
 const services = [
   {

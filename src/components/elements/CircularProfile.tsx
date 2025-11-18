@@ -1,5 +1,5 @@
 import React from "react";
-import CircularText from "../ReactUI/reactbits/CircularText";
+import CircularText from "@/components/elements/CircularText";
 
 const CircularProfile = () => {
   return (
@@ -162,7 +162,7 @@ const CircularProfile = () => {
         <a
           href="https://www.linkedin.com/in/nk10nikhil"
           target="_blank"
-          rel="noreferrer"
+          rel="noreferrer noopener"
         >
           <button className="profile_item w-[200px] h-[200px] p-1 border-0 rounded-full hover:border-gray-400/50 cursor-pointer transition-all duration-500 z-0">
             <div className="w-full bg-transparent h-full flex items-center justify-center p-2 rounded-full active:scale-95 hover:scale-95 object-cover transition-all duration-500 relative">

@@ -2,9 +2,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/services/avatar";
-import { Card, CardContent } from "@/components/services/cards";
-import { Marquee } from "@/components/services/3d-testimonials";
+} from "@/components/elements/avatar";
+import { Card, CardContent } from "@/components/elements/cards";
+import { Marquee } from "@/components/elements/3d-testimonials";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { MessageSquare, Star } from "lucide-react";

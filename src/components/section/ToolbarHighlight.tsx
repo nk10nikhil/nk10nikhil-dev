@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { MarqueeDemo } from "../elements/MarqueeDemo";
+import { MarqueeDemo } from "@/components/elements/MarqueeDemo";
 
 const ToolbarHighlight = () => {
   return (

@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/elements/ThemeProvider";
 import { PreloaderProvider } from "@/contexts/PreloaderContext";
 import { useState, useEffect, lazy, Suspense } from "react";
 import BackToTopButton from "@/components/elements/BackToTopButton";
-import Loader from "@/components/elements/Loader";
+import Loader from "@/pages/Loader";
 import { usePreloadResources } from "@/hooks/usePreloadResources";
 import { registerServiceWorker } from "@/utils/serviceWorkerRegistration";
 import { logPerformanceMetrics } from "@/utils/performanceMonitoring";

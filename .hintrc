@@ -15,7 +15,8 @@
       {
         "ignore": [
           "user-select",
-          "backdrop-filter"
+          "backdrop-filter",
+          "image-rendering: crisp-edges"
         ]
       }
     ],
@@ -34,6 +35,7 @@
         "nested-interactive": "off"
       }
     ],
-    "no-inline-styles": "off"
+    "no-inline-styles": "off",
+    "axe/aria": "off"
   }
 }

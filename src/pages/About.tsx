@@ -24,7 +24,7 @@ import {
   Zap,
   Globe,
 } from "lucide-react";
-import BlurBackground from "@/components/elements/BlurBackground";
+import BlurBackground from "@/components/section/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import { cn } from "@/lib/utils";
 import Certification from "@/components/section/Certification";

@@ -1,9 +1,9 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import BlurBackground from "@/components/elements/BlurBackground";
+import BlurBackground from "@/components/section/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
-import DigitalLamp from "@/components/ReactUI/universeio/DigitalLamp";
+import DigitalLamp from "@/components/elements/DigitalLamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const NotFound = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import Orb from "./Orb";
-import LetterGlitch from "./LetterGlitch";
+import Orb from "../../elements/Orb";
+import LetterGlitch from "../../elements/LetterGlitch";
 import { usePreloader } from "@/contexts/PreloaderContext";
 
 interface LoaderProps {
