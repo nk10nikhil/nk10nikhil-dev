@@ -77,14 +77,12 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
       {!showVideo && (
         <>
           <div className="orb-container">
-            <div className="hidden md:block">
-              <Orb
-                hue={265}
-                hoverIntensity={0.8}
-                rotateOnHover={true}
-                forceHoverState={true}
-              />
-            </div>
+            <Orb
+              hue={265}
+              hoverIntensity={0.8}
+              rotateOnHover={true}
+              forceHoverState={true}
+            />
           </div>
 
           {/* Loader Animation */}
@@ -217,8 +215,7 @@ const StyledWrapper = styled.div`
       aspect-ratio: 1;
     }
     .orb-container {
-      width: 220px;
-      height: 220px;
+      display: none;
     }
   }
 
