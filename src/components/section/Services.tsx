@@ -1,5 +1,13 @@
 import { motion } from "framer-motion";
-import { Code, Server, Palette, Globe, Sparkles } from "lucide-react";
+import {
+  Code,
+  Server,
+  Palette,
+  Globe,
+  Sparkles,
+  ExternalLink,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -54,7 +62,10 @@ const Services = () => {
           </motion.div>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gradient">
-            Services
+            <Link to="/services" className="inline-flex items-center gap-2">
+              <span>Services</span>
+              <ExternalLink className="md:w-8 md:h-8 w-4 h-4 text-primary" />
+            </Link>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-[-30px]">
             I offer a wide range of services to help you build your digital
@@ -76,6 +87,14 @@ const Services = () => {
             >
               {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <Link
+                to="/services"
+                className="absolute inset-0 z-10"
+                aria-label={`Go to Services page for ${service.title}`}
+                style={{ cursor: "pointer" }}
+                onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
+              />
 
               <div className="relative">
                 <span className="flex flex-row sm:flex-col">
