@@ -5,56 +5,56 @@ import { Sparkles } from "lucide-react";
 const technologies = [
   {
     name: "React",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-    color: "#61DAFB",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    color: "#61DAFB", // Official Cyan
     description:
-      "A powerful JavaScript library for building interactive user interfaces with component-based architecture and virtual DOM.",
+      "A powerful JavaScript library for building interactive user interfaces with component-based architecture.",
     link: "https://react.dev/",
   },
   {
     name: "TypeScript",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-    color: "#3178C6",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    color: "#3178C6", // Official TS Blue
     description:
       "Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.",
     link: "https://www.typescriptlang.org/",
   },
   {
     name: "Node.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-    color: "#339933",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg",
+    color: "#5FA04E", // Vibrant Node Green (Distinct from Mongo)
     description:
       "JavaScript runtime built on Chrome's V8 engine for building fast, scalable network applications.",
     link: "https://nodejs.org/",
   },
   {
     name: "MongoDB",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-    color: "#47A248",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+    color: "#47A248", // MongoDB Leaf Green
     description:
-      "NoSQL database that provides high performance, high availability, and easy scalability for modern applications.",
+      "NoSQL database that provides high performance, high availability, and easy scalability for modern apps.",
     link: "https://www.mongodb.com/",
   },
   {
     name: "Express",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-    color: "#000000",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg",
+    color: "#303030", // Dark Grey (Distinct from Next.js Black)
     description:
       "Fast, unopinionated, minimalist web framework for Node.js to build robust APIs and web applications.",
     link: "https://expressjs.com/",
   },
   {
     name: "Next.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-    color: "#000000",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
+    color: "#000000", // Pure Black
     description:
-      "React framework with hybrid static & server rendering, TypeScript support, smart bundling, and route pre-fetching.",
+      "React framework with hybrid static & server rendering, TypeScript support, and smart bundling.",
     link: "https://nextjs.org/",
   },
   {
     name: "Redux",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
-    color: "#764ABC",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg",
+    color: "#764ABC", // Royal Purple
     description:
       "Predictable state container for JavaScript apps that helps you write applications that behave consistently.",
     link: "https://redux.js.org/",
@@ -62,31 +62,31 @@ const technologies = [
   {
     name: "Tailwind CSS",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
-    color: "#06B6D4",
+    color: "#06B6D4", // Sky Blue/Teal
     description:
       "Utility-first CSS framework for rapidly building custom user interfaces with highly composable classes.",
     link: "https://tailwindcss.com/",
   },
   {
     name: "PostgreSQL",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-    color: "#4169E1",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+    color: "#336791", // Official Elephant Blue (Distinct from Docker)
     description:
-      "Powerful, open source object-relational database system with strong reputation for reliability and data integrity.",
+      "Powerful, open source object-relational database system with strong reputation for reliability.",
     link: "https://www.postgresql.org/",
   },
   {
     name: "Docker",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-    color: "#2496ED",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+    color: "#2496ED", // Docker Blue
     description:
       "Platform for developing, shipping, and running applications in containers for consistent environments.",
     link: "https://www.docker.com/",
   },
   {
     name: "GraphQL",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
-    color: "#E10098",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg",
+    color: "#E10098", // Magenta Pink
     description:
       "Query language for APIs providing a complete and understandable description of the data in your API.",
     link: "https://graphql.org/",
@@ -94,7 +94,7 @@ const technologies = [
   {
     name: "AWS",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
-    color: "#FF9900",
+    color: "#FF9900", // AWS Orange
     description:
       "Comprehensive cloud platform offering over 200 services from data centers globally for scalable solutions.",
     link: "https://aws.amazon.com/",
