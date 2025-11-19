@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Sparkles } from "lucide-react";
 
 const technologies = [
@@ -105,21 +105,38 @@ const TechStack = () => {
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
   const [clickedTech, setClickedTech] = useState<string | null>(null);
   const [isExiting, setIsExiting] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const contentTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const activeTech = clickedTech || hoveredTech;
 
   const handleClick = (techName: string) => {
     if (clickedTech === techName) {
-      // Close if already open
       handleClose();
     } else {
       setIsExiting(false);
+      setContentVisible(false);
       setClickedTech(techName);
+
+      // Delay content appearance until after box animation
+      if (contentTimeoutRef.current) {
+        clearTimeout(contentTimeoutRef.current);
+      }
+      contentTimeoutRef.current = setTimeout(() => {
+        setContentVisible(true);
+      }, 300);
     }
   };
 
   const handleClose = () => {
     setIsExiting(true);
+    setContentVisible(false);
+
+    if (contentTimeoutRef.current) {
+      clearTimeout(contentTimeoutRef.current);
+    }
+
     setTimeout(() => {
       setClickedTech(null);
       setHoveredTech(null);
@@ -128,21 +145,39 @@ const TechStack = () => {
   };
 
   const handleHoverStart = (techName: string) => {
-    // Only allow hover if nothing is clicked
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+
     if (!clickedTech) {
       setIsExiting(false);
+      setContentVisible(false);
       setHoveredTech(techName);
+
+      // Delay content appearance until after box animation
+      if (contentTimeoutRef.current) {
+        clearTimeout(contentTimeoutRef.current);
+      }
+      contentTimeoutRef.current = setTimeout(() => {
+        setContentVisible(true);
+      }, 300);
     }
   };
 
   const handleHoverEnd = () => {
-    // Only process hover end if nothing is clicked
     if (!clickedTech) {
       setIsExiting(true);
-      setTimeout(() => {
+      setContentVisible(false);
+
+      if (contentTimeoutRef.current) {
+        clearTimeout(contentTimeoutRef.current);
+      }
+
+      hoverTimeoutRef.current = setTimeout(() => {
         setHoveredTech(null);
         setIsExiting(false);
-      }, 300);
+      }, 100);
     }
   };
 
@@ -150,6 +185,56 @@ const TechStack = () => {
     e.stopPropagation();
     window.open(link, "_blank", "noopener,noreferrer");
   };
+
+  // Function to get dynamic positioning based on screen size and column index
+  const getCardPosition = (index: number) => {
+    const isMobile = window.innerWidth < 768;
+    const isSmallMobile = window.innerWidth < 640;
+
+    if (isSmallMobile) {
+      // Mobile - 3 columns
+      const mobileColIndex = index % 3;
+      if (mobileColIndex === 0) return "left-0"; // First column - left align
+      if (mobileColIndex === 1) return "left-1/2 -translate-x-1/2"; // Middle column - center
+      return "right-0"; // Last column - right align
+    } else if (isMobile) {
+      // Tablet - 4 columns
+      const tabletColIndex = index % 4;
+      if (tabletColIndex === 0) return "left-0"; // First column
+      if (tabletColIndex === 3) return "right-0"; // Last column
+      return "left-1/2 -translate-x-1/2"; // Middle columns - center
+    } else {
+      // Desktop - 6 columns
+      const desktopColIndex = index % 6;
+      if (desktopColIndex === 0 || desktopColIndex === 1) return "left-0"; // Left side
+      if (desktopColIndex === 4 || desktopColIndex === 5) return "right-0"; // Right side
+      return "left-1/2 -translate-x-1/2"; // Middle - center
+    }
+  };
+
+  // Function to get dynamic width based on screen size
+  const getCardWidth = () => {
+    if (window.innerWidth < 640) return "90vw";
+    if (window.innerWidth < 768) return "80vw";
+    return "400px";
+  };
+
+  // Function to get dynamic height based on screen size
+  const getCardHeight = () => {
+    if (window.innerWidth < 640) return "160px";
+    return "200px";
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      if (contentTimeoutRef.current) {
+        clearTimeout(contentTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <section className="py-16 md:py-16 bg-gradient-to-b from-background to-secondary/30 overflow-visible">
@@ -218,17 +303,11 @@ const TechStack = () => {
                   animate={{
                     width:
                       activeTech === tech.name && !isExiting
-                        ? window.innerWidth < 640
-                          ? "90vw"
-                          : window.innerWidth < 768
-                          ? "80vw"
-                          : "400px"
+                        ? getCardWidth()
                         : "80px",
                     height:
                       activeTech === tech.name && !isExiting
-                        ? window.innerWidth < 640
-                          ? "160px"
-                          : "200px"
+                        ? getCardHeight()
                         : "80px",
                   }}
                   transition={{
@@ -240,7 +319,11 @@ const TechStack = () => {
                         ? 0.15
                         : 0,
                   }}
-                  className="absolute top-0 left-1/2 -translate-x-1/2 rounded-xl glass-morphism flex items-center justify-center overflow-visible"
+                  className={`absolute top-0 rounded-xl glass-morphism flex items-center justify-center overflow-visible ${
+                    activeTech === tech.name && !isExiting
+                      ? getCardPosition(index)
+                      : "left-1/2 -translate-x-1/2"
+                  }`}
                   style={{
                     zIndex: activeTech === tech.name ? 50 : 1,
                   }}
@@ -259,12 +342,7 @@ const TechStack = () => {
                     }}
                     transition={{
                       duration: 0.3,
-                      delay:
-                        activeTech === tech.name && !isExiting
-                          ? 0.4
-                          : isExiting
-                          ? 0
-                          : 0,
+                      delay: activeTech === tech.name && !isExiting ? 0.4 : 0,
                     }}
                   >
                     <motion.div
@@ -274,14 +352,8 @@ const TechStack = () => {
                         filter: `drop-shadow(0 0 10px ${tech.color}) drop-shadow(0 0 60px ${tech.color})`,
                       }}
                       animate={{
-                        width:
-                          activeTech === tech.name && !isExiting
-                            ? "100%"
-                            : "100%",
-                        height:
-                          activeTech === tech.name && !isExiting
-                            ? "100%"
-                            : "100%",
+                        width: "100%",
+                        height: "100%",
                         borderRadius:
                           activeTech === tech.name && !isExiting
                             ? "20px"
@@ -289,12 +361,7 @@ const TechStack = () => {
                       }}
                       transition={{
                         duration: 0.3,
-                        delay:
-                          activeTech === tech.name && !isExiting
-                            ? 0.4
-                            : isExiting
-                            ? 0
-                            : 0,
+                        delay: activeTech === tech.name && !isExiting ? 0.4 : 0,
                       }}
                     />
                   </motion.div>
@@ -319,12 +386,7 @@ const TechStack = () => {
                     }}
                     transition={{
                       duration: 0.3,
-                      delay:
-                        activeTech === tech.name && !isExiting
-                          ? 0
-                          : isExiting
-                          ? 0
-                          : 0.3,
+                      delay: activeTech === tech.name && !isExiting ? 0 : 0.3,
                     }}
                   />
 
@@ -367,49 +429,47 @@ const TechStack = () => {
                     )}
                   </AnimatePresence>
 
-                  {/* Content Card */}
+                  {/* Content Card - Only visible after delay */}
                   <AnimatePresence>
-                    {activeTech === tech.name && (
-                      <motion.div
-                        className="absolute left-4 md:left-8 top-0 w-[85%] md:w-[50%] p-4 z-20"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{
-                          opacity: isExiting ? 0 : 1,
-                          x: isExiting ? -20 : 0,
-                        }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: isExiting ? 0 : 0.4,
-                        }}
-                      >
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="text-white text-xl md:text-2xl font-bold uppercase leading-tight">
-                            {tech.name}
-                          </h3>
-                          {clickedTech && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleClose();
-                              }}
-                              className="text-white/80 hover:text-white text-2xl leading-none md:hidden"
-                            >
-                              ×
-                            </button>
-                          )}
-                        </div>
-                        <p className="text-white/90 text-xs md:text-xs mb-3 leading-relaxed">
-                          {tech.description}
-                        </p>
-                        <button
-                          onClick={(e) => handleLearnMore(tech.link, e)}
-                          className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-lg text-xs md:text-sm font-semibold hover:bg-white/30 transition-colors cursor-pointer"
+                    {activeTech === tech.name &&
+                      !isExiting &&
+                      contentVisible && (
+                        <motion.div
+                          className="absolute left-4 md:left-8 top-0 w-[85%] md:w-[50%] p-4 z-20"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{
+                            duration: 0.2,
+                          }}
                         >
-                          Learn More →
-                        </button>
-                      </motion.div>
-                    )}
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-white text-xl md:text-2xl font-bold uppercase leading-tight">
+                              {tech.name}
+                            </h3>
+                            {clickedTech && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleClose();
+                                }}
+                                className="text-white/80 hover:text-white text-2xl leading-none md:hidden"
+                              >
+                                ×
+                              </button>
+                            )}
+                          </div>
+                          <p className="text-white/90 text-xs md:text-xs mb-3 leading-relaxed">
+                            {tech.description}
+                          </p>
+                          <button
+                            onClick={(e) => handleLearnMore(tech.link, e)}
+                            className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-lg text-xs md:text-sm font-semibold hover:bg-white/30 transition-colors cursor-pointer"
+                          >
+                            Learn More →
+                          </button>
+                        </motion.div>
+                      )}
                   </AnimatePresence>
                 </motion.div>
               </div>
