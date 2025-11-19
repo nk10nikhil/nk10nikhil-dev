@@ -168,17 +168,17 @@ const Methodology = () => {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-white">
               From Concept to Launch
             </span>
             <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300 text-lg md:text-2xl lg:text-3xl">
               A Systematic Approach
             </span>
           </h2>
 
-          <p className="text-white/60 text-base md:text-lg leading-relaxed">
+          <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
             Every successful project follows a proven process. My systematic
             approach ensures quality, efficiency, and exceptional results at
             every stage.
