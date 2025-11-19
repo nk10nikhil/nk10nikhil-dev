@@ -1,41 +1,50 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
 import { Send, Mail, Phone, MapPin } from "lucide-react";
 import SocialLinkBar from "@/components/elements/SocialLinkBar";
+import { useRef } from "react";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const ContactSection = () => {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const formData = new FormData(form);
+
+    // Send to Formspree via fetch
+    const res = await fetch("https://formspree.io/f/xqanbaro", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (res.ok) {
       toast({
         title: "Message sent!",
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
-      setFormData({ name: "", email: "", message: "" });
-      setIsSubmitting(false);
-    }, 1500);
+      form.reset();
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
+    setIsSubmitting(false);
   };
 
   const contactInfo = [
@@ -86,13 +95,11 @@ const ContactSection = () => {
             className="glass-morphism rounded-xl p-6 md:p-8"
           >
             <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Input
                   name="name"
                   placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
                   required
                   className="bg-primary-foreground/5"
                 />
@@ -102,8 +109,6 @@ const ContactSection = () => {
                   name="email"
                   type="email"
                   placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
                   required
                   className="bg-primary-foreground/5"
                 />
@@ -112,16 +117,14 @@ const ContactSection = () => {
                 <Textarea
                   name="message"
                   placeholder="Your Message"
-                  value={formData.message}
-                  onChange={handleChange}
                   required
                   className="min-h-[150px] bg-primary-foreground/5"
                 />
               </div>
               <Button
                 type="submit"
-                disabled={isSubmitting}
                 className="w-full bg-purple-500 hover:bg-primary/90"
+                disabled={isSubmitting}
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
                 <Send className="ml-2 h-4 w-4" />
