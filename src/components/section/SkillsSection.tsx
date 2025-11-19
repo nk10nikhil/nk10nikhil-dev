@@ -448,7 +448,8 @@ const SkillCard = ({
                 custom={skill.level}
                 variants={skillBarVariants}
                 initial="hidden"
-                whileInView="visible"
+                animate={isMobile ? "visible" : undefined}
+                whileInView={isMobile ? undefined : "visible"}
                 viewport={{ once: true, margin: "-50px" }}
               >
                 {/* Shine Effect */}
