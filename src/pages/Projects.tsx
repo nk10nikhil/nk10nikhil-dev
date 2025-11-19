@@ -158,146 +158,6 @@ export const useMouseEnter = () => {
 // Enhanced Project Data with more details
 const projects = [
   {
-    id: 1,
-    title: "Full Stack Authentication System",
-    description:
-      "A full stack authentication system with user registration, login, and password reset functionality. Built with Node.js, Express, React, and Tailwind CSS, using JWT and MongoDB.",
-    longDescription:
-      "Complete full stack auth system: registration, login, password reset. Node.js + Express backend, React + Tailwind frontend, JWT for authentication, MongoDB for data.",
-    tags: ["React", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS"],
-    image: "/projects/data_protection_cloud.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: true,
-    category: "Full Stack",
-  },
-  {
-    id: 2,
-    title: "Suduko Solver",
-    description:
-      "A web application that solves Sudoku puzzles using a backtracking algorithm.",
-    longDescription:
-      "A web application that solves Sudoku puzzles using a backtracking algorithm. The application is built with Next.js and MongoDB for storing user data. It also supports OAuth authentication using Google and Facebook.",
-    tags: ["Next.js", "MongoDB", "JWT", "OAuth"],
-    image: "/projects/sudoku.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Algorithms",
-  },
-  {
-    id: 3,
-    title: "SocioPulse – Social Media Web Application (Next.js, Firebase)",
-    description:
-      "Built a feature-rich social media platform with user authentication, real-time chat, and media sharing capabilities.",
-    longDescription:
-      "Built a feature-rich social media platform with user authentication, real-time chat, and media sharing capabilities using Next.js and Firebase.",
-    tags: ["Next.js", "Firebase", "Real-time Chat", "Media Sharing"],
-    image: "/projects/social_media.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Full Stack",
-  },
-  {
-    id: 4,
-    title: "WriteMyBlog – Online Blogging Platform (Next.js, PostgreSQL)",
-    description:
-      "Created a web application for users to write, edit, and publish blogs online, with an interactive WYSIWYG editor and SEO-friendly features.",
-    longDescription:
-      "Created a web application for users to write, edit, and publish blogs online, with an interactive WYSIWYG editor and SEO-friendly features using Next.js and PostgreSQL.",
-    tags: ["Next.js", "PostgreSQL", "WYSIWYG Editor", "SEO"],
-    image: "/projects/blog.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: true,
-    category: "Full Stack",
-  },
-  {
-    id: 5,
-    title: "Full-Stack Q&A System (Next.js, Appwrite)",
-    description:
-      "Designed a Q&A platform allowing users to post questions, upvote/downvote answers, and follow topics.",
-    longDescription:
-      "Designed a Q&A platform allowing users to post questions, upvote/downvote answers, and follow topics using Next.js and Appwrite.",
-    tags: ["Next.js", "Appwrite", "Q&A", "Voting"],
-    image: "/projects/qna.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Full Stack",
-  },
-  {
-    id: 6,
-    title: "AI-Powered SaaS Platform (Next.js, Prisma, Neon DB)",
-    description:
-      "Developed a software-as-a-service (SaaS) platform with AI-driven features, database management with Prisma, and scalable cloud deployment.",
-    longDescription:
-      "Developed a software-as-a-service (SaaS) platform with AI-driven features, database management with Prisma, and scalable cloud deployment using Next.js, Prisma, and Neon DB.",
-    tags: ["Next.js", "Prisma", "Neon DB", "AI"],
-    image: "/projects/aisaas.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: true,
-    category: "AI/ML",
-  },
-  {
-    id: 7,
-    title: "Secure LMS with Payment Gateway (Next.js, Stripe)",
-    description:
-      "Built a learning management system (LMS) with secure course access, student progress tracking, and integrated payment solutions using Stripe.",
-    longDescription:
-      "Built a learning management system (LMS) with secure course access, student progress tracking, and integrated payment solutions using Stripe and Next.js.",
-    tags: ["Next.js", "Stripe", "LMS", "Payment Gateway"],
-    image: "/projects/payment.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Full Stack",
-  },
-  {
-    id: 8,
-    title: "Workout Tracking System (Python, Google Sheets API)",
-    description:
-      "Developed an automated workout tracker that logs fitness data to Google Sheets, enabling easy tracking and visualization of progress.",
-    longDescription:
-      "Developed an automated workout tracker that logs fitness data to Google Sheets, enabling easy tracking and visualization of progress using Python and Google Sheets API.",
-    tags: ["Python", "Google Sheets API", "Fitness", "Automation"],
-    image: "/projects/workout.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Automation",
-  },
-  {
-    id: 9,
-    title: "Flight Deal Finder (Python, APIs)",
-    description:
-      "Developed an automated flight deal finder that scrapes and alerts users about discounted airline tickets.",
-    longDescription:
-      "Developed an automated flight deal finder that scrapes and alerts users about discounted airline tickets using Python and various APIs.",
-    tags: ["Python", "APIs", "Web Scraping", "Automation"],
-    image: "/projects/flight.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Automation",
-  },
-  {
-    id: 10,
-    title: "Data Entry Job Automation (Python, Selenium)",
-    description:
-      "Automated repetitive data entry tasks using Python and Selenium, improving efficiency and reducing manual errors.",
-    longDescription:
-      "Automated repetitive data entry tasks using Python and Selenium, improving efficiency and reducing manual errors.",
-    tags: ["Python", "Selenium", "Automation", "Data Entry"],
-    image: "/projects/dataautomation.png",
-    demoLink: "https://github.com/nk10nikhil",
-    githubLink: "https://github.com/nk10nikhil",
-    featured: false,
-    category: "Automation",
-  },
-  {
     id: 11,
     title: "E-commerce Platform with Secure Payments",
     description:
@@ -439,6 +299,146 @@ const projects = [
     githubLink: "https://github.com/nk10nikhil/harbourhaven",
     featured: true,
     category: "Frontend",
+  },
+  {
+    id: 1,
+    title: "Full Stack Authentication System",
+    description:
+      "A full stack authentication system with user registration, login, and password reset functionality. Built with Node.js, Express, React, and Tailwind CSS, using JWT and MongoDB.",
+    longDescription:
+      "Complete full stack auth system: registration, login, password reset. Node.js + Express backend, React + Tailwind frontend, JWT for authentication, MongoDB for data.",
+    tags: ["React", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS"],
+    image: "/projects/data_protection_cloud.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: true,
+    category: "Full Stack",
+  },
+  {
+    id: 2,
+    title: "Suduko Solver",
+    description:
+      "A web application that solves Sudoku puzzles using a backtracking algorithm.",
+    longDescription:
+      "A web application that solves Sudoku puzzles using a backtracking algorithm. The application is built with Next.js and MongoDB for storing user data. It also supports OAuth authentication using Google and Facebook.",
+    tags: ["Next.js", "MongoDB", "JWT", "OAuth"],
+    image: "/projects/sudoku.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Algorithms",
+  },
+  {
+    id: 3,
+    title: "SocioPulse – Social Media Web Application (Next.js, Firebase)",
+    description:
+      "Built a feature-rich social media platform with user authentication, real-time chat, and media sharing capabilities.",
+    longDescription:
+      "Built a feature-rich social media platform with user authentication, real-time chat, and media sharing capabilities using Next.js and Firebase.",
+    tags: ["Next.js", "Firebase", "Real-time Chat", "Media Sharing"],
+    image: "/projects/social_media.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Full Stack",
+  },
+  {
+    id: 4,
+    title: "WriteMyBlog – Online Blogging Platform (Next.js, PostgreSQL)",
+    description:
+      "Created a web application for users to write, edit, and publish blogs online, with an interactive WYSIWYG editor and SEO-friendly features.",
+    longDescription:
+      "Created a web application for users to write, edit, and publish blogs online, with an interactive WYSIWYG editor and SEO-friendly features using Next.js and PostgreSQL.",
+    tags: ["Next.js", "PostgreSQL", "WYSIWYG Editor", "SEO"],
+    image: "/projects/blog.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: true,
+    category: "Full Stack",
+  },
+  {
+    id: 5,
+    title: "Full-Stack Q&A System (Next.js, Appwrite)",
+    description:
+      "Designed a Q&A platform allowing users to post questions, upvote/downvote answers, and follow topics.",
+    longDescription:
+      "Designed a Q&A platform allowing users to post questions, upvote/downvote answers, and follow topics using Next.js and Appwrite.",
+    tags: ["Next.js", "Appwrite", "Q&A", "Voting"],
+    image: "/projects/qna.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Full Stack",
+  },
+  {
+    id: 6,
+    title: "AI-Powered SaaS Platform (Next.js, Prisma, Neon DB)",
+    description:
+      "Developed a software-as-a-service (SaaS) platform with AI-driven features, database management with Prisma, and scalable cloud deployment.",
+    longDescription:
+      "Developed a software-as-a-service (SaaS) platform with AI-driven features, database management with Prisma, and scalable cloud deployment using Next.js, Prisma, and Neon DB.",
+    tags: ["Next.js", "Prisma", "Neon DB", "AI"],
+    image: "/projects/aisaas.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: true,
+    category: "AI/ML",
+  },
+  {
+    id: 7,
+    title: "Secure LMS with Payment Gateway (Next.js, Stripe)",
+    description:
+      "Built a learning management system (LMS) with secure course access, student progress tracking, and integrated payment solutions using Stripe.",
+    longDescription:
+      "Built a learning management system (LMS) with secure course access, student progress tracking, and integrated payment solutions using Stripe and Next.js.",
+    tags: ["Next.js", "Stripe", "LMS", "Payment Gateway"],
+    image: "/projects/payment.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Full Stack",
+  },
+  {
+    id: 8,
+    title: "Workout Tracking System (Python, Google Sheets API)",
+    description:
+      "Developed an automated workout tracker that logs fitness data to Google Sheets, enabling easy tracking and visualization of progress.",
+    longDescription:
+      "Developed an automated workout tracker that logs fitness data to Google Sheets, enabling easy tracking and visualization of progress using Python and Google Sheets API.",
+    tags: ["Python", "Google Sheets API", "Fitness", "Automation"],
+    image: "/projects/workout.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Automation",
+  },
+  {
+    id: 9,
+    title: "Flight Deal Finder (Python, APIs)",
+    description:
+      "Developed an automated flight deal finder that scrapes and alerts users about discounted airline tickets.",
+    longDescription:
+      "Developed an automated flight deal finder that scrapes and alerts users about discounted airline tickets using Python and various APIs.",
+    tags: ["Python", "APIs", "Web Scraping", "Automation"],
+    image: "/projects/flight.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Automation",
+  },
+  {
+    id: 10,
+    title: "Data Entry Job Automation (Python, Selenium)",
+    description:
+      "Automated repetitive data entry tasks using Python and Selenium, improving efficiency and reducing manual errors.",
+    longDescription:
+      "Automated repetitive data entry tasks using Python and Selenium, improving efficiency and reducing manual errors.",
+    tags: ["Python", "Selenium", "Automation", "Data Entry"],
+    image: "/projects/dataautomation.png",
+    demoLink: "https://github.com/nk10nikhil",
+    githubLink: "https://github.com/nk10nikhil",
+    featured: false,
+    category: "Automation",
   },
 ];
 
