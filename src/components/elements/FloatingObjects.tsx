@@ -81,6 +81,24 @@ const FloatingObjects = React.memo(() => {
         iconColor: "text-purple-300",
         delay: 0.5,
       },
+      {
+        id: 6,
+        Icon: Star,
+        size: 28,
+        className: "absolute top-[10%] left-[20%]",
+        bgColor: "bg-indigo-600/20",
+        iconColor: "text-indigo-300",
+        delay: 2.5,
+      },
+      {
+        id: 7,
+        Icon: Triangle,
+        size: 22,
+        className: "absolute bottom-[40%] right-[50%]",
+        bgColor: "bg-blue-600/20",
+        iconColor: "text-blue-300",
+        delay: 1,
+      },
     ],
     []
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
@@ -30,6 +29,7 @@ const FloatingTeddy = () => {
 
       return () => clearTimeout(interval);
     }
+    return undefined;
   }, [count, loaded]);
 
   return (

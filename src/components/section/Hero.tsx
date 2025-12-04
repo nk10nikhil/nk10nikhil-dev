@@ -78,6 +78,7 @@ const Hero = () => {
 
       return () => clearTimeout(interval);
     }
+    return undefined;
   }, [count, loaded]);
 
   const techStack = useMemo(
@@ -147,7 +148,7 @@ const Hero = () => {
                             <img
                               src={word.imgPath}
                               alt={word.text}
-                              className="w-full h-full object-contain mt-5"
+                              className="w-full h-full object-contain"
                               width={96}
                               height={96}
                             />
@@ -234,7 +235,7 @@ const Hero = () => {
                 <FloatingTeddy />
               </div>
 
-              <div className="max-w-xl sm:max-w-xl md:max-w-xl relative">
+              <div className="max-w-xl sm:max-w-xl md:max-w-xl relative scale-90 md:scale-100">
                 <div className="glass-morphism rounded-xl p-2 md:p-3 backdrop-blur-xl animate-float">
                   <div className="code-window bg-card p-3 rounded-lg">
                     <div className="flex items-center justify-start gap-1.5 mb-4">

@@ -166,7 +166,7 @@ const FeaturedProjects = () => {
           </motion.div>
 
           {/* Right Side - Card Stack */}
-          <div className="relative h-[400px] sm:h-[500px] md:h-[550px] lg:h-[600px] transform -translate-x-[160px] -translate-y-[80px] md:-translate-x-[230px] md:-translate-y-[130px]">
+          <div className="relative h-[400px] sm:h-[500px] md:h-[550px] lg:h-[600px] transform -translate-x-[180px] -translate-y-[80px] md:-translate-x-[230px] md:-translate-y-[130px]">
             <CardSwap
               width={500}
               height={250}
