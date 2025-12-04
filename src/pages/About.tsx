@@ -124,7 +124,7 @@ const About = () => {
       {
         title: "Chief Technology Officer",
         company: "WeBuilt_U",
-        period: "Jan 2025 - Present",
+        period: "Jan 2025 - Dec 2025",
         description:
           "Built WeBuilt_U's website from the ground up, leading full-stack development and tech strategy. Managing dev team, optimizing workflows, and ensuring performance, scalability, and seamless UX.",
         technologies: [
@@ -520,13 +520,13 @@ const About = () => {
                           </span>{" "}
                           digital solutions. As{" "}
                           <span className="text-white font-semibold">
-                            Co-Founder & CTO at WeBuilt_U
+                            Open Source Contributor
                           </span>
                           , I've led full-stack development from the ground
                           up—architecting platforms, managing agile teams, and
                           delivering products that drive real-world impact.
                         </p>
-                        <p>
+                        <p className="hidden md:block">
                           My journey spans{" "}
                           <span className="text-purple-400 font-medium">
                             freelance projects, open-source contributions, and
@@ -562,7 +562,7 @@ const About = () => {
                     </div>
 
                     {/* Quick Info Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
                       <div className="glass-morphism rounded-xl p-4 hover:scale-105 transition-transform duration-300">
                         <GraduationCap className="w-8 h-8 text-purple-400 mb-2" />
                         <h3 className="font-semibold mb-1">Education</h3>
@@ -628,7 +628,7 @@ const About = () => {
                             animate={valuesInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             whileHover={{ y: -5, scale: 1.02 }}
-                            className="glass-morphism rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300"
+                            className="glass-morphism rounded-xl p-6 px-3 text-center hover:shadow-xl transition-all duration-300"
                           >
                             <div
                               className={cn(
@@ -708,20 +708,23 @@ const About = () => {
                       </span>
                     </h2>
                     <div className="glass-morphism rounded-2xl p-6 md:p-8">
-                      <div className="flex flex-wrap gap-3 justify-center">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {topSkills.map((skill, index) => (
-                          <motion.span
+                          <motion.div
                             key={skill}
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={
                               skillsInView ? { opacity: 1, scale: 1 } : {}
                             }
                             transition={{ duration: 0.3, delay: index * 0.05 }}
-                            whileHover={{ scale: 1.1 }}
-                            className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 text-sm font-medium hover:from-purple-500/30 hover:to-blue-500/30 transition-all duration-300 cursor-default"
+                            whileHover={{
+                              scale: 1.08,
+                              boxShadow: "0 0 20px #8b5cf6",
+                            }}
+                            className="flex items-center justify-center px-4 py-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 text-sm font-semibold text-center hover:from-purple-500/30 hover:to-blue-500/30 transition-all duration-300 shadow-neon"
                           >
                             {skill}
-                          </motion.span>
+                          </motion.div>
                         ))}
                       </div>
                     </div>

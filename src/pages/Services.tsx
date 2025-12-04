@@ -9,6 +9,7 @@ import WhyChooseUs from "@/components/section/WhyChooseUs";
 import Methodology from "@/components/section/Methodology";
 import Newsletter from "@/components/section/Newsletter";
 import ToolbarHighlight from "@/components/section/ToolbarHighlight";
+import FloatingObjects from "@/components/elements/FloatingObjects";
 
 const Services = () => {
   useEffect(() => {
@@ -23,24 +24,10 @@ const Services = () => {
       transition={{ duration: 0.3 }}
       className="bg-transparent min-h-screen relative w-full overflow-x-hidden"
     >
-      {/* Background Elements */}
-      <div className="fixed inset-0 -z-10">
-        <BlurBackground />
-      </div>
-      {/* Hero Section */}
-      <section className="w-full px-0">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <BackgroundHero />
-          <div className="w-full overflow-hidden">
-            <LogoScroll />
-          </div>
-        </motion.div>
-      </section>
+      <BlurBackground />
+      <FloatingObjects />
+      <BackgroundHero />
+      <LogoScroll />
       <ServicesGrid />
       <WhyChooseUs />
       <Methodology />

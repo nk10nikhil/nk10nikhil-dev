@@ -699,6 +699,7 @@ const Projects = () => {
             transition={{ duration: 0.5 }}
             className="text-center mb-8 md:mb-12"
           >
+            <div className="w-24 h-1 bg-gradient-to-r from-primary/0 via-primary to-primary/0 mx-auto mb-1"></div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient">
               My Projects
             </h1>

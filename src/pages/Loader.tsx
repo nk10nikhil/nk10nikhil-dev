@@ -14,8 +14,6 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
 
   // Handle GIF animation end (GIFs loop, so we'll use a timer)
   useEffect(() => {
-    // Adjust this timeout based on your GIF duration (in milliseconds)
-    // For example, if your GIF is 3 seconds long, use 3000
     const gifDuration = 4500; // Change this to match your GIF duration
 
     const timer = setTimeout(() => {
