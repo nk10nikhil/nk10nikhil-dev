@@ -7,97 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies
 node_modules
-.pnp
-.pnp.js
-
-# Testing
-coverage
-*.lcov
-.nyc_output
-
-# Build outputs
 dist
 dist-ssr
-build
-out
-.next
-.vercel
-.netlify
-
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Cache directories
-.cache
-.parcel-cache
-.eslintcache
-.stylelintcache
-*.tsbuildinfo
-.turbo
+*.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
 .idea
-*.swp
-*.swo
-*.swn
-*~
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# OS files
-Thumbs.db
-Desktop.ini
-._*
-.Spotlight-V100
-.Trashes
-
-# Temporary files
-*.tmp
-*.temp
-*.bak
-*.old
-*.orig
-
-# Debug files
-npm-debug.log*
-yarn-debug.log*
-debug.log
-
-# Package manager locks (optional - keep one)
-# Uncomment the ones you don't use:
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-
-# Local development
-*.local
-.vercel
-.turbo
-
-# Storybook
-storybook-static
-
-# TypeScript
-*.tsbuildinfo
-.tsbuildinfo
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history

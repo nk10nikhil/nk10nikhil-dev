@@ -4,13 +4,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/elements/ThemeProvider";
-import { PreloaderProvider } from "@/contexts/PreloaderContext";
 import { useState, useEffect, lazy, Suspense } from "react";
 import BackToTopButton from "@/components/elements/BackToTopButton";
 import Loader from "@/pages/Loader";
-import { usePreloadResources } from "@/hooks/usePreloadResources";
-import { registerServiceWorker } from "@/utils/serviceWorkerRegistration";
-import { logPerformanceMetrics } from "@/utils/performanceMonitoring";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
 
@@ -23,16 +19,6 @@ const About = lazy(() => import("@/pages/About"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const Services = lazy(() => import("@/pages/Services"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
-// Preload all lazy components after initial render
-const preloadComponents = () => {
-  // Start preloading in background
-  setTimeout(() => {
-    import("@/pages/Projects");
-    import("@/pages/About");
-    import("@/pages/Contact");
-    import("@/pages/Services");
-  }, 1000);
-};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -325,24 +311,7 @@ const AppContent = () => {
   const [contentReady, setContentReady] = useState(false);
   const [transitionComplete, setTransitionComplete] = useState(false);
 
-  // Use preload resources hook
-  usePreloadResources({
-    criticalImages: ["/profile.png"],
-  });
-
   useEffect(() => {
-    // Register service worker
-    registerServiceWorker();
-
-    // Log performance metrics after load
-    if (typeof window !== "undefined") {
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          logPerformanceMetrics();
-        }, 2000);
-      });
-    }
-
     // Reduced initial loading period for faster First Contentful Paint
     const contentTimer = setTimeout(() => {
       setContentReady(true);
@@ -353,19 +322,9 @@ const AppContent = () => {
       }, 10);
 
       return () => clearTimeout(loaderTimer);
-    }, 6000); // Reduced from 1500ms
+    }, 6000); // 6 seconds minimum loading time
 
     return () => clearTimeout(contentTimer);
-  }, []);
-
-  // Preload lazy components during loader display
-  useEffect(() => {
-    // Start preloading as soon as component mounts
-    const preloadTimer = setTimeout(() => {
-      preloadComponents();
-    }, 200); // Start preloading while loader is still showing
-
-    return () => clearTimeout(preloadTimer);
   }, []);
 
   const handleTransitionEnd = () => {
@@ -398,12 +357,11 @@ const AppContent = () => {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/services" element={<Services />} />
-              <Route path="/loader" element={<Loader isLoading={true} />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-          {transitionComplete && <Footer />}
-          {transitionComplete && <BackToTopButton />}
+          <Footer />
+          <BackToTopButton />
         </BrowserRouter>
       </div>
     </>
@@ -414,12 +372,10 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" forcedTheme="dark">
-        <TooltipProvider delayDuration={300}>
-          <PreloaderProvider>
-            <Toaster />
-            <Sonner />
-            <AppContent />
-          </PreloaderProvider>
+        <TooltipProvider delayDuration={200}>
+          <Toaster />
+          <Sonner />
+          <AppContent />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

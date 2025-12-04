@@ -7,7 +7,7 @@ export const TextGenerateEffect = ({
     words,
     className,
     filter = true,
-    duration = 1
+    duration = 1.5
 }) => {
     const [scope, animate] = useAnimate();
     let wordsArray = words.split(" ");

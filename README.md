@@ -14,7 +14,7 @@
 ## 👨‍💻 About Me
 
 🎓 **B.Tech Computer Science and Design** @ GCET'27  
-💼 **Co-Founder & Software Engineer** @ WeBuilt_U  
+💼 **Software Engineer** @ WeBuilt_U  
 🚀 Full-Stack Developer | Cloud Architect | AI/ML Enthusiast | DSA | UI/UX Designing
 
 - 🔭 Currently building **scalable web applications** with modern tech stacks

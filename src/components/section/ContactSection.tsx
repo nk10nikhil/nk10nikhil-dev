@@ -6,7 +6,7 @@ import { Send, Mail, Phone, MapPin } from "lucide-react";
 import SocialLinkBar from "@/components/elements/SocialLinkBar";
 import { useRef } from "react";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
   const { toast } = useToast();

@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Orb from "../../elements/Orb";
 import LetterGlitch from "../../elements/LetterGlitch";
-import { usePreloader } from "@/contexts/PreloaderContext";
 
 interface LoaderProps {
   isLoading: boolean;
@@ -12,8 +11,6 @@ interface LoaderProps {
 const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [showVideo, setShowVideo] = useState(true);
-  const { progress } = usePreloader();
-  const progressWidth = `${Math.min(progress, 100)}%`;
 
   // Handle GIF animation end (GIFs loop, so we'll use a timer)
   useEffect(() => {
@@ -159,20 +156,6 @@ const VideoContainer = styled.div`
     object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.3));
   }
-`;
-
-const ProgressFill = styled.div<{ width: string }>`
-  height: 100%;
-  width: ${(props) => props.width};
-  background: linear-gradient(
-    90deg,
-    rgba(149, 0, 255, 0.8) 0%,
-    rgba(212, 98, 255, 0.9) 50%,
-    rgba(240, 0, 255, 1) 100%
-  );
-  transition: width 0.3s ease-out;
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(212, 98, 255, 0.5);
 `;
 
 const StyledWrapper = styled.div`
