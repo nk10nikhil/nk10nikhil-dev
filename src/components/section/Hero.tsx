@@ -200,7 +200,7 @@ const Hero = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Download CV <Download className="ml-2 h-4 w-4" />
+                  Resume <Download className="ml-2 h-4 w-4" />
                 </a>
               </Button>
             </motion.div>
