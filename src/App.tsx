@@ -336,15 +336,19 @@ const AppContent = () => {
     });
 
     return () => {
-      if ("cancelIdleCallback" in window) {
+      const cancelIdle = (window as any).cancelIdleCallback as
+        | ((handle: any) => void)
+        | undefined;
+      if (typeof cancelIdle === "function") {
         try {
-          (window as any).cancelIdleCallback(id);
+          cancelIdle(id);
         } catch {
           // ignore
         }
-      } else {
-        window.clearTimeout(id as any);
+        return;
       }
+
+      clearTimeout(id as any);
     };
   }, []);
 

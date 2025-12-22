@@ -162,7 +162,11 @@ export const CardContainer = ({
   }, []);
 
   const contextValue = useMemo(
-    () => [isMouseEntered, setIsMouseEntered] as const,
+    () =>
+      [isMouseEntered, setIsMouseEntered] as [
+        boolean,
+        React.Dispatch<React.SetStateAction<boolean>>
+      ],
     [isMouseEntered]
   );
   return (

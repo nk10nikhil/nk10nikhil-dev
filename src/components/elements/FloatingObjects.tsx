@@ -104,7 +104,13 @@ const FloatingObjects = React.memo(() => {
   );
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div
+      className="fixed inset-0 pointer-events-none overflow-hidden -z-10"
+      style={{
+        contain: "layout paint style",
+        transform: "translateZ(0)",
+      }}
+    >
       {floatingItems.map(
         ({ id, Icon, size, className, bgColor, iconColor, delay }) => (
           <motion.div
