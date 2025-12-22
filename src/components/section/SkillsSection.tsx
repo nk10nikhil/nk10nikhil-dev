@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import {
   Code2,
@@ -122,31 +122,42 @@ const SkillsSection = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  useEffect(() => {
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % skillsData.length);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setDirection(-1);
+    setCurrentIndex(
+      (prev) => (prev - 1 + skillsData.length) % skillsData.length
+    );
+  }, []);
+
+  const resetAutoPlay = useCallback(() => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current);
+      autoPlayRef.current = null;
+    }
     if (isMobile) {
       autoPlayRef.current = setInterval(() => {
         handleNext();
       }, 4000);
     }
+  }, [handleNext, isMobile]);
+
+  useEffect(() => {
+    if (isMobile) {
+      resetAutoPlay();
+    }
 
     return () => {
       if (autoPlayRef.current) {
         clearInterval(autoPlayRef.current);
+        autoPlayRef.current = null;
       }
     };
-  }, [isMobile, currentIndex]);
-
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % skillsData.length);
-  };
-
-  const handlePrev = () => {
-    setDirection(-1);
-    setCurrentIndex(
-      (prev) => (prev - 1 + skillsData.length) % skillsData.length
-    );
-  };
+  }, [isMobile, resetAutoPlay]);
 
   const handleDragEnd = (
     e: MouseEvent | TouchEvent | PointerEvent,
@@ -155,19 +166,10 @@ const SkillsSection = () => {
     const threshold = 50;
     if (info.offset.x > threshold) {
       handlePrev();
+      resetAutoPlay();
     } else if (info.offset.x < -threshold) {
       handleNext();
-    }
-  };
-
-  const resetAutoPlay = () => {
-    if (autoPlayRef.current) {
-      clearInterval(autoPlayRef.current);
-    }
-    if (isMobile) {
-      autoPlayRef.current = setInterval(() => {
-        handleNext();
-      }, 4000);
+      resetAutoPlay();
     }
   };
 

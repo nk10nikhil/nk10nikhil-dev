@@ -1,5 +1,13 @@
 "use client";
-import { useEffect, useState, useRef, createContext, useContext } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  createContext,
+  useContext,
+  useCallback,
+} from "react";
 import { motion } from "framer-motion";
 import { Github, ExternalLink } from "lucide-react";
 import BlurBackground from "@/components/section/BlurBackground";
@@ -96,27 +104,69 @@ export const CardContainer = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const { left, top, width, height } =
-      containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / 25;
-    const y = (e.clientY - top - height / 2) / 25;
-    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-  };
+  const boundsRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastPointerRef = useRef<{ x: number; y: number } | null>(null);
 
-  const handleMouseEnter = () => {
+  const updateBounds = useCallback(() => {
+    if (!containerRef.current) return;
+    boundsRef.current = containerRef.current.getBoundingClientRect();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => updateBounds();
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [updateBounds]);
+
+  const applyTransform = useCallback(() => {
+    rafRef.current = null;
+    const el = containerRef.current;
+    const last = lastPointerRef.current;
+    if (!el || !last) return;
+
+    const bounds = boundsRef.current ?? el.getBoundingClientRect();
+    boundsRef.current = bounds;
+
+    const x = (last.x - bounds.left - bounds.width / 2) / 25;
+    const y = (last.y - bounds.top - bounds.height / 2) / 25;
+    el.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!containerRef.current) return;
+      lastPointerRef.current = { x: e.clientX, y: e.clientY };
+      if (rafRef.current != null) return;
+      rafRef.current = window.requestAnimationFrame(applyTransform);
+    },
+    [applyTransform]
+  );
+
+  const handleMouseEnter = useCallback(() => {
+    updateBounds();
     setIsMouseEntered(true);
     if (!containerRef.current) return;
-  };
+    containerRef.current.style.willChange = "transform";
+  }, [updateBounds]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
-  };
+    containerRef.current.style.willChange = "auto";
+    if (rafRef.current != null) {
+      window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }, []);
+
+  const contextValue = useMemo(
+    () => [isMouseEntered, setIsMouseEntered] as const,
+    [isMouseEntered]
+  );
   return (
-    <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
+    <MouseEnterContext.Provider value={contextValue}>
       <div
         className={cn(
           "py-2 flex items-center justify-center",

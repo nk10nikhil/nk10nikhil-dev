@@ -176,7 +176,9 @@ const FeaturedProjects = () => {
               pauseOnHover={true}
               skewAmount={4}
               easing="elastic"
-              onCardClick={(idx) => console.log(`Clicked card ${idx}`)}
+              onCardClick={(idx) => {
+                if (import.meta.env.DEV) console.log(`Clicked card ${idx}`);
+              }}
             >
               {projects.map((project) => (
                 <Card

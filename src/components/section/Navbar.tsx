@@ -1,9 +1,27 @@
-import { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Menu, X, Github, Linkedin, Twitter } from "lucide-react";
 import { ScrollProgress } from "@/components/elements/ScrollProgress";
+
+const NAV_TEXTS = [
+  "Nikhil Kumar",
+  "Full Stack Developer",
+  "AI/ML Enthusiast",
+  "Blockchain Developer",
+  "Software Engineer",
+  "Cloud Engineer",
+  "Problem Solver",
+] as const;
+
+const NAV_LINKS = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: "Projects", path: "/projects" },
+  { name: "About", path: "/about" },
+  // { name: "Contact", path: "/contact" },
+] as const;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,20 +29,11 @@ const Navbar = () => {
   const location = useLocation();
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showCursor, setShowCursor] = useState(true);
 
-  const texts = [
-    "Nikhil Kumar",
-    "Full Stack Developer",
-    "AI/ML Enthusiast",
-    "Blockchain Developer",
-    "Software Engineer",
-    "Cloud Engineer",
-    "Problem Solver",
-  ];
+  const links = useMemo(() => NAV_LINKS, []);
 
   useEffect(() => {
-    const currentText = texts[currentIndex];
+    const currentText = NAV_TEXTS[currentIndex] ?? "";
     let timeoutId: NodeJS.Timeout;
 
     if (displayText.length < currentText.length) {
@@ -34,20 +43,12 @@ const Navbar = () => {
     } else {
       timeoutId = setTimeout(() => {
         setDisplayText("");
-        setCurrentIndex((prev) => (prev + 1) % texts.length);
+        setCurrentIndex((prev) => (prev + 1) % NAV_TEXTS.length);
       }, 700);
     }
 
     return () => clearTimeout(timeoutId);
-  }, [displayText, currentIndex, texts]);
-
-  useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 1000);
-
-    return () => clearInterval(cursorInterval);
-  }, []);
+  }, [displayText, currentIndex]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,7 +59,7 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -66,13 +67,9 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Services", path: "/services" },
-    { name: "Projects", path: "/projects" },
-    { name: "About", path: "/about" },
-    // { name: "Contact", path: "/contact" },
-  ];
+  const handleToggle = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
   return (
     <nav
@@ -144,7 +141,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation Toggle */}
-        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+        <button className="md:hidden" onClick={handleToggle}>
           {isOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -205,4 +202,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

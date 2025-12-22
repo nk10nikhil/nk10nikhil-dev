@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
 const BackToTopButton = () => {
-  const scrollToTop = () => {
+  const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, []);
 
   return (
     <StyledWrapper>
@@ -81,4 +81,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default BackToTopButton;
+export default React.memo(BackToTopButton);

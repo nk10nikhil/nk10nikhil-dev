@@ -4,7 +4,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/elements/ThemeProvider";
-import { useState, useEffect, lazy, Suspense } from "react";
+import {
+  useState,
+  useEffect,
+  lazy,
+  Suspense,
+  useCallback,
+  useMemo,
+} from "react";
 import BackToTopButton from "@/components/elements/BackToTopButton";
 import Loader from "@/pages/Loader";
 import Navbar from "@/components/section/Navbar";
@@ -31,6 +38,41 @@ const queryClient = new QueryClient({
 });
 
 // Lightweight fallback loader
+const PAGE_LOADER_KEYFRAMES = `
+  @keyframes riseIn {
+    0% { transform: translateZ(-100px) scale(0.3); opacity: 0; }
+    50% { transform: translateZ(0) scale(1); opacity: 1; }
+    100% { transform: translateZ(30px) scale(0.5); opacity: 0.4; }
+  }
+  @keyframes cubeSpin {
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  @keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.7)); }
+    50% { filter: drop-shadow(0 0 25px rgba(147, 51, 234, 0.9)); }
+  }
+  @keyframes orbitLCS {
+    from { transform: rotate3d(1, 0, 1, 0deg) translateX(100px) rotate3d(1, 0, 1, 0deg); }
+    to { transform: rotate3d(1, 0, 1, 360deg) translateX(100px) rotate3d(1, 0, 1, -360deg); }
+  }
+`;
+
+const PAGE_LOADER_BLOCKS = Array.from({ length: 9 });
+
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen bg-transparent">
     <div
@@ -45,40 +87,7 @@ const PageLoader = () => (
         overflow: "hidden",
       }}
     >
-      <style>
-        {`
-          @keyframes riseIn {
-            0% { transform: translateZ(-100px) scale(0.3); opacity: 0; }
-            50% { transform: translateZ(0) scale(1); opacity: 1; }
-            100% { transform: translateZ(30px) scale(0.5); opacity: 0.4; }
-          }
-          @keyframes cubeSpin {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
-          }
-          @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-          }
-          @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
-          }
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-          }
-          @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(147, 51, 234, 0.7)); }
-            50% { filter: drop-shadow(0 0 25px rgba(147, 51, 234, 0.9)); }
-          }
-          @keyframes orbitLCS {
-            from { transform: rotate3d(1, 0, 1, 0deg) translateX(100px) rotate3d(1, 0, 1, 0deg); }
-            to { transform: rotate3d(1, 0, 1, 360deg) translateX(100px) rotate3d(1, 0, 1, -360deg); }
-          }
-        `}
-      </style>
+      <style>{PAGE_LOADER_KEYFRAMES}</style>
 
       <div
         className="matrix-loader"
@@ -114,7 +123,7 @@ const PageLoader = () => (
               transform: "translateZ(-30px)",
             }}
           >
-            {[...Array(9)].map((_, i) => (
+            {PAGE_LOADER_BLOCKS.map((_, i) => (
               <div
                 key={i}
                 className="block"
@@ -149,7 +158,7 @@ const PageLoader = () => (
               transform: "translateZ(0)",
             }}
           >
-            {[...Array(9)].map((_, i) => (
+            {PAGE_LOADER_BLOCKS.map((_, i) => (
               <div
                 key={i}
                 className="block"
@@ -184,7 +193,7 @@ const PageLoader = () => (
               transform: "translateZ(30px)",
             }}
           >
-            {[...Array(9)].map((_, i) => (
+            {PAGE_LOADER_BLOCKS.map((_, i) => (
               <div
                 key={i}
                 className="block"
@@ -312,6 +321,34 @@ const AppContent = () => {
   const [transitionComplete, setTransitionComplete] = useState(false);
 
   useEffect(() => {
+    const schedule =
+      "requestIdleCallback" in window
+        ? (cb: () => void) =>
+            (window as any).requestIdleCallback(cb, { timeout: 2500 })
+        : (cb: () => void) => window.setTimeout(cb, 1200);
+
+    const id = schedule(() => {
+      // Prefetch secondary routes after initial paint without blocking.
+      void import("@/pages/Projects");
+      void import("@/pages/About");
+      void import("@/pages/Contact");
+      void import("@/pages/Services");
+    });
+
+    return () => {
+      if ("cancelIdleCallback" in window) {
+        try {
+          (window as any).cancelIdleCallback(id);
+        } catch {
+          // ignore
+        }
+      } else {
+        window.clearTimeout(id as any);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     // Reduced initial loading period for faster First Contentful Paint
     const contentTimer = setTimeout(() => {
       setContentReady(true);
@@ -327,15 +364,18 @@ const AppContent = () => {
     return () => clearTimeout(contentTimer);
   }, []);
 
-  const handleTransitionEnd = () => {
+  const handleTransitionEnd = useCallback(() => {
     setTransitionComplete(true);
-  };
+  }, []);
 
-  const contentStyle = {
-    opacity: contentReady ? 1 : 0,
-    transition: "opacity 0.4s ease-in",
-    pointerEvents: contentReady ? ("auto" as const) : ("none" as const),
-  };
+  const contentStyle = useMemo(
+    () => ({
+      opacity: contentReady ? 1 : 0,
+      transition: "opacity 0.4s ease-in",
+      pointerEvents: contentReady ? ("auto" as const) : ("none" as const),
+    }),
+    [contentReady]
+  );
 
   return (
     <>

@@ -20,6 +20,7 @@ export const ScrollProgress = React.forwardRef<
         className
       )}
       style={{
+        willChange: "transform",
         scaleX: scrollYProgress,
       }}
       {...props}
