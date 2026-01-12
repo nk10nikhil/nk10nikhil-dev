@@ -1,77 +1,82 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import fs from "node:fs/promises";
 import express from "express";
-import compression from "compression";
-import sirv from "sirv";
-import { createServer as createViteServer } from "vite";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const isProduction = process.env.NODE_ENV === "production";
-const port = process.env.PORT || 5173;
-const base = process.env.BASE || "/";
 
-// Cached production assets
-const templateHtml = isProduction
-  ? fs.readFileSync("./dist/client/index.html", "utf-8")
-  : "";
-const ssrManifest = isProduction
-  ? fs.readFileSync("./dist/client/.vite/ssr-manifest.json", "utf-8")
-  : undefined;
+// Create Express app
+const app = express();
 
-async function createServer() {
-  const app = express();
-
-  let vite;
-  if (!isProduction) {
-    // Create Vite server in middleware mode
-    vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "custom",
-      base,
-    });
-    // Use vite's connect instance as middleware
-    app.use(vite.middlewares);
-  } else {
-    // Compression and static file serving for production
-    app.use(compression());
-    app.use(base, sirv("./dist/client", { extensions: [] }));
-  }
-
-  // Serve HTML
-  app.use("/", async (req, res) => {
-    try {
-      const url = req.originalUrl.replace(base, "");
-
-      let template;
-      let render;
-      if (!isProduction) {
-        // Always read fresh template in development
-        template = fs.readFileSync("./index.html", "utf-8");
-        template = await vite.transformIndexHtml(url, template);
-        render = (await vite.ssrLoadModule("/src/entry-server.tsx")).render;
-      } else {
-        template = templateHtml;
-        render = (await import("./dist/server/entry-server.js")).render;
-      }
-
-      const rendered = await render(url, ssrManifest);
-
-      const html = template
-        .replace(`<!--ssr-outlet-->`, rendered.html ?? "")
-        .replace(`<!--ssr-head-->`, rendered.head ?? "");
-
-      res.status(200).set({ "Content-Type": "text/html" }).send(html);
-    } catch (e) {
-      vite?.ssrFixStacktrace(e);
-      console.log(e.stack);
-      res.status(500).end(e.stack);
-    }
+// Serve static files
+if (isProduction) {
+  const compression = (await import("compression")).default;
+  const sirv = (await import("sirv")).default;
+  app.use(compression());
+  app.use(
+    "/assets",
+    sirv(resolve(__dirname, "./dist/client/assets"), {
+      extensions: [],
+      maxAge: 31536000,
+      immutable: true,
+    })
+  );
+} else {
+  const { createServer } = await import("vite");
+  const vite = await createServer({
+    server: { middlewareMode: true },
+    appType: "custom",
   });
+  app.use(vite.middlewares);
+}
 
+// SSR handler
+app.use("*", async (req, res, next) => {
+  try {
+    const url = req.originalUrl;
+
+    let template, render;
+    if (!isProduction) {
+      const vite =
+        res.locals.vite ||
+        (await import("vite")).createServer({
+          server: { middlewareMode: true },
+          appType: "custom",
+        });
+      template = await fs.readFile(resolve(__dirname, "index.html"), "utf-8");
+      template = await vite.transformIndexHtml(url, template);
+      render = (await vite.ssrLoadModule("/src/entry-server.tsx")).render;
+    } else {
+      template = await fs.readFile(
+        resolve(__dirname, "./dist/client/index.html"),
+        "utf-8"
+      );
+      render = (await import("./dist/server/entry-server.js")).render;
+    }
+
+    const { html: appHtml } = render(url);
+    const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
+  } catch (e) {
+    if (!isProduction && res.locals.vite) {
+      res.locals.vite.ssrFixStacktrace(e);
+    }
+    console.error(e.stack);
+    res.status(500).end(e.stack);
+  }
+});
+
+// For Vercel serverless function
+export default app;
+
+// For local development
+if (!process.env.VERCEL) {
+  const port = process.env.PORT || 5173;
   app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`);
   });
 }
-
-createServer();
