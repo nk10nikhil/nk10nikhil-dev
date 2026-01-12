@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 
 @tailwind base;
 @tailwind components;
@@ -575,10 +575,6 @@ html {
 
 /* Hero text slider ends */
 
-
-
-
-
 /* ===== PERFORMANCE OPTIMIZATIONS ===== */
 
 /* Optimize will-change usage - only apply during animation */
@@ -657,4 +653,53 @@ nav {
 .backdrop-blur {
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* ========================================== */
+/* PERFORMANCE OPTIMIZATIONS */
+/* ========================================== */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hardware acceleration for animations */
+.animate-smooth {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize font rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prevent layout shifts */
+img,
+video {
+  height: auto;
+  max-width: 100%;
+}
+
+/* Optimize repaints */
+* {
+  box-sizing: border-box;
 }
