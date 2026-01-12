@@ -4,12 +4,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "hint": "hint .",
-    "lint": "eslint . && hint .",
-    "preview": "vite preview"
+    "dev": "node server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --outDir dist/client --ssrManifest",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
+    "preview": "cross-env NODE_ENV=production node server"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -45,6 +44,8 @@
     "axios": "^1.8.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "compression": "^1.8.1",
+    "express": "^5.2.1",
     "framer-motion": "^12.5.0",
     "gsap": "^3.13.0",
     "lucide-react": "^0.462.0",
@@ -57,6 +58,7 @@
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.26.2",
+    "sirv": "^3.0.2",
     "sonner": "^1.5.0",
     "styled-components": "^6.1.16",
     "tailwind-merge": "^2.6.0",
@@ -71,6 +73,7 @@
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.21",
     "baseline-browser-mapping": "^2.9.14",
+    "cross-env": "^10.1.0",
     "eslint": "^9.9.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18",

@@ -574,3 +574,87 @@ html {
 }
 
 /* Hero text slider ends */
+
+
+
+
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Optimize will-change usage - only apply during animation */
+.animating {
+  will-change: transform, opacity;
+}
+
+/* Remove will-change after animation completes */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    will-change: auto !important;
+  }
+}
+
+/* Use containment for better rendering performance */
+.project-card,
+.service-card,
+.timeline-item,
+.cert-carousel,
+nav {
+  contain: layout style;
+}
+
+/* Optimize images with content-visibility */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 200px;
+}
+
+/* Optimize scrolling elements */
+.overflow-auto,
+.overflow-y-auto,
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* GPU acceleration for specific animated elements */
+.floating-object,
+.orb-container,
+.animate-float,
+.animate-glow,
+[class*="animate-"] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize navbar rendering */
+nav {
+  will-change: background-color, box-shadow;
+  backface-visibility: hidden;
+}
+
+/* Reduce repaints on scroll */
+.fixed {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize card hover effects */
+.card-3d-effect {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Performance hints for heavy components */
+.glass-morphism,
+.neo-blur,
+.backdrop-blur {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}

@@ -501,10 +501,12 @@ export function ProjectCard({
 }: {
   selectedCategory: string;
 }) {
-  const filteredProjects =
-    selectedCategory === "All"
+  // Memoize filtered projects to prevent recalculation on every render
+  const filteredProjects = useMemo(() => {
+    return selectedCategory === "All"
       ? projects
       : projects.filter((project) => project.category === selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mt-[-40px]">
@@ -725,12 +727,51 @@ export function ProjectCard({
   );
 }
 
+// Move outside component - prevents recreation on every render
+const CATEGORIES = [
+  "All",
+  "Full Stack",
+  "AI/ML",
+  "Automation",
+  "Algorithms",
+] as const;
+
+// Memoized category filter button
+const CategoryButton = React.memo(
+  ({
+    category,
+    isSelected,
+    onClick,
+  }: {
+    category: string;
+    isSelected: boolean;
+    onClick: () => void;
+  }) => (
+    <button
+      onClick={onClick}
+      className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+        isSelected
+          ? "bg-gradient-to-r from-purple-500 to-pink-400 text-white shadow-lg"
+          : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white"
+      }`}
+    >
+      {category}
+    </button>
+  )
+);
+
+CategoryButton.displayName = "CategoryButton";
+
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const categories = ["All", "Full Stack", "AI/ML", "Automation", "Algorithms"];
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  // Memoize category change handler
+  const handleCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
   }, []);
 
   return (
@@ -773,18 +814,13 @@ const Projects = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-wrap justify-center gap-3 mb-12"
           >
-            {categories.map((category) => (
-              <button
+            {CATEGORIES.map((category) => (
+              <CategoryButton
                 key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  selectedCategory === category
-                    ? "bg-gradient-to-r from-purple-500 to-pink-400 text-white shadow-lg"
-                    : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white"
-                }`}
-              >
-                {category}
-              </button>
+                category={category}
+                isSelected={selectedCategory === category}
+                onClick={() => handleCategoryChange(category)}
+              />
             ))}
           </motion.div>
           <ProjectCard selectedCategory={selectedCategory} />
