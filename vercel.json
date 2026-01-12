@@ -1,62 +1,37 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/client/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/dist/client/assets/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/server.js"
     }
   ],
   "headers": [
-    {
-      "source": "/sitemap.xml",
-      "headers": [{ "key": "Content-Type", "value": "application/xml" }]
-    },
-    {
-      "source": "/robots.txt",
-      "headers": [{ "key": "Content-Type", "value": "text/plain" }]
-    },
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/index.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=63072000; includeSubDomains; preload"
-        }
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
-  ],
-  "images": {
-    "sizes": [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    "formats": ["image/avif", "image/webp"],
-    "domains": [
-      "www.nk10nikhil.dev",
-      "nk10nikhildev.vercel.app",
-      "nk10nikhil.dev"
-    ],
-    "minimumCacheTTL": 60
-  }
+  ]
 }
