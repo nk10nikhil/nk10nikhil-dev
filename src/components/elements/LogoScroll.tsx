@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import {
   FaReact,
   FaNodeJs,
-  FaDatabase,
   FaPython,
   FaJs,
   FaHtml5,

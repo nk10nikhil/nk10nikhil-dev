@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const StarOnGithubButton = () => {
   const [repoCount, setRepoCount] = useState<number | null>(null);

@@ -4,11 +4,7 @@ import {
   Send,
   Sparkles,
   Mail,
-  Globe,
-  Users,
-  Zap,
-  TrendingUp,
-  Award,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -520,7 +516,6 @@ const Newsletter = () => {
                       No spam, unsubscribe anytime. We respect your privacy.
                     </p>
                   </motion.form>
-
                 </div>
 
                 {/* Right Globe */}

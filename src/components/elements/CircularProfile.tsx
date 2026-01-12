@@ -1,4 +1,3 @@
-import React from "react";
 import CircularText from "@/components/elements/CircularText";
 
 const CircularProfile = () => {

@@ -246,7 +246,10 @@ export default function TestimonialMarquee({
   });
 
   return (
-    <section className="py-12 md:py-16 relative overflow-hidden bg-transparent" ref={ref}>
+    <section
+      className="py-12 md:py-16 relative overflow-hidden bg-transparent"
+      ref={ref}
+    >
       {/* Header Section */}
       <div className="container mx-auto px-4 mb-12 md:mb-16">
         <motion.div

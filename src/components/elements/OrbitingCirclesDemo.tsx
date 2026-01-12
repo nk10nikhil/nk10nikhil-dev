@@ -1,4 +1,3 @@
-import { css } from "styled-components";
 import { OrbitingCircles } from "@/components/elements/OrbitingCircles";
 
 export function OrbitingCirclesDemo() {

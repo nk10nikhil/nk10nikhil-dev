@@ -8,7 +8,7 @@ import React, {
 import { useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Menu, X, Github, Linkedin, Twitter } from "lucide-react";
+import { Menu, X, Github, Linkedin } from "lucide-react";
 import { ScrollProgress } from "@/components/elements/ScrollProgress";
 
 const NAV_TEXTS = [

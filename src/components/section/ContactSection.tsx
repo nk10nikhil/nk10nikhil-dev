@@ -179,7 +179,7 @@ const ContactSection = () => {
 
             <div className="glass-morphism rounded-xl p-6 md:p-8 h-[200px] relative overflow-hidden">
               <img
-                src="/background/contactbg.png"
+                src="/images/contactbg.png"
                 alt="Illustration"
                 className="absolute inset-0 w-full h-full object-cover opacity-50"
               />
