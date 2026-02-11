@@ -119,82 +119,136 @@ const About = () => {
     []
   );
 
-  const workExperience = useMemo(
-    () => [
-      {
-        title: "Chief Technology Officer",
-        company: "WeBuilt_U",
-        period: "Jan 2025 - Dec 2025",
-        description:
-          "Built WeBuilt_U's website from the ground up, leading full-stack development and tech strategy. Managing dev team, optimizing workflows, and ensuring performance, scalability, and seamless UX.",
-        technologies: [
-          "React",
-          "Next.js",
-          "Node.js",
-          "MongoDB",
-          "Team Leadership",
-        ],
-      },
-      {
-        title: "Open Source Developer",
-        company: "GoFr Summer of Code",
-        period: "Jun 2025 - Aug 2025",
-        description:
-          "Contributed to scalable web apps and secure auth systems. Key projects: GoFr Dev Dashboard (Next.js, MongoDB) and OpenAuth Gateway (JWT). Enhanced clean architecture and performance optimization.",
-        technologies: ["Next.js", "MongoDB", "JWT", "REST APIs"],
-      },
-      {
-        title: "Professional Freelancer",
-        company: "Freelancer.com",
-        period: "Jan 2024 - Jan 2025",
-        description:
-          "Delivered full-stack web solutions for clients—building responsive UIs, secure backends, dynamic features. Integrated payment systems, optimized performance, deployed via GitHub, Vercel, Netlify.",
-        technologies: ["React", "Node.js", "Firebase", "Payment Integration"],
-      },
-      {
-        title: "Team Leader",
-        company: "Smart India Hackathon 2024",
-        period: "Aug 2024 - Dec 2024",
-        description:
-          "Led a 6-member team to build a QR-based ticketing system serving 3,000+ attendees in 36 hours. Designed REST APIs, real-time dashboards, achieved 90+ Lighthouse score.",
-        technologies: ["React", "Next.js", "MongoDB", "QR System", "REST APIs"],
-      },
-    ],
-    []
-  );
+const workExperience = useMemo(
+  () => [
+    {
+      title: "Full Stack Engineer",
+      company: "WeBuilt_U",
+      period: "Jan 2025 - Jun 2025",
+      description:
+        "Led end-to-end full-stack development, building the company platform from scratch. Designed scalable and secure architectures with strong focus on performance and user experience. Mentored developers, collaborated in Agile sprints, and implemented CI/CD pipelines reducing release cycles by ~40%.",
+      technologies: [
+        "React",
+        "Next.js",
+        "Node.js",
+        "MongoDB",
+        "CI/CD",
+        "Agile",
+        "Team Leadership",
+      ],
+    },
+    {
+      title: "Open Source Developer",
+      company: "gofr.dev",
+      period: "Jun 2025 - Aug 2025",
+      description:
+        "Contributed to scalable web applications and secure authentication systems. Developed features for the GoFr Developer Dashboard and OpenAuth Gateway. Implemented and improved JWT-based authentication workflows while enhancing architecture, performance, and maintainability.",
+      technologies: [
+        "Next.js",
+        "JWT",
+        "MongoDB",
+        "REST APIs",
+        "Authentication",
+      ],
+    },
+    {
+      title: "Open-Source Tech Contributor",
+      company: "GirlScript Summer of Code (GSSoC 2025)",
+      period: "Jul 2025 - Sep 2025",
+      description:
+        "Contributed to open-source projects in a distributed development environment. Collaborated with global mentors and contributors while following Git/GitHub best practices including pull requests, issue tracking, testing, and structured code reviews.",
+      technologies: ["Git", "GitHub", "Open Source", "Collaboration"],
+    },
+    {
+      title: "Web Development Intern",
+      company: "Geeks Kepler",
+      period: "Nov 2025 - Jan 2026",
+      description:
+        "Selected through Unstop Tech Fair 2025 for a remote web development internship. Designed responsive, cross-browser-compatible web interfaces and translated UI/UX designs into high-performance functional components using modern frontend practices.",
+      technologies: ["HTML", "CSS", "JavaScript", "UI/UX"],
+    },
+    {
+      title: "Professional Freelancer",
+      company: "Freelancer.com",
+      period: "Jan 2024 - Dec 2024",
+      description:
+        "Delivered end-to-end full-stack solutions for clients across industries. Built and customized WordPress-based and dynamic web applications, optimized performance through caching and secure authentication, and managed independent deployment and maintenance.",
+      technologies: [
+        "Full-Stack Development",
+        "WordPress",
+        "Authentication",
+        "Deployment",
+      ],
+    },
+    {
+      title: "Team Leader",
+      company: "Smart India Hackathon 2024",
+      period: "Aug 2024 - Dec 2024",
+      description:
+        "Led a 6-member team to build a QR-based ticketing system for 3,000–5,000 attendees. Designed REST APIs and real-time dashboards, improving check-in efficiency and system scalability under strict hackathon timelines.",
+      technologies: ["React", "Next.js", "MongoDB", "REST APIs", "QR Systems"],
+    },
+  ],
+  [],
+);
 
-  const education = useMemo(
-    () => [
-      {
-        degree: "Bachelor of Technology - Computer Science & Design",
-        institution: "Galgotias College of Engineering and Technology",
-        period: "Oct 2023 - Nov 2027",
-        grade: "8.52 CGPA",
-        description:
-          "Pursuing B.Tech in CS & Design, focusing on Full-Stack Development, DSA, UI/UX, Logic Theory, and building innovative web applications. Active in open-source, hackathons, and technical problem-solving.",
-        highlights: [
-          "Smart India Hackathon 2024 Team Leader",
-          "Open Source Contributor",
-          "8.52 CGPA",
-        ],
-      },
-      {
-        degree: "Higher Secondary Education (PCM)",
-        institution: "Army Public School (APS)",
-        period: "Jul 2020 - Jul 2022",
-        grade: "A1",
-        description:
-          "NDA-qualified, Class Representative, House Captain, Football Vice-Captain. Developed leadership, teamwork, strategic thinking, discipline, and analytical skills through academics and extracurriculars.",
-        highlights: [
-          "NDA Qualified",
-          "House Captain",
-          "Football Vice-Captain",
-          "Chess Player",
-        ],
-      },
-    ],
-    []
-  );
+const education = useMemo(
+  () => [
+    {
+      degree: "Bachelor of Technology - Computer Science & Design",
+      institution: "Galgotias College of Engineering and Technology",
+      period: "Oct 2023 - Jul 2027",
+      grade: "CGPA: 8.52",
+      description:
+        "Focused on software engineering, full-stack development, and user-centered design. Actively involved in open-source contributions, hackathons, and real-world application development.",
+      highlights: [
+        "Smart India Hackathon 2024 – Team Leader (Finalist)",
+        "Open Source Contributor (GSSoC, GoFr SoC)",
+        "Core Coursework: DSA, Discrete Structures, Logic Theory, UI/UX",
+      ],
+    },
+    {
+      degree: "Professional Diploma - Software Testing & Quality Assurance",
+      institution: "Institute of Management, Technology and Finance",
+      period: "Jan 2025 - Aug 2025",
+      description:
+        "Trained in software testing fundamentals, QA best practices, SDLC/STLC, bug lifecycle, and performance improvement. Hands-on experience with manual testing, test case design, and defect tracking.",
+      highlights: [
+        "Manual Testing & Test Case Design",
+        "Bug Tracking & QA Processes",
+        "Software Reliability & Performance Optimization",
+      ],
+    },
+    {
+      degree: "Professional Diploma - Web3 NFT Business",
+      institution: "Institute of Management, Technology and Finance",
+      period: "Jan 2025 - Aug 2025",
+      description:
+        "Gained foundational knowledge of blockchain, decentralized applications, token ecosystems, and NFT use cases. Explored emerging digital business models and Web3 innovation strategies.",
+      highlights: [
+        "Blockchain Fundamentals",
+        "NFT Ecosystems",
+        "Web3 Adoption & Strategy",
+      ],
+    },
+    {
+      degree: "Higher Secondary Education (PCM)",
+      institution: "Army Public School (APS)",
+      period: "Jul 2020 - Jul 2022",
+      grade: "Grade: A1",
+      description:
+        "NDA Qualified. Served as Class Representative and House Captain. Vice-Captain of Football Team and active Chess player, developing leadership, discipline, strategic thinking, and teamwork skills.",
+      highlights: [
+        "NDA Qualified",
+        "House Captain",
+        "Football Vice-Captain",
+        "Strategic Thinking & Leadership",
+      ],
+    },
+  ],
+  [],
+);
+
 
   return (
     <motion.div
