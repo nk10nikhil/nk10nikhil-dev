@@ -1,19 +1,6 @@
-<style>
-@media (max-width: 790px) {
-  .about-me-heading {
-    display: none !important;
-  }
-}
-</style>
-
 <!-- Typing SVG Heading -->
 <div align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=2000&pause=2000&color=A9FEF7&center=true&vCenter=true&width=940&lines=Hi+there+%F0%9F%91%8B+I'm+Nikhil+Kumar;Full-Stack+Developer+%7C+Cloud+%7C+AI%2FML;Building+Scalable+%26+Impactful+Solutions" alt="Typing SVG" />
-</div>
-
-<!-- GALACTIC DIVIDER - ANIMATED STARS -->
-<div align="center">
-  <img src="https://raw.githubusercontent.com/trinib/trinib/82213791fa9ff58d3ca768ddd6de2489ec23ffca/images/footer.svg" width="100%">
 </div>
 
 <!-- Social Links Bar -->
@@ -294,4 +281,7 @@
 <div align="center">
   <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Random Dev Quote"/>
 </div>
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%">
+<!-- GALACTIC DIVIDER - ANIMATED STARS -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/trinib/trinib/82213791fa9ff58d3ca768ddd6de2489ec23ffca/images/footer.svg" width="100%">
+</div>
