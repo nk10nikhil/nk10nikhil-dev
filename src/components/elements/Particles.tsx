@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
@@ -32,6 +32,7 @@ export default function Particles({
   refresh = false,
 }: ParticlesProps) {
   const location = useLocation();
+  const [isDesktop, setIsDesktop] = useState(false);
   const isBlogPost =
     location.pathname.startsWith("/blogs/") && location.pathname !== "/blogs";
 
@@ -53,11 +54,22 @@ export default function Particles({
       return;
     }
 
+    const updateViewport = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    updateViewport();
     dprRef.current = Math.min(window.devicePixelRatio || 1, 2);
+
+    window.addEventListener("resize", updateViewport);
+
+    return () => {
+      window.removeEventListener("resize", updateViewport);
+    };
   }, []);
 
   useEffect(() => {
-    if (isBlogPost || !canvasRef.current) {
+    if (isBlogPost || !isDesktop || !canvasRef.current) {
       return;
     }
 
@@ -286,9 +298,9 @@ export default function Particles({
         window.cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [ease, isBlogPost, quantity, refresh, staticity]);
+  }, [ease, isBlogPost, isDesktop, quantity, refresh, staticity]);
 
-  if (isBlogPost) {
+  if (isBlogPost || !isDesktop) {
     return null;
   }
 
