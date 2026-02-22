@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Square, Hexagon, Triangle, Star, Circle } from "lucide-react";
+import Particles from "@/components/elements/Particles";
 
 // Move outside component - create ONCE, not on every render
 const FLOATING_ITEMS = [
@@ -93,7 +94,7 @@ const FloatingObjects = React.memo(() => {
             },
           },
     }),
-    [prefersReducedMotion]
+    [prefersReducedMotion],
   );
 
   const rotateAnimation = useMemo(
@@ -110,7 +111,7 @@ const FloatingObjects = React.memo(() => {
             },
           },
     }),
-    [prefersReducedMotion]
+    [prefersReducedMotion],
   );
 
   // Don't render until client-side
@@ -127,6 +128,8 @@ const FloatingObjects = React.memo(() => {
         backfaceVisibility: "hidden",
       }}
     >
+      <Particles className="absolute inset-0" quantity={100} />
+
       {FLOATING_ITEMS.map(
         ({ id, Icon, size, className, bgColor, iconColor, delay }) => (
           <motion.div
@@ -150,12 +153,12 @@ const FloatingObjects = React.memo(() => {
                 id === 2
                   ? "full"
                   : id === 4
-                  ? "xl"
-                  : id === 3
-                  ? "lg"
-                  : id === 1
-                  ? "2xl"
-                  : "full"
+                    ? "xl"
+                    : id === 3
+                      ? "lg"
+                      : id === 1
+                        ? "2xl"
+                        : "full"
               }`}
               style={{
                 willChange: prefersReducedMotion ? "auto" : "transform",
@@ -164,7 +167,7 @@ const FloatingObjects = React.memo(() => {
               <Icon size={size} className={iconColor} />
             </motion.div>
           </motion.div>
-        )
+        ),
       )}
     </div>
   );
