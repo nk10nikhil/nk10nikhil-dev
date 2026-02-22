@@ -46,6 +46,7 @@ export default function Particles({
   const quantityRef = useRef(quantity);
   const staticityRef = useRef(staticity);
   const easeRef = useRef(ease);
+  const isMobileRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -68,8 +69,10 @@ export default function Particles({
         "(prefers-reduced-motion: reduce)",
       ).matches;
 
+      isMobileRef.current = isMobile;
+
       quantityRef.current = isMobile
-        ? Math.max(20, Math.floor(quantity * 0.45))
+        ? Math.max(40, Math.floor(quantity * 0.65))
         : quantity;
       staticityRef.current = isMobile ? Math.max(staticity, 80) : staticity;
       easeRef.current = isMobile ? Math.max(ease, 80) : ease;
@@ -132,9 +135,16 @@ export default function Particles({
       y: Math.floor(Math.random() * canvasSizeRef.current.h),
       translateX: 0,
       translateY: 0,
-      size: Math.floor(Math.random() * 2) + 0.1,
+      size: isMobileRef.current
+        ? Math.random() * 2.2 + 0.7
+        : Math.floor(Math.random() * 2) + 0.1,
       alpha: 0,
-      targetAlpha: parseFloat((Math.random() * 0.6 + 0.1).toFixed(1)),
+      targetAlpha: parseFloat(
+        (isMobileRef.current
+          ? Math.random() * 0.45 + 0.3
+          : Math.random() * 0.6 + 0.1
+        ).toFixed(2),
+      ),
       dx: (Math.random() - 0.5) * 0.2,
       dy: (Math.random() - 0.5) * 0.2,
       magnetism: 0.1 + Math.random() * 4,
@@ -226,15 +236,30 @@ export default function Particles({
       animationFrameRef.current = window.requestAnimationFrame(animate);
     };
 
-    const onPointerMove = (event: MouseEvent) => {
+    const onPointerMove = (event: MouseEvent | TouchEvent) => {
       if (!canvasRef.current) {
         return;
       }
 
+      let clientX: number;
+      let clientY: number;
+
+      if ("touches" in event) {
+        const touch = event.touches[0] ?? event.changedTouches[0];
+        if (!touch) {
+          return;
+        }
+        clientX = touch.clientX;
+        clientY = touch.clientY;
+      } else {
+        clientX = event.clientX;
+        clientY = event.clientY;
+      }
+
       const rect = canvasRef.current.getBoundingClientRect();
       const { w, h } = canvasSizeRef.current;
-      const x = event.clientX - rect.left - w / 2;
-      const y = event.clientY - rect.top - h / 2;
+      const x = clientX - rect.left - w / 2;
+      const y = clientY - rect.top - h / 2;
       const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
 
       if (inside) {
@@ -249,10 +274,14 @@ export default function Particles({
 
     window.addEventListener("resize", resizeCanvas);
     window.addEventListener("mousemove", onPointerMove, { passive: true });
+    window.addEventListener("touchmove", onPointerMove as EventListener, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", onPointerMove);
+      window.removeEventListener("touchmove", onPointerMove as EventListener);
       if (animationFrameRef.current !== null) {
         window.cancelAnimationFrame(animationFrameRef.current);
       }
