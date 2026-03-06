@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -5,7 +6,7 @@ import {
 } from "@/components/elements/avatar";
 import { Card, CardContent } from "@/components/elements/cards";
 import { Marquee } from "@/components/elements/3d-testimonials";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { MessageSquare, Star } from "lucide-react";
 
@@ -205,6 +206,15 @@ const indianTestimonials: Testimonial[] = [
   },
 ];
 
+function splitIntoColumns(
+  items: Testimonial[],
+  count: number,
+): Testimonial[][] {
+  const cols = Array.from({ length: count }, () => [] as Testimonial[]);
+  items.forEach((item, idx) => cols[idx % count].push(item));
+  return cols;
+}
+
 function TestimonialCard({ img, name, username, body }: Testimonial) {
   return (
     <Card className="w-60">
@@ -215,7 +225,7 @@ function TestimonialCard({ img, name, username, body }: Testimonial) {
             <AvatarFallback>{name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <figcaption className="text-sm font-medium text-foreground flex items-center gap-1 pt-4">
+            <figcaption className="pt-4 text-sm font-medium text-foreground">
               {name}
             </figcaption>
             <p className="text-xs font-medium text-muted-foreground">
@@ -223,7 +233,7 @@ function TestimonialCard({ img, name, username, body }: Testimonial) {
             </p>
           </div>
         </div>
-        <blockquote className="mt-3 text-sm text-econdary-foreground">
+        <blockquote className="mt-3 text-sm text-secondary-foreground">
           {body}
         </blockquote>
       </CardContent>
@@ -233,254 +243,141 @@ function TestimonialCard({ img, name, username, body }: Testimonial) {
 
 export default function TestimonialMarquee({
   testimonials = indianTestimonials,
-  repeat = 4,
-  duration = "40s",
+  repeat = 3,
+  duration = "28s",
 }: {
   testimonials?: Testimonial[];
   repeat?: number;
   duration?: string;
 }) {
+  const prefersReducedMotion = useReducedMotion();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
+  const columns = splitIntoColumns(testimonials, 4);
+
+  const style1 = { ["--duration" as string]: duration } as CSSProperties;
+  const style2 = { ["--duration" as string]: "22s" } as CSSProperties;
+  const style3 = { ["--duration" as string]: "26s" } as CSSProperties;
+  const style4 = { ["--duration" as string]: "24s" } as CSSProperties;
+
   return (
     <section
-      className="py-12 md:py-16 relative overflow-hidden bg-transparent"
+      className="relative overflow-hidden bg-transparent py-12 md:py-16"
       ref={ref}
     >
-      {/* Header Section */}
-      <div className="container mx-auto px-4 mb-12 md:mb-16">
+      <div className="container mx-auto mb-12 px-4 md:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto"
+          className="mx-auto max-w-3xl text-center"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 mb-6"
-          >
-            <MessageSquare className="w-4 h-4 text-amber-400" />
-            <span className="text-sm text-amber-300 font-medium">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-4 py-2">
+            <MessageSquare className="h-4 w-4 text-amber-400" />
+            <span className="text-sm font-medium text-amber-300">
               Client Testimonials
             </span>
-          </motion.div>
+          </div>
 
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-amber-200 to-white">
+          <h2 className="mb-4 text-3xl font-bold md:mb-6 md:text-5xl lg:text-6xl">
+            <span className="bg-gradient-to-r from-white via-amber-200 to-white bg-clip-text text-transparent">
               What Clients Say
             </span>
           </h2>
 
-          <p className="text-white/60 text-base md:text-lg leading-relaxed">
+          <p className="text-base leading-relaxed text-white/60 md:text-lg">
             Don't just take my word for it. Here's what clients have to say
             about working with me.
           </p>
 
-          {/* Rating stars */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex items-center justify-center gap-1 mt-6"
-          >
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+          <div className="mt-6 flex items-center justify-center gap-1">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
             ))}
-            <span className="ml-2 text-white/60 text-sm">
+            <span className="ml-2 text-sm text-white/60">
               5.0 from 100+ reviews
             </span>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
-      {/* Testimonial Carousel - Exact Same */}
-      <div className="border-0 border-border rounded-lg relative flex h-96 w-screen flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:500px]">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: 0.15 }}
+        className="relative mx-auto flex h-[26rem] w-full max-w-full items-center justify-center overflow-hidden [perspective:420px]"
+      >
         <div
-          className="flex flex-row items-center gap-2"
+          className="flex items-center gap-2"
           style={{
-            transform:
-              "translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
+            transform: prefersReducedMotion
+              ? "none"
+              : "translateX(-40px) translateZ(-70px) rotateX(14deg) rotateY(-8deg) rotateZ(8deg)",
           }}
         >
           <Marquee
             vertical
             pauseOnHover
             repeat={repeat}
-            className={`[--duration:${duration}]`}
+            style={style1}
+            className="[--gap:0.75rem]"
           >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
+            {columns[0].map((review) => (
+              <TestimonialCard key={`c1-${review.username}`} {...review} />
             ))}
           </Marquee>
+
           <Marquee
             vertical
             pauseOnHover
             reverse
             repeat={repeat}
-            className={`[--duration:${duration}]`}
+            style={style2}
+            className="[--gap:0.75rem]"
           >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
+            {columns[1].map((review) => (
+              <TestimonialCard key={`c2-${review.username}`} {...review} />
             ))}
           </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            reverse
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            reverse
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            reverse
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            reverse
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            reverse
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            reverse
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          <Marquee
-            vertical
-            pauseOnHover
-            repeat={repeat}
-            className={`[--duration:${duration}]`}
-          >
-            {testimonials.map((review) => (
-              <TestimonialCard key={review.username} {...review} />
-            ))}
-          </Marquee>
-          {/* Gradient overlays for vertical marquee */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+
+          <div className="hidden md:block">
+            <Marquee
+              vertical
+              pauseOnHover
+              repeat={repeat}
+              style={style3}
+              className="[--gap:0.75rem]"
+            >
+              {columns[2].map((review) => (
+                <TestimonialCard key={`c3-${review.username}`} {...review} />
+              ))}
+            </Marquee>
+          </div>
+
+          <div className="hidden lg:block">
+            <Marquee
+              vertical
+              pauseOnHover
+              reverse
+              repeat={repeat}
+              style={style4}
+              className="[--gap:0.75rem]"
+            >
+              {columns[3].map((review) => (
+                <TestimonialCard key={`c4-${review.username}`} {...review} />
+              ))}
+            </Marquee>
+          </div>
         </div>
-      </div>
+
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-transparent" />
+      </motion.div>
     </section>
   );
 }

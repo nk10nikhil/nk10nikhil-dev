@@ -3,12 +3,13 @@ import React, {
   cloneElement,
   forwardRef,
   isValidElement,
-  ReactElement,
-  ReactNode,
-  RefObject,
+  type ReactElement,
+  type ReactNode,
+  type RefObject,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import gsap from "gsap";
 
@@ -22,6 +23,7 @@ export interface CardSwapProps {
   onCardClick?: (idx: number) => void;
   skewAmount?: number;
   easing?: "linear" | "elastic";
+  autoplayEnabled?: boolean;
   children: ReactNode;
 }
 
@@ -38,11 +40,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         customClass ?? ""
       } ${rest.className ?? ""}`.trim()}
     />
-  )
+  ),
 );
 Card.displayName = "Card";
 
-type CardRef = RefObject<HTMLDivElement>;
+type CardRef = RefObject<HTMLDivElement | null>;
 interface Slot {
   x: number;
   y: number;
@@ -54,7 +56,7 @@ const makeSlot = (
   i: number,
   distX: number,
   distY: number,
-  total: number
+  total: number,
 ): Slot => ({
   x: i * distX,
   y: -i * distY,
@@ -85,6 +87,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onCardClick,
   skewAmount = 6,
   easing = "elastic",
+  autoplayEnabled = true,
   children,
 }) => {
   const config =
@@ -108,20 +111,41 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
   const childArr = useMemo(
     () => Children.toArray(children) as ReactElement<CardProps>[],
-    [children]
+    [children],
   );
   const refs = useMemo<CardRef[]>(
     () => childArr.map(() => React.createRef<HTMLDivElement>()),
-    [childArr.length]
+    [childArr.length],
   );
 
   const order = useRef<number[]>(
-    Array.from({ length: childArr.length }, (_, i) => i)
+    Array.from({ length: childArr.length }, (_, i) => i),
   );
 
   const tlRef = useRef<gsap.core.Timeline | null>(null);
-  const intervalRef = useRef<number>();
+  const intervalRef = useRef<number | undefined>(undefined);
   const container = useRef<HTMLDivElement>(null);
+  const [reduceRuntimeMotion, setReduceRuntimeMotion] = useState(false);
+
+  useEffect(() => {
+    const connection = (navigator as any).connection as
+      | {
+          saveData?: boolean;
+          effectiveType?: string;
+        }
+      | undefined;
+
+    const saveData = connection?.saveData === true;
+    const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+    const lowCoreDevice = (navigator.hardwareConcurrency ?? 8) <= 4;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    setReduceRuntimeMotion(
+      reducedMotion || saveData || slowNetwork || lowCoreDevice,
+    );
+  }, []);
 
   useEffect(() => {
     const total = refs.length;
@@ -129,8 +153,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
       placeNow(
         r.current!,
         makeSlot(i, cardDistance, verticalDistance, total),
-        skewAmount
-      )
+        skewAmount,
+      ),
     );
 
     const swap = () => {
@@ -161,7 +185,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
             duration: config.durMove,
             ease: config.ease,
           },
-          `promote+=${i * 0.15}`
+          `promote+=${i * 0.15}`,
         );
       });
 
@@ -169,7 +193,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
         refs.length - 1,
         cardDistance,
         verticalDistance,
-        refs.length
+        refs.length,
       );
       tl.addLabel("return", `promote+=${config.durMove * config.returnDelay}`);
       tl.call(
@@ -177,7 +201,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           gsap.set(elFront, { zIndex: backSlot.zIndex });
         },
         undefined,
-        "return"
+        "return",
       );
       tl.to(
         elFront,
@@ -188,7 +212,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           duration: config.durReturn,
           ease: config.ease,
         },
-        "return"
+        "return",
       );
 
       tl.call(() => {
@@ -197,7 +221,13 @@ const CardSwap: React.FC<CardSwapProps> = ({
     };
 
     swap();
-    intervalRef.current = window.setInterval(swap, delay);
+
+    const effectiveDelay = reduceRuntimeMotion ? delay * 1.6 : delay;
+    const allowAutoplay = !reduceRuntimeMotion && autoplayEnabled;
+
+    if (allowAutoplay) {
+      intervalRef.current = window.setInterval(swap, effectiveDelay);
+    }
 
     if (pauseOnHover) {
       const node = container.current!;
@@ -206,8 +236,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
         clearInterval(intervalRef.current);
       };
       const resume = () => {
+        if (!allowAutoplay) return;
         tlRef.current?.play();
-        intervalRef.current = window.setInterval(swap, delay);
+        intervalRef.current = window.setInterval(swap, effectiveDelay);
       };
       node.addEventListener("mouseenter", pause);
       node.addEventListener("mouseleave", resume);
@@ -218,7 +249,16 @@ const CardSwap: React.FC<CardSwapProps> = ({
       };
     }
     return () => clearInterval(intervalRef.current);
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+  }, [
+    autoplayEnabled,
+    cardDistance,
+    verticalDistance,
+    delay,
+    pauseOnHover,
+    skewAmount,
+    easing,
+    reduceRuntimeMotion,
+  ]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement<CardProps>(child)
@@ -231,7 +271,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
             onCardClick?.(i);
           },
         } as CardProps & React.RefAttributes<HTMLDivElement>)
-      : child
+      : child,
   );
 
   return (

@@ -5,7 +5,7 @@ import { Sparkles } from "lucide-react";
 const technologies = [
   {
     name: "React",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+    icon: "/icons/react-original.svg",
     color: "#61DAFB", // Official Cyan
     description:
       "A powerful JavaScript library for building interactive user interfaces with component-based architecture.",
@@ -13,7 +13,7 @@ const technologies = [
   },
   {
     name: "TypeScript",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    icon: "/icons/typescript-original.svg",
     color: "#3178C6", // Official TS Blue
     description:
       "Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.",
@@ -21,7 +21,7 @@ const technologies = [
   },
   {
     name: "Node.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original-wordmark.svg",
+    icon: "/icons/nodejs-original-wordmark.svg",
     color: "#5FA04E", // Vibrant Node Green (Distinct from Mongo)
     description:
       "JavaScript runtime built on Chrome's V8 engine for building fast, scalable network applications.",
@@ -29,7 +29,7 @@ const technologies = [
   },
   {
     name: "MongoDB",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+    icon: "/icons/mongodb-original.svg",
     color: "#47A248", // MongoDB Leaf Green
     description:
       "NoSQL database that provides high performance, high availability, and easy scalability for modern apps.",
@@ -37,7 +37,7 @@ const technologies = [
   },
   {
     name: "Express",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg",
+    icon: "/icons/express-original.svg",
     color: "#303030", // Dark Grey (Distinct from Next.js Black)
     description:
       "Fast, unopinionated, minimalist web framework for Node.js to build robust APIs and web applications.",
@@ -45,7 +45,7 @@ const technologies = [
   },
   {
     name: "Next.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
+    icon: "/icons/nextjs-original.svg",
     color: "#000000", // Pure Black
     description:
       "React framework with hybrid static & server rendering, TypeScript support, and smart bundling.",
@@ -53,7 +53,7 @@ const technologies = [
   },
   {
     name: "Redux",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg",
+    icon: "/icons/redux-original.svg",
     color: "#764ABC", // Royal Purple
     description:
       "Predictable state container for JavaScript apps that helps you write applications that behave consistently.",
@@ -61,7 +61,7 @@ const technologies = [
   },
   {
     name: "Tailwind CSS",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+    icon: "/icons/tailwindcss-original.svg",
     color: "#06B6D4", // Sky Blue/Teal
     description:
       "Utility-first CSS framework for rapidly building custom user interfaces with highly composable classes.",
@@ -69,7 +69,7 @@ const technologies = [
   },
   {
     name: "PostgreSQL",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+    icon: "/icons/postgresql-original.svg",
     color: "#336791", // Official Elephant Blue (Distinct from Docker)
     description:
       "Powerful, open source object-relational database system with strong reputation for reliability.",
@@ -77,7 +77,7 @@ const technologies = [
   },
   {
     name: "Docker",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+    icon: "/icons/docker-original.svg",
     color: "#2496ED", // Docker Blue
     description:
       "Platform for developing, shipping, and running applications in containers for consistent environments.",
@@ -85,7 +85,7 @@ const technologies = [
   },
   {
     name: "GraphQL",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/graphql/graphql-plain.svg",
+    icon: "/icons/graphql-plain.svg",
     color: "#E10098", // Magenta Pink
     description:
       "Query language for APIs providing a complete and understandable description of the data in your API.",
@@ -93,7 +93,7 @@ const technologies = [
   },
   {
     name: "AWS",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    icon: "/icons/amazonwebservices-original-wordmark.svg",
     color: "#FF9900", // AWS Orange
     description:
       "Comprehensive cloud platform offering over 200 services from data centers globally for scalable solutions.",
@@ -106,8 +106,8 @@ const TechStack = () => {
   const [clickedTech, setClickedTech] = useState<string | null>(null);
   const [isExiting, setIsExiting] = useState(false);
   const [contentVisible, setContentVisible] = useState(false);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const contentTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hoverTimeoutRef = useRef<number | null>(null);
+  const contentTimeoutRef = useRef<number | null>(null);
 
   const activeTech = clickedTech || hoveredTech;
 
@@ -123,7 +123,7 @@ const TechStack = () => {
       if (contentTimeoutRef.current) {
         clearTimeout(contentTimeoutRef.current);
       }
-      contentTimeoutRef.current = setTimeout(() => {
+      contentTimeoutRef.current = window.setTimeout(() => {
         setContentVisible(true);
       }, 300);
     }
@@ -137,7 +137,7 @@ const TechStack = () => {
       clearTimeout(contentTimeoutRef.current);
     }
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       setClickedTech(null);
       setHoveredTech(null);
       setIsExiting(false);
@@ -174,7 +174,7 @@ const TechStack = () => {
         clearTimeout(contentTimeoutRef.current);
       }
 
-      hoverTimeoutRef.current = setTimeout(() => {
+      hoverTimeoutRef.current = window.setTimeout(() => {
         setHoveredTech(null);
         setIsExiting(false);
       }, 100);
@@ -316,8 +316,8 @@ const TechStack = () => {
                       activeTech === tech.name && !isExiting
                         ? 0.2
                         : isExiting
-                        ? 0.15
-                        : 0,
+                          ? 0.15
+                          : 0,
                   }}
                   className={`absolute top-0 rounded-xl glass-morphism flex items-center justify-center overflow-visible ${
                     activeTech === tech.name && !isExiting

@@ -22,7 +22,7 @@ const SocialButton = () => {
           >
             <g
               style={{ mixBlendMode: "normal" }}
-              textAnchor="none"
+              textAnchor="start"
               fontSize="none"
               fontWeight="none"
               fontFamily="none"
@@ -319,7 +319,9 @@ const StyledWrapper = styled.div`
     height: 60px;
     border-top-left-radius: 10px;
     background: lightgrey;
-    transition: 0.4s ease-in-out, 0.2s background-color ease-in-out,
+    transition:
+      0.4s ease-in-out,
+      0.2s background-color ease-in-out,
       0.2s background-image ease-in-out;
     background: rgba(100, 100, 100, 0.1);
     backdrop-filter: blur(5px);

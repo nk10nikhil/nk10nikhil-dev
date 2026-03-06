@@ -12,13 +12,14 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [showVideo, setShowVideo] = useState(true);
 
-  // Handle GIF animation end (GIFs loop, so we'll use a timer)
+
+  // Fallback timeout in case the intro video cannot autoplay/end event is missed.
   useEffect(() => {
-    const gifDuration = 4500; // Change this to match your GIF duration
+    const introDuration = 4500;
 
     const timer = setTimeout(() => {
       setShowVideo(false);
-    }, gifDuration);
+    }, introDuration);
 
     return () => clearTimeout(timer);
   }, []);
@@ -33,14 +34,14 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
     return undefined;
   }, [isLoading]);
 
-  // Preload critical images
+  // Preload critical assets.
   useEffect(() => {
-    const preloadImages = ["/profile.png", "/assets/sign.gif"];
+    const profile = new Image();
+    profile.src = "/profile.png";
 
-    preloadImages.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    const introVideo = document.createElement("video");
+    introVideo.preload = "auto";
+    introVideo.src = "/sign.webm";
   }, []);
 
   return (
@@ -60,13 +61,17 @@ const Loader = React.memo(({ isLoading, onTransitionEnd }: LoaderProps) => {
         />
       </div>
 
-      {/* GIF Initial Loading Screen */}
+      {/* Intro Video Loading Screen */}
       {showVideo && (
         <VideoContainer className="video-container">
-          <img
-            src="/assets/sign.gif"
-            alt="Loading animation"
-            className="loading-gif"
+          <video
+            src="/sign.webm"
+            className="loading-video"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            onEnded={() => setShowVideo(false)}
           />
         </VideoContainer>
       )}
@@ -126,7 +131,7 @@ const VideoContainer = styled.div`
     }
   }
 
-  .loading-gif {
+  .loading-video {
     max-width: 600px;
     max-height: 600px;
     width: auto;
@@ -144,15 +149,7 @@ const VideoContainer = styled.div`
     }
   }
 
-  /* Keep video styles for fallback if needed */
-  .loading-video {
-    max-width: 600px;
-    max-height: 600px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.3));
-  }
+  filter: drop-shadow(0 0 20px rgba(149, 0, 255, 0.3));
 `;
 
 const StyledWrapper = styled.div`
@@ -166,7 +163,9 @@ const StyledWrapper = styled.div`
   justify-content: center;
   background: rgba(13, 13, 13, 0.95);
   z-index: 9999;
-  transition: opacity 1s ease, backdrop-filter 1.2s ease;
+  transition:
+    opacity 1s ease,
+    backdrop-filter 1.2s ease;
   will-change: opacity, backdrop-filter, transform;
 
   &.visible {
@@ -178,7 +177,10 @@ const StyledWrapper = styled.div`
     opacity: 0;
     backdrop-filter: blur(40px);
     transform: scale(1.05) translateZ(0);
-    transition: opacity 1s ease, backdrop-filter 1.2s ease, transform 1.1s ease;
+    transition:
+      opacity 1s ease,
+      backdrop-filter 1.2s ease,
+      transform 1.1s ease;
   }
 
   /* Center content for all screen sizes */
@@ -237,7 +239,9 @@ const StyledWrapper = styled.div`
   &.hidden .orb-container {
     transform: scale(1.2) translateZ(0);
     opacity: 0.5;
-    transition: transform 1.2s ease, opacity 0.8s ease;
+    transition:
+      transform 1.2s ease,
+      opacity 0.8s ease;
   }
 
   .loader-container {
@@ -292,7 +296,9 @@ const StyledWrapper = styled.div`
     position: relative;
     z-index: 1;
     margin: 0 auto;
-    transition: transform 1.2s ease-out, opacity 1s ease-out;
+    transition:
+      transform 1.2s ease-out,
+      opacity 1s ease-out;
     will-change: transform, opacity;
     animation: orbFadeIn 0.8s ease-in;
   }
@@ -320,6 +326,10 @@ const StyledWrapper = styled.div`
     height: var(--size);
     aspect-ratio: 1;
     position: relative;
+  }
+
+  &.lite .loader {
+    --duration: 2.8s;
   }
 
   .loader .box {

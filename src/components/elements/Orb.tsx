@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle, Vec3 } from "ogl";
+import { useRuntimeProfile } from "@/hooks/useRuntimeProfile";
 
 interface OrbProps {
   hue?: number;
@@ -15,6 +16,7 @@ export default function Orb({
   forceHoverState = false,
 }: OrbProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
+  const profile = useRuntimeProfile();
 
   const vert = /* glsl */ `
     precision highp float;
@@ -178,6 +180,8 @@ export default function Orb({
   useEffect(() => {
     const container = ctnDom.current;
     if (!container) return;
+    const reducedMotion = profile.reducedMotion;
+    const lowPower = profile.lowPower;
 
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
     const gl = renderer.gl;
@@ -194,7 +198,7 @@ export default function Orb({
           value: new Vec3(
             gl.canvas.width,
             gl.canvas.height,
-            gl.canvas.width / gl.canvas.height
+            gl.canvas.width / gl.canvas.height,
           ),
         },
         hue: { value: hue },
@@ -208,7 +212,8 @@ export default function Orb({
 
     function resize() {
       if (!container) return;
-      const dpr = window.devicePixelRatio || 1;
+      const maxDpr = reducedMotion ? 1 : lowPower ? 1.25 : 2;
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
       const width = container.clientWidth;
       const height = container.clientHeight;
       renderer.setSize(width * dpr, height * dpr);
@@ -217,7 +222,7 @@ export default function Orb({
       program.uniforms.iResolution.value.set(
         gl.canvas.width,
         gl.canvas.height,
-        gl.canvas.width / gl.canvas.height
+        gl.canvas.width / gl.canvas.height,
       );
     }
     window.addEventListener("resize", resize);
@@ -225,10 +230,24 @@ export default function Orb({
 
     let targetHover = 0;
     let lastTime = 0;
+    let lastRender = 0;
+    let lastPointerUpdate = 0;
     let currentRot = 0;
     const rotationSpeed = 0.3;
+    let inView = true;
+    let pageVisible = document.visibilityState === "visible";
+    let rafId: number | undefined;
+    let running = false;
+    let cachedHue = Number.NaN;
+    let cachedHoverIntensity = Number.NaN;
 
     const handleMouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastPointerUpdate < 16) {
+        return;
+      }
+      lastPointerUpdate = now;
+
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -251,19 +270,49 @@ export default function Orb({
       targetHover = 0;
     };
 
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
+    if (!reducedMotion) {
+      container.addEventListener("mousemove", handleMouseMove);
+      container.addEventListener("mouseleave", handleMouseLeave);
+    }
 
-    let rafId: number;
     const update = (t: number) => {
-      rafId = requestAnimationFrame(update);
+      if (!running) {
+        return;
+      }
+
+      const effectiveHover = reducedMotion
+        ? 0
+        : forceHoverState
+          ? 1
+          : targetHover;
+
+      const activeFps = profile.preferredFps;
+      const idleFps = Math.min(profile.preferredFps, lowPower ? 16 : 20);
+      const desiredFps = effectiveHover > 0.05 ? activeFps : idleFps;
+      const frameInterval = 1000 / desiredFps;
+
+      if (t - lastRender < frameInterval) {
+        rafId = requestAnimationFrame(update);
+        return;
+      }
+
+      lastRender = t;
       const dt = (t - lastTime) * 0.001;
       lastTime = t;
       program.uniforms.iTime.value = t * 0.001;
-      program.uniforms.hue.value = hue;
-      program.uniforms.hoverIntensity.value = hoverIntensity;
 
-      const effectiveHover = forceHoverState ? 1 : targetHover;
+      if (hue !== cachedHue) {
+        program.uniforms.hue.value = hue;
+        cachedHue = hue;
+      }
+      const targetHoverIntensity = lowPower
+        ? hoverIntensity * 0.65
+        : hoverIntensity;
+      if (targetHoverIntensity !== cachedHoverIntensity) {
+        program.uniforms.hoverIntensity.value = targetHoverIntensity;
+        cachedHoverIntensity = targetHoverIntensity;
+      }
+
       program.uniforms.hover.value +=
         (effectiveHover - program.uniforms.hover.value) * 0.1;
 
@@ -273,18 +322,79 @@ export default function Orb({
       program.uniforms.rot.value = currentRot;
 
       renderer.render({ scene: mesh });
+      rafId = requestAnimationFrame(update);
     };
-    rafId = requestAnimationFrame(update);
+
+    const startLoop = () => {
+      if (reducedMotion || running || !inView || !pageVisible) {
+        return;
+      }
+      running = true;
+      rafId = requestAnimationFrame(update);
+    };
+
+    const stopLoop = () => {
+      running = false;
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId);
+        rafId = undefined;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) {
+          startLoop();
+          return;
+        }
+        stopLoop();
+      },
+      { threshold: 0.1, rootMargin: "120px" },
+    );
+    observer.observe(container);
+
+    const onVisibilityChange = () => {
+      pageVisible = document.visibilityState === "visible";
+      if (pageVisible) {
+        startLoop();
+        return;
+      }
+      stopLoop();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    if (reducedMotion) {
+      // Render once for static visual presence when motion should be minimized.
+      program.uniforms.iTime.value = 0;
+      program.uniforms.hover.value = 0;
+      program.uniforms.rot.value = 0;
+      renderer.render({ scene: mesh });
+    } else {
+      startLoop();
+    }
 
     return () => {
-      cancelAnimationFrame(rafId);
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", resize);
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
+      if (!reducedMotion) {
+        container.removeEventListener("mousemove", handleMouseMove);
+        container.removeEventListener("mouseleave", handleMouseLeave);
+      }
       container.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
-  }, [hue, hoverIntensity, rotateOnHover, forceHoverState]);
+  }, [
+    forceHoverState,
+    hoverIntensity,
+    hue,
+    profile.lowPower,
+    profile.preferredFps,
+    profile.reducedMotion,
+    rotateOnHover,
+  ]);
 
   return <div ref={ctnDom} className="w-full h-full" />;
 }

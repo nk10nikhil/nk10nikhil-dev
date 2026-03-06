@@ -108,8 +108,8 @@ const Methodology = () => {
       className="pt-10 md:pt-16 px-2 md:px-12 bg-transparent relative overflow-hidden"
       ref={ref}
     >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      {/* Static background pattern */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -119,33 +119,9 @@ const Methodology = () => {
           }}
         ></div>
       </div>
-
-      {/* Background gradients */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -left-1/4 top-1/4 w-1/2 h-1/2 bg-indigo-500 rounded-full filter blur-3xl"
-      />
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 4,
-        }}
-        className="absolute -right-1/4 bottom-1/4 w-1/2 h-1/2 bg-rose-500 rounded-full filter blur-3xl"
-      />
+      {/* Static background gradients */}
+      <div className="absolute -left-1/4 top-1/4 w-1/2 h-1/2 bg-indigo-500 rounded-full filter blur-3xl opacity-10" />
+      <div className="absolute -right-1/4 bottom-1/4 w-1/2 h-1/2 bg-rose-500 rounded-full filter blur-3xl opacity-10" />
 
       <div className="container mx-auto relative z-10 px-2 md:px-4">
         {/* Header */}
@@ -155,18 +131,12 @@ const Methodology = () => {
           transition={{ duration: 0.6 }}
           className="text-center max-w-4xl mx-auto mb-10 md:mb-16"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6"
-          >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6">
             <Rocket className="w-4 h-4 text-indigo-400" />
             <span className="text-sm text-indigo-300 font-medium">
               My Process
             </span>
-          </motion.div>
-
+          </div>
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-white">
               From Concept to Launch
@@ -176,7 +146,6 @@ const Methodology = () => {
               A Systematic Approach
             </span>
           </h2>
-
           <p className="text-white/60 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
             Every successful project follows a proven process. My systematic
             approach ensures quality, efficiency, and exceptional results at
@@ -197,51 +166,37 @@ const Methodology = () => {
               <div className="flex items-start relative group">
                 {/* Icon Column */}
                 <div className="mr-4 md:mr-8 relative z-10 flex-shrink-0">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="bg-gradient-to-br from-indigo-500 to-rose-500 w-14 h-14 md:w-20 md:h-20 rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl group-hover:shadow-indigo-500/30 transition-all duration-300"
-                  >
+                  <div className="bg-gradient-to-br from-indigo-500 to-rose-500 w-14 h-14 md:w-20 md:h-20 rounded-2xl flex items-center justify-center shadow-xl">
                     {step.icon}
                     <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-5 h-5 md:w-6 md:h-6 bg-gradient-to-r from-rose-400 to-pink-500 rounded-full flex items-center justify-center text-white text-[10px] md:text-xs font-bold shadow-lg">
                       {index + 1}
                     </div>
-                  </motion.div>
-
+                  </div>
                   {/* Connecting line */}
                   {index < steps.length - 1 && (
                     <div className="absolute top-16 md:top-24 left-1/2 w-0.5 h-20 md:h-24 bg-gradient-to-b from-indigo-500/50 to-rose-500/50 -translate-x-1/2"></div>
                   )}
                 </div>
-
                 {/* Content Column */}
-                <div className="flex-1 pt-1 md:pt-2 group-hover:translate-x-2 transition-transform duration-300">
-                  <h3 className="text-lg md:text-3xl font-bold text-white mb-2 md:mb-3 group-hover:text-indigo-300 transition-colors">
+                <div className="flex-1 pt-1 md:pt-2">
+                  <h3 className="text-lg md:text-3xl font-bold text-white mb-2 md:mb-3">
                     {step.title}
                   </h3>
-
                   <p className="text-white/60 mb-3 md:mb-4 text-sm md:text-lg leading-relaxed hidden md:block">
                     {step.description}
                   </p>
-
                   {/* Details - Desktop only */}
                   <div className="mt-4 grid-cols-2 md:grid-cols-3 gap-2 hidden md:grid">
                     {step.details.map((detail, detailIndex) => (
-                      <motion.span
+                      <span
                         key={detailIndex}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={inView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{
-                          duration: 0.3,
-                          delay: index * 0.15 + detailIndex * 0.05,
-                        }}
-                        className="px-3 py-2 bg-white/[0.02] text-indigo-300 rounded-lg text-sm font-medium border border-white/[0.05] hover:bg-white/[0.05] hover:border-indigo-500/30 transition-all duration-200 flex items-center"
+                        className="px-3 py-2 bg-white/[0.02] text-indigo-300 rounded-lg text-sm font-medium border border-white/[0.05] flex items-center"
                       >
                         <div className="w-1.5 h-1.5 bg-gradient-to-r from-indigo-400 to-rose-400 rounded-full mr-2 flex-shrink-0"></div>
                         {detail}
-                      </motion.span>
+                      </span>
                     ))}
                   </div>
-
                   {/* Details - Mobile (compact) */}
                   <div className="mt-3 flex flex-wrap gap-1.5 md:hidden">
                     {step.details.slice(0, 4).map((detail, detailIndex) => (

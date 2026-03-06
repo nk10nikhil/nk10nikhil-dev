@@ -1,4 +1,5 @@
-import React, { ComponentPropsWithoutRef, useRef } from "react";
+import React, { useRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface MarqueeProps extends ComponentPropsWithoutRef<"div"> {
@@ -73,7 +74,7 @@ export function Marquee({
           "flex-row": !vertical,
           "flex-col": vertical,
         },
-        className
+        className,
       )}
       aria-label={ariaLabel}
       aria-live={ariaLive}
@@ -94,7 +95,7 @@ export function Marquee({
                   !vertical && "animate-marquee flex-row",
                   vertical && "animate-marquee-vertical flex-col",
                   pauseOnHover && "group-hover:[animation-play-state:paused]",
-                  reverse && "[animation-direction:reverse]"
+                  reverse && "[animation-direction:reverse]",
                 )}
               >
                 {children}
@@ -102,7 +103,7 @@ export function Marquee({
             ))}
           </>
         ),
-        [repeat, children, vertical, pauseOnHover, reverse]
+        [repeat, children, vertical, pauseOnHover, reverse],
       )}
     </div>
   );

@@ -1,7 +1,15 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
-export default {
-  darkMode: ["class"],
+type ExtendedTailwindConfig = Config & {
+  safelist?: Array<{
+    pattern: RegExp;
+    variants?: string[];
+  }>;
+};
+
+const config: ExtendedTailwindConfig = {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   prefix: "",
   safelist: [
@@ -177,5 +185,7 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [tailwindcssAnimate],
+};
+
+export default config;

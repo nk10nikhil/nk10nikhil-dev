@@ -196,7 +196,7 @@ const Hero = () => {
                 className="hover:bg-gradient-to-br from-primary via-purple-500 to-indigo-400 hover:bg-primary/90"
               >
                 <a
-                  href="/assets/Nikhil_Kumar_SDE_Resume.pdf"
+                  href="/resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

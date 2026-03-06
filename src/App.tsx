@@ -16,6 +16,7 @@ import BackToTopButton from "@/components/elements/BackToTopButton";
 import Loader from "@/pages/Loader";
 import Navbar from "@/components/section/Navbar";
 import Footer from "@/components/section/Footer";
+import { useRuntimeProfile } from "@/hooks/useRuntimeProfile";
 
 // Eager load the main page for instant access
 import Index from "@/pages/Index";
@@ -316,11 +317,27 @@ const PageLoader = () => (
 
 // Inner app component with preloader hook
 const AppContent = () => {
+  const { lowPower } = useRuntimeProfile();
   const [loading, setLoading] = useState(true);
   const [contentReady, setContentReady] = useState(false);
   const [transitionComplete, setTransitionComplete] = useState(false);
 
   useEffect(() => {
+    const connection = (
+      navigator as Navigator & {
+        connection?: {
+          saveData?: boolean;
+          effectiveType?: string;
+        };
+      }
+    ).connection;
+
+    const saveData = connection?.saveData === true;
+    const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+    if (saveData || slowNetwork || lowPower) {
+      return;
+    }
+
     const schedule =
       "requestIdleCallback" in window
         ? (cb: () => void) =>
@@ -328,14 +345,31 @@ const AppContent = () => {
         : (cb: () => void) => window.setTimeout(cb, 1200);
 
     const id = schedule(() => {
-      // Prefetch secondary routes after initial paint without blocking.
+      // Prefetch only likely next routes after initial paint.
       void import("@/pages/Projects");
       void import("@/pages/About");
+    });
+
+    const prefetchRemainingRoutes = () => {
       void import("@/pages/Contact");
       void import("@/pages/Services");
+      void import("@/pages/NotFound");
+      window.removeEventListener("pointerdown", prefetchRemainingRoutes);
+      window.removeEventListener("keydown", prefetchRemainingRoutes);
+    };
+
+    window.addEventListener("pointerdown", prefetchRemainingRoutes, {
+      once: true,
+      passive: true,
+    });
+    window.addEventListener("keydown", prefetchRemainingRoutes, {
+      once: true,
     });
 
     return () => {
+      window.removeEventListener("pointerdown", prefetchRemainingRoutes);
+      window.removeEventListener("keydown", prefetchRemainingRoutes);
+
       const cancelIdle = (window as any).cancelIdleCallback as
         | ((handle: any) => void)
         | undefined;
@@ -350,22 +384,27 @@ const AppContent = () => {
 
       clearTimeout(id as any);
     };
-  }, []);
+  }, [lowPower]);
 
   useEffect(() => {
-    // Reduced initial loading period for faster First Contentful Paint
-    const contentTimer = setTimeout(() => {
+    // Keep fixed startup delay for branded intro timing consistency.
+    let loaderTimer: number | undefined;
+
+    const contentTimer = window.setTimeout(() => {
       setContentReady(true);
 
-      // Start transitioning out the loader after content is ready
-      const loaderTimer = setTimeout(() => {
+      // Start transitioning out the loader after content is ready.
+      loaderTimer = window.setTimeout(() => {
         setLoading(false);
       }, 10);
+    }, 6000);
 
-      return () => clearTimeout(loaderTimer);
-    }, 6000); // 6 seconds minimum loading time
-
-    return () => clearTimeout(contentTimer);
+    return () => {
+      window.clearTimeout(contentTimer);
+      if (loaderTimer !== undefined) {
+        window.clearTimeout(loaderTimer);
+      }
+    };
   }, []);
 
   const handleTransitionEnd = useCallback(() => {
@@ -378,7 +417,7 @@ const AppContent = () => {
       transition: "opacity 0.4s ease-in",
       pointerEvents: contentReady ? ("auto" as const) : ("none" as const),
     }),
-    [contentReady]
+    [contentReady],
   );
 
   return (

@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import { useRuntimeProfile } from "@/hooks/useRuntimeProfile";
 
 const LetterGlitch = ({
   glitchColors = ["#2b4539", "#61dca3", "#61b3dc"],
@@ -15,6 +16,8 @@ const LetterGlitch = ({
   smooth?: boolean;
   characters?: string;
 }) => {
+  const profile = useRuntimeProfile();
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationRef = useRef<number | null>(null);
   const letters = useRef<
@@ -28,6 +31,13 @@ const LetterGlitch = ({
   const grid = useRef({ columns: 0, rows: 0 });
   const context = useRef<CanvasRenderingContext2D | null>(null);
   const lastGlitchTime = useRef(Date.now());
+  const lastFrameTime = useRef(0);
+  const profileRef = useRef({ lowPower: false, reducedMotion: false });
+  const inViewRef = useRef(true);
+  const pageVisibleRef = useRef(true);
+  const activeUntilRef = useRef(0);
+  const dirtyRef = useRef(true);
+  const runningRef = useRef(false);
 
   const lettersAndSymbols = Array.from(characters);
 
@@ -64,7 +74,7 @@ const LetterGlitch = ({
   const interpolateColor = (
     start: { r: number; g: number; b: number },
     end: { r: number; g: number; b: number },
-    factor: number
+    factor: number,
   ) => {
     const result = {
       r: Math.round(start.r + (end.r - start.r) * factor),
@@ -129,12 +139,14 @@ const LetterGlitch = ({
       ctx.fillStyle = letter.color;
       ctx.fillText(letter.char, x, y);
     });
+
+    dirtyRef.current = false;
   };
 
-  const updateLetters = () => {
+  const updateLetters = (ratio: number) => {
     if (!letters.current || letters.current.length === 0) return;
 
-    const updateCount = Math.max(1, Math.floor(letters.current.length * 0.05));
+    const updateCount = Math.max(1, Math.floor(letters.current.length * ratio));
 
     for (let i = 0; i < updateCount; i++) {
       const index = Math.floor(Math.random() * letters.current.length);
@@ -142,6 +154,7 @@ const LetterGlitch = ({
 
       letters.current[index].char = getRandomChar();
       letters.current[index].targetColor = getRandomColor();
+      dirtyRef.current = true;
 
       if (!smooth) {
         letters.current[index].color = letters.current[index].targetColor;
@@ -165,7 +178,7 @@ const LetterGlitch = ({
           letter.color = interpolateColor(
             startRgb,
             endRgb,
-            letter.colorProgress
+            letter.colorProgress,
           );
           needsRedraw = true;
         }
@@ -173,20 +186,45 @@ const LetterGlitch = ({
     });
 
     if (needsRedraw) {
+      dirtyRef.current = true;
       drawLetters();
     }
   };
 
   const animate = () => {
+    if (!runningRef.current) {
+      return;
+    }
+
+    const { lowPower, reducedMotion } = profileRef.current;
+    const frameInterval = 1000 / (reducedMotion ? 12 : lowPower ? 20 : 30);
+    const nowMs = performance.now();
+    if (frameInterval && nowMs - lastFrameTime.current < frameInterval) {
+      animationRef.current = requestAnimationFrame(animate);
+      return;
+    }
+    lastFrameTime.current = nowMs;
+
+    const effectiveGlitchSpeed = reducedMotion
+      ? glitchSpeed * 4
+      : lowPower
+        ? glitchSpeed * 2
+        : glitchSpeed;
+    const updateRatio = reducedMotion ? 0.008 : lowPower ? 0.02 : 0.05;
+    const activePhase = nowMs <= activeUntilRef.current;
+
     const now = Date.now();
-    if (now - lastGlitchTime.current >= glitchSpeed) {
-      updateLetters();
-      drawLetters();
+    if (activePhase && now - lastGlitchTime.current >= effectiveGlitchSpeed) {
+      updateLetters(updateRatio);
       lastGlitchTime.current = now;
     }
 
-    if (smooth) {
+    if (activePhase && smooth && !lowPower && !reducedMotion) {
       handleSmoothTransitions();
+    }
+
+    if (dirtyRef.current) {
+      drawLetters();
     }
 
     animationRef.current = requestAnimationFrame(animate);
@@ -196,36 +234,89 @@ const LetterGlitch = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    profileRef.current = {
+      reducedMotion: profile.reducedMotion,
+      lowPower: profile.lowPower,
+    };
+
     context.current = canvas.getContext("2d");
     resizeCanvas();
-    animate();
+    activeUntilRef.current =
+      performance.now() + (profile.lowPower ? 3000 : 6000);
 
-    let resizeTimeout: NodeJS.Timeout;
+    const startAnimation = () => {
+      if (runningRef.current || !inViewRef.current || !pageVisibleRef.current) {
+        return;
+      }
+      runningRef.current = true;
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    const stopAnimation = () => {
+      runningRef.current = false;
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inViewRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          startAnimation();
+          return;
+        }
+        stopAnimation();
+      },
+      { threshold: 0.1, rootMargin: "120px" },
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    const onVisibilityChange = () => {
+      pageVisibleRef.current = document.visibilityState === "visible";
+      if (pageVisibleRef.current) {
+        startAnimation();
+        return;
+      }
+      stopAnimation();
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    onVisibilityChange();
+    startAnimation();
+
+    let resizeTimeout: number | undefined;
 
     const handleResize = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
+      resizeTimeout = window.setTimeout(() => {
+        stopAnimation();
         resizeCanvas();
-        animate();
+        dirtyRef.current = true;
+        startAnimation();
       }, 100);
     };
 
     window.addEventListener("resize", handleResize);
 
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      stopAnimation();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [glitchSpeed, smooth]);
+  }, [glitchSpeed, profile.lowPower, profile.reducedMotion, smooth]);
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden">
+    <div
+      ref={containerRef}
+      className="absolute inset-0 w-full h-full overflow-hidden"
+    >
       <canvas ref={canvasRef} className="block w-full h-full" />
       {outerVignette && (
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(0,0,0,0)_60%,_rgba(0,0,0,0.9)_100%)]"></div>

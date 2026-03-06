@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import type { PanInfo } from "framer-motion";
+import type { Variants } from "framer-motion";
 import {
   Code2,
   Brain,
@@ -8,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 const skillsData = [
   {
@@ -62,7 +65,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -74,18 +77,18 @@ const itemVariants = {
     scale: 1,
     transition: {
       duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };
 
-const skillBarVariants = {
+const skillBarVariants: Variants = {
   hidden: { width: 0 },
   visible: (level: number) => ({
     width: `${level}%`,
     transition: {
       duration: 1.2,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
       delay: 0.2,
     },
   }),
@@ -110,16 +113,59 @@ const SkillsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const [reduceRuntimeMotion, setReduceRuntimeMotion] = useState(false);
+  const [tabVisible, setTabVisible] = useState(
+    typeof document === "undefined"
+      ? true
+      : document.visibilityState === "visible",
+  );
+  const autoPlayRef = useRef<number | null>(null);
+  const { ref: sectionRef, isInView } = useInView({
+    threshold: 0.2,
+    rootMargin: "120px 0px",
+  });
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
+    const connection = (navigator as any).connection as
+      | {
+          saveData?: boolean;
+          effectiveType?: string;
+        }
+      | undefined;
+
+    const saveData = connection?.saveData === true;
+    const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+    const lowCoreDevice = (navigator.hardwareConcurrency ?? 8) <= 4;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    setReduceRuntimeMotion(
+      reducedMotion || saveData || slowNetwork || lowCoreDevice,
+    );
+
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const onVisibility = () => {
+      setTabVisible(document.visibilityState === "visible");
+    };
+
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, []);
 
   const handleNext = useCallback(() => {
@@ -130,7 +176,7 @@ const SkillsSection = () => {
   const handlePrev = useCallback(() => {
     setDirection(-1);
     setCurrentIndex(
-      (prev) => (prev - 1 + skillsData.length) % skillsData.length
+      (prev) => (prev - 1 + skillsData.length) % skillsData.length,
     );
   }, []);
 
@@ -139,12 +185,12 @@ const SkillsSection = () => {
       clearInterval(autoPlayRef.current);
       autoPlayRef.current = null;
     }
-    if (isMobile) {
+    if (isMobile && !reduceRuntimeMotion && isInView && tabVisible) {
       autoPlayRef.current = setInterval(() => {
         handleNext();
       }, 4000);
     }
-  }, [handleNext, isMobile]);
+  }, [handleNext, isInView, isMobile, reduceRuntimeMotion, tabVisible]);
 
   useEffect(() => {
     if (isMobile) {
@@ -157,11 +203,11 @@ const SkillsSection = () => {
         autoPlayRef.current = null;
       }
     };
-  }, [isMobile, resetAutoPlay]);
+  }, [isMobile, resetAutoPlay, isInView, tabVisible]);
 
   const handleDragEnd = (
-    e: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo
+    _e: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
   ) => {
     const threshold = 50;
     if (info.offset.x > threshold) {
@@ -175,6 +221,7 @@ const SkillsSection = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="skills"
       className="relative px-6 bg-gradient-to-b from-cyber-dark/50 via-cyber-dark/80 to-cyber-dark/50 pt-16 md:pt-16 overflow-hidden"
     >
@@ -372,7 +419,7 @@ const SkillCard = ({
       <div className="flex items-center gap-3 mb-8 relative">
         <motion.div
           initial={isMobile ? false : { scale: 0, rotate: -180 }}
-          whileInView={isMobile ? false : { scale: 1, rotate: 0 }}
+          whileInView={isMobile ? undefined : { scale: 1, rotate: 0 }}
           animate={isMobile ? { scale: 1, rotate: 0 } : undefined}
           viewport={{ once: true }}
           transition={
@@ -401,7 +448,7 @@ const SkillCard = ({
             key={skill.name}
             className="space-y-2"
             initial={isMobile ? false : { opacity: 0, x: -20 }}
-            whileInView={isMobile ? false : { opacity: 1, x: 0 }}
+            whileInView={isMobile ? undefined : { opacity: 1, x: 0 }}
             animate={isMobile ? { opacity: 1, x: 0 } : undefined}
             viewport={{ once: true, margin: "-50px" }}
             transition={
@@ -422,7 +469,7 @@ const SkillCard = ({
               <motion.span
                 className="text-xs font-mono text-gray-500 group-hover:text-gray-400 transition-colors duration-300 tabular-nums"
                 initial={isMobile ? false : { opacity: 0 }}
-                whileInView={isMobile ? false : { opacity: 1 }}
+                whileInView={isMobile ? undefined : { opacity: 1 }}
                 animate={isMobile ? { opacity: 1 } : undefined}
                 viewport={{ once: true }}
                 transition={

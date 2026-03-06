@@ -9,6 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import CardSwap, { Card } from "@/components/ui/card-swap";
+import { useInView } from "@/hooks/useInView";
+import { useRuntimeProfile } from "@/hooks/useRuntimeProfile";
 
 const projects = [
   {
@@ -17,7 +19,7 @@ const projects = [
     description:
       "A full-stack authentication system with user registration, login, and password reset functionalities.",
     tags: ["React", "Node.js", "MongoDB", "Tailwind CSS"],
-    image: "/projects/data_protection_cloud.png",
+    image: "/projects/project10.avif",
     link: "https://github.com/nk10nikhil",
     github: "https://github.com/nk10nikhil",
     stars: 24,
@@ -29,7 +31,7 @@ const projects = [
     description:
       "Responsive restaurant web app with real-time booking and Google Maps integration.",
     tags: ["React", "JavaScript", "CSS", "Google Maps API"],
-    image: "/projects/restaurant.png",
+    image: "/projects/project7.avif",
     link: "https://restaurantworld.vercel.app/",
     github: "https://github.com/nk10nikhil/restaurantworld",
     stars: 19,
@@ -41,7 +43,7 @@ const projects = [
     description:
       "Sleek responsive e-commerce site for household items, optimized for performance.",
     tags: ["React", "JavaScript", "CSS", "Webpack", "Lighthouse"],
-    image: "/projects/everydaylife.png",
+    image: "/projects/project19.avif",
     link: "https://everydaylife.vercel.app/",
     github: "https://github.com/nk10nikhil/everydaylife",
     stars: 21,
@@ -53,7 +55,7 @@ const projects = [
     description:
       "A modern beverage store website built with React and Tailwind CSS, featuring a responsive design and smooth animations.",
     tags: ["React", "Tailwind CSS", "JavaScript", "Responsive Design"],
-    image: "/projects/harbor.png",
+    image: "/projects/project17.avif",
     link: "https://harborhaven.vercel.app/",
     github: "https://github.com/nk10nikhil/harbourhaven",
     stars: 20,
@@ -74,7 +76,7 @@ const projects = [
       "Razorpay",
       "JWT",
     ],
-    image: "/projects/ecommerce.png",
+    image: "/projects/project18.avif",
     link: "https://myprojectbazaar.vercel.app/",
     github: "https://github.com/nk10nikhil/myprojectbazaar",
     stars: 34,
@@ -83,8 +85,18 @@ const projects = [
 ];
 
 const FeaturedProjects = () => {
+  const { ref } = useInView({
+    threshold: 0.2,
+    rootMargin: "120px 0px",
+  });
+  const { isMobile, lowPower } = useRuntimeProfile();
+  const constrained = isMobile || lowPower;
+
   return (
-    <section className="relative pt-10 md:pt-16  bg-primary/5 text-primary overflow-hidden min-h-[600px] md:min-h-[700px]">
+    <section
+      ref={ref}
+      className="relative min-h-[300px] overflow-hidden bg-primary/5 pt-10 text-primary md:min-h-[300px] md:pt-16"
+    >
       <div className="container mx-auto px-4 md:px-12">
         <div className="text-center">
           {/* Small badge indicator */}
@@ -166,19 +178,23 @@ const FeaturedProjects = () => {
           </motion.div>
 
           {/* Right Side - Card Stack */}
-          <div className="relative h-[400px] sm:h-[500px] md:h-[550px] lg:h-[600px] transform -translate-x-[180px] -translate-y-[80px] md:-translate-x-[230px] md:-translate-y-[130px]">
+          <div
+            className={`relative h-[400px] sm:h-[500px] md:h-[550px] lg:h-[600px] ${
+              constrained
+                ? "-translate-x-[150px] -translate-y-[140px] md:-translate-x-[230px] md:-translate-y-[130px]"
+                : "-translate-x-[180px] -translate-y-[80px] md:-translate-x-100px] md:-translate-y-[130px]"
+            } transform`}
+          >
             <CardSwap
-              width={500}
-              height={250}
-              cardDistance={50}
-              verticalDistance={60}
-              delay={2700}
+              width={constrained ? 580 : 600}
+              height={constrained ? 300 : 300}
+              cardDistance={constrained ? 50 : 50}
+              verticalDistance={constrained ? 60 : 60}
+              delay={constrained ? 2700 : 2700}
               pauseOnHover={true}
-              skewAmount={4}
-              easing="elastic"
-              onCardClick={(idx) => {
-                if (import.meta.env.DEV) console.log(`Clicked card ${idx}`);
-              }}
+              skewAmount={constrained ? 4 : 4}
+              easing={constrained ? "elastic" : "elastic"}
+              autoplayEnabled={true}
             >
               {projects.map((project) => (
                 <Card
@@ -203,7 +219,7 @@ const FeaturedProjects = () => {
                   {/* Landscape Layout: Image Left, Content Right */}
                   <div className="flex h-[calc(100%-52px)]">
                     {/* Left Side - Project Image with Overlay Effects */}
-                    <div className="relative w-[42%] overflow-hidden">
+                    <div className="relative w-[70%] overflow-hidden">
                       {/* Image */}
                       <img
                         src={project.image}
@@ -247,7 +263,7 @@ const FeaturedProjects = () => {
                     </div>
 
                     {/* Right Side - Project Content */}
-                    <div className="w-[58%] p-3 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-black/95 flex flex-col justify-between backdrop-blur-sm">
+                    <div className="w-[50%] p-3 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-black/95 flex flex-col justify-between backdrop-blur-sm">
                       <div className="space-y-2">
                         {/* Description */}
                         <p className="text-gray-300 text-xs leading-relaxed line-clamp-3 group-hover:text-gray-200 transition-colors">

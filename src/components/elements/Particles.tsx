@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { cn } from "@/lib/utils";
-
 interface ParticlesProps {
   className?: string;
   quantity?: number;
@@ -25,8 +23,7 @@ type Circle = {
 };
 
 export default function Particles({
-  className = "",
-  quantity = 30,
+  quantity = 200,
   staticity = 50,
   ease = 50,
   refresh = false,
@@ -35,12 +32,13 @@ export default function Particles({
   const [isDesktop, setIsDesktop] = useState(false);
   const isBlogPost =
     location.pathname.startsWith("/blogs/") && location.pathname !== "/blogs";
+  const disabledRoutes = new Set([""]);
+  const isRouteDisabled = disabledRoutes.has(location.pathname);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const circlesRef = useRef<Circle[]>([]);
-  const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const animationFrameRef = useRef<number | null>(null);
   const dprRef = useRef(1);
@@ -48,6 +46,11 @@ export default function Particles({
   const staticityRef = useRef(staticity);
   const easeRef = useRef(ease);
   const isMobileRef = useRef(false);
+  const lowPowerRef = useRef(false);
+  const reducedMotionRef = useRef(false);
+  const visibleRef = useRef(true);
+  const pageVisibleRef = useRef(true);
+  const runningRef = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -69,7 +72,7 @@ export default function Particles({
   }, []);
 
   useEffect(() => {
-    if (isBlogPost || !isDesktop || !canvasRef.current) {
+    if (isBlogPost || isRouteDisabled || !isDesktop || !canvasRef.current) {
       return;
     }
 
@@ -80,16 +83,34 @@ export default function Particles({
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      const connection = (navigator as any).connection as
+        | {
+            saveData?: boolean;
+            effectiveType?: string;
+          }
+        | undefined;
+
+      const saveData = connection?.saveData === true;
+      const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+      const lowCoreDevice = (navigator.hardwareConcurrency ?? 8) <= 4;
+      const lowPower = saveData || slowNetwork || lowCoreDevice;
 
       isMobileRef.current = isMobile;
+      reducedMotionRef.current = prefersReducedMotion;
+      lowPowerRef.current = lowPower;
 
-      quantityRef.current = isMobile
-        ? Math.max(40, Math.floor(quantity * 0.65))
-        : quantity;
+      quantityRef.current = prefersReducedMotion
+        ? Math.max(10, Math.floor(quantity * 0.2))
+        : lowPower
+          ? Math.max(18, Math.floor(quantity * 0.4))
+          : isMobile
+            ? Math.max(24, Math.floor(quantity * 0.65))
+            : quantity;
+
       staticityRef.current = isMobile ? Math.max(staticity, 80) : staticity;
       easeRef.current = isMobile ? Math.max(ease, 80) : ease;
 
-      const maxDpr = isMobile || prefersReducedMotion ? 1.25 : 2;
+      const maxDpr = prefersReducedMotion ? 1 : lowPower || isMobile ? 1.25 : 2;
       dprRef.current = Math.min(window.devicePixelRatio || 1, maxDpr);
     };
 
@@ -195,7 +216,25 @@ export default function Particles({
       }
     };
 
-    const animate = () => {
+    let lastFrame = 0;
+
+    const animate = (t = 0) => {
+      if (!runningRef.current) {
+        return;
+      }
+
+      const frameInterval = reducedMotionRef.current
+        ? 1000 / 12
+        : lowPowerRef.current
+          ? 1000 / 24
+          : 0;
+
+      if (frameInterval && t - lastFrame < frameInterval) {
+        animationFrameRef.current = window.requestAnimationFrame(animate);
+        return;
+      }
+
+      lastFrame = t;
       clearContext();
 
       circlesRef.current.forEach((circle, index) => {
@@ -220,16 +259,15 @@ export default function Particles({
           circle.alpha = circle.targetAlpha * remapClosestEdge;
         }
 
-        circle.x += circle.dx;
-        circle.y += circle.dy;
-        circle.translateX +=
-          (mouseRef.current.x / (staticityRef.current / circle.magnetism) -
-            circle.translateX) /
-          easeRef.current;
-        circle.translateY +=
-          (mouseRef.current.y / (staticityRef.current / circle.magnetism) -
-            circle.translateY) /
-          easeRef.current;
+        const drift = reducedMotionRef.current
+          ? 0.35
+          : lowPowerRef.current
+            ? 0.65
+            : 1;
+
+        circle.x += circle.dx * drift;
+        circle.y += circle.dy * drift;
+        // Remove mouse influence: translateX and translateY remain unchanged
 
         if (
           circle.x < -circle.size ||
@@ -248,72 +286,90 @@ export default function Particles({
       animationFrameRef.current = window.requestAnimationFrame(animate);
     };
 
-    const onPointerMove = (event: MouseEvent | TouchEvent) => {
-      if (!canvasRef.current) {
+    const startAnimation = () => {
+      if (
+        runningRef.current ||
+        !visibleRef.current ||
+        !pageVisibleRef.current
+      ) {
         return;
       }
+      runningRef.current = true;
+      animationFrameRef.current = window.requestAnimationFrame(animate);
+    };
 
-      let clientX: number;
-      let clientY: number;
+    const stopAnimation = () => {
+      runningRef.current = false;
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
 
-      if ("touches" in event) {
-        const touch = event.touches[0] ?? event.changedTouches[0];
-        if (!touch) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visibleRef.current = entry.isIntersecting;
+        if (visibleRef.current) {
+          startAnimation();
           return;
         }
-        clientX = touch.clientX;
-        clientY = touch.clientY;
-      } else {
-        clientX = event.clientX;
-        clientY = event.clientY;
-      }
+        stopAnimation();
+      },
+      { threshold: 0.05, rootMargin: "120px" },
+    );
 
-      const rect = canvasRef.current.getBoundingClientRect();
-      const { w, h } = canvasSizeRef.current;
-      const x = clientX - rect.left - w / 2;
-      const y = clientY - rect.top - h / 2;
-      const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
+    if (canvasContainerRef.current) {
+      observer.observe(canvasContainerRef.current);
+    }
 
-      if (inside) {
-        mouseRef.current.x = x;
-        mouseRef.current.y = y;
+    const onVisibilityChange = () => {
+      pageVisibleRef.current = document.visibilityState === "visible";
+      if (pageVisibleRef.current) {
+        startAnimation();
+        return;
       }
+      stopAnimation();
     };
 
     resizeCanvas();
     drawParticles();
-    animate();
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    onVisibilityChange();
+    startAnimation();
 
     window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("mousemove", onPointerMove, { passive: true });
-    window.addEventListener("touchmove", onPointerMove as EventListener, {
-      passive: true,
-    });
 
     return () => {
+      stopAnimation();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("mousemove", onPointerMove);
-      window.removeEventListener("touchmove", onPointerMove as EventListener);
-      if (animationFrameRef.current !== null) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-      }
     };
-  }, [ease, isBlogPost, isDesktop, quantity, refresh, staticity]);
+  }, [
+    ease,
+    isBlogPost,
+    isDesktop,
+    isRouteDisabled,
+    quantity,
+    refresh,
+    staticity,
+  ]);
 
-  if (isBlogPost || !isDesktop) {
+  if (isBlogPost || isRouteDisabled || !isDesktop) {
     return null;
   }
 
   return (
+    // <></>
     <div
-      className={cn(
-        className,
-        "pointer-events-none overflow-hidden dark:bg-gradient-to-tl from-black via-zinc-600/20 to-black",
-      )}
+      // className={cn(
+      //   className,
+      //   "overflow-hidden dark:bg-gradient-to-tl from-black/10 via-zinc-800/20 to-black/10",
+      // )}
       ref={canvasContainerRef}
       aria-hidden="true"
     >
-      <canvas ref={canvasRef} className="h-full w-full" />
+      <canvas ref={canvasRef} className="h-full w-full pointer-events-none" />
     </div>
   );
 }

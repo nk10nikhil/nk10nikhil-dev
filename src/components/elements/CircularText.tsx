@@ -9,13 +9,8 @@ import CircularText from './CircularText';
 />*/
 
 import React, { useEffect } from "react";
-import {
-  motion,
-  useAnimation,
-  useMotionValue,
-  MotionValue,
-  Transition,
-} from "framer-motion";
+import { motion, useAnimation, useMotionValue } from "framer-motion";
+import type { MotionValue, Transition } from "framer-motion";
 interface CircularTextProps {
   text: string;
   spinDuration?: number;
@@ -26,7 +21,7 @@ interface CircularTextProps {
 const getRotationTransition = (
   duration: number,
   from: number,
-  loop: boolean = true
+  loop: boolean = true,
 ) => ({
   from,
   to: from + 360,

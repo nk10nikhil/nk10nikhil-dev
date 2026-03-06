@@ -120,6 +120,13 @@ const StyledWrapper = styled.div`
       transform: translateX(2em) translateY(2em);
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-wrapper {
+      animation: none;
+      transform: translateX(0) translateY(0);
+    }
+  }
 `;
 
 export default FloatingTeddy;

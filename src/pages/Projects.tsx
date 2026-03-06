@@ -84,7 +84,7 @@ export const CardBody = ({
     <div
       className={cn(
         "h-60 w-40 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
-        className
+        className,
       )}
     >
       {children}
@@ -103,6 +103,9 @@ export const CardContainer = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
+  const [reducedEffects, setReducedEffects] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+  const [hasFinePointer, setHasFinePointer] = useState(false);
 
   const boundsRef = useRef<DOMRect | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -114,10 +117,55 @@ export const CardContainer = ({
   }, []);
 
   useEffect(() => {
+    const connection = (navigator as any).connection as
+      | {
+          saveData?: boolean;
+          effectiveType?: string;
+        }
+      | undefined;
+
+    const saveData = connection?.saveData === true;
+    const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+    const lowCoreDevice = (navigator.hardwareConcurrency ?? 8) <= 4;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    setReducedEffects(
+      reducedMotion || saveData || slowNetwork || lowCoreDevice,
+    );
+
+    const pointerQuery = window.matchMedia("(pointer: fine)");
+    const updatePointer = () => setHasFinePointer(pointerQuery.matches);
+    updatePointer();
+    pointerQuery.addEventListener("change", updatePointer);
+
+    return () => {
+      pointerQuery.removeEventListener("change", updatePointer);
+    };
+  }, []);
+
+  useEffect(() => {
     const handleResize = () => updateBounds();
     window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
   }, [updateBounds]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.15, rootMargin: "120px" },
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const allow3DEffects = !reducedEffects && isInView && hasFinePointer;
 
   const applyTransform = useCallback(() => {
     rafRef.current = null;
@@ -135,20 +183,22 @@ export const CardContainer = ({
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!allow3DEffects) return;
       if (!containerRef.current) return;
       lastPointerRef.current = { x: e.clientX, y: e.clientY };
       if (rafRef.current != null) return;
       rafRef.current = window.requestAnimationFrame(applyTransform);
     },
-    [applyTransform]
+    [allow3DEffects, applyTransform],
   );
 
   const handleMouseEnter = useCallback(() => {
+    if (!allow3DEffects) return;
     updateBounds();
     setIsMouseEntered(true);
     if (!containerRef.current) return;
     containerRef.current.style.willChange = "transform";
-  }, [updateBounds]);
+  }, [allow3DEffects, updateBounds]);
 
   const handleMouseLeave = useCallback(() => {
     if (!containerRef.current) return;
@@ -165,16 +215,16 @@ export const CardContainer = ({
     () =>
       [isMouseEntered, setIsMouseEntered] as [
         boolean,
-        React.Dispatch<React.SetStateAction<boolean>>
+        React.Dispatch<React.SetStateAction<boolean>>,
       ],
-    [isMouseEntered]
+    [isMouseEntered],
   );
   return (
     <MouseEnterContext.Provider value={contextValue}>
       <div
         className={cn(
           "py-2 flex items-center justify-center",
-          containerClassName
+          containerClassName,
         )}
         style={{
           perspective: "2000px",
@@ -182,12 +232,12 @@ export const CardContainer = ({
       >
         <div
           ref={containerRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={allow3DEffects ? handleMouseEnter : undefined}
+          onMouseMove={allow3DEffects ? handleMouseMove : undefined}
+          onMouseLeave={allow3DEffects ? handleMouseLeave : undefined}
           className={cn(
             "flex items-center justify-center relative transition-all duration-200 ease-linear",
-            className
+            className,
           )}
           style={{
             transformStyle: "preserve-3d",
@@ -215,7 +265,7 @@ const projects = [
     id: 11,
     title: "E-commerce Platform with Secure Payments",
     description:
-      "Built a full-stack e-commerce platform that processes 6,000+ transactions monthly with Razorpay integration, JWT, and optimized UI.",
+      "Built a full-stack e-commerce platform that can process 6,000+ transactions with Razorpay integration & JWT",
     longDescription:
       "Architected a secure e-commerce platform with React, Next.js, Tailwind, Node.js, Express, MongoDB, handling 6,000+ transactions monthly. Razorpay payments, JWT auth, and optimized with lazy loading & code splitting.",
     tags: [
@@ -228,7 +278,7 @@ const projects = [
       "Razorpay",
       "JWT",
     ],
-    image: "/projects/ecommerce.png",
+    image: "/projects/project18.avif",
     demoLink: "https://myprojectbazaar.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/myprojectbazaar",
     featured: true,
@@ -242,7 +292,7 @@ const projects = [
     longDescription:
       "Led a team to build a QR-based ticketing system under 36 hours. React, Next.js, Node.js, MongoDB, JWT, with real-time dashboards, improving check-in efficiency by 30%.",
     tags: ["React", "Next.js", "Node.js", "Express", "MongoDB", "JWT"],
-    image: "/projects/ticketing.png",
+    image: "/projects/project8.avif",
     demoLink: "https://myeventorg.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/myeventorg",
     featured: true,
@@ -256,7 +306,7 @@ const projects = [
     longDescription:
       "Developed a predictive analytics dashboard with React, Flask, Scikit-learn, Pandas, NumPy, Matplotlib. Automated real-time updates via REST APIs, reduced latency by 25%, and visualized data effectively.",
     tags: ["React", "Flask", "Scikit-learn", "Pandas", "NumPy", "Matplotlib"],
-    image: "/projects/analytics.png",
+    image: "/projects/project12.avif",
     demoLink: "https://mycollegeorg.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/mycollegeorg",
     featured: false,
@@ -278,7 +328,7 @@ const projects = [
       "JWT",
       "Framer Motion",
     ],
-    image: "/projects/chatapp.png",
+    image: "/projects/project13.avif",
     demoLink: "https://networkup.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/networkup",
     featured: false,
@@ -292,7 +342,7 @@ const projects = [
     longDescription:
       "Crafted a salon branding website focusing on WCAG/ARIA accessibility, vibrant UI with Tailwind CSS and component-based Next.js.",
     tags: ["Next.js", "Tailwind CSS", "React", "WCAG", "ARIA"],
-    image: "/projects/salon.png",
+    image: "/projects/project9.avif",
     demoLink: "https://glamourgrid.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/glamourgrid",
     featured: false,
@@ -306,7 +356,7 @@ const projects = [
     longDescription:
       "Developed a branded restaurant website using React, integrating Google Maps API for location & real-time booking system, increasing reservations by 30%.",
     tags: ["React", "JavaScript", "CSS", "Google Maps API"],
-    image: "/projects/restaurant.png",
+    image: "/projects/project7.avif",
     demoLink: "https://restaurantworld.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/restaurantworld",
     featured: true,
@@ -320,7 +370,7 @@ const projects = [
     longDescription:
       "Built a minimalist e-commerce platform showcasing household products with lazy loading, Webpack, Lighthouse audits, reducing load times by 50%.",
     tags: ["React", "JavaScript", "CSS", "Webpack", "Lighthouse"],
-    image: "/projects/everydaylife.png",
+    image: "/projects/project19.avif",
     demoLink: "https://everydaylife.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/everydaylife",
     featured: true,
@@ -334,7 +384,7 @@ const projects = [
     longDescription:
       "Developed WeBuilt_U's marketing site to showcase services and client work, built with React, Tailwind CSS, Framer Motion, boosting engagement by 60%.",
     tags: ["React", "Tailwind CSS", "Vite", "Framer Motion"],
-    image: "/projects/webuilt.png",
+    image: "/projects/project2.avif",
     demoLink: "https://webuiltu.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/webuiltu",
     featured: false,
@@ -348,7 +398,7 @@ const projects = [
     longDescription:
       "Developed a modern beverage store website using React and Tailwind CSS, featuring a responsive design, smooth animations, and an intuitive user interface. The site includes product listings, a shopping cart, and a checkout process.",
     tags: ["React", "Tailwind CSS", "JavaScript", "Responsive Design"],
-    image: "/projects/harbor.png",
+    image: "/projects/project17.avif",
     demoLink: "https://harborhaven.vercel.app/",
     githubLink: "https://github.com/nk10nikhil/harbourhaven",
     featured: true,
@@ -362,7 +412,7 @@ const projects = [
     longDescription:
       "Complete full stack auth system: registration, login, password reset. Node.js + Express backend, React + Tailwind frontend, JWT for authentication, MongoDB for data.",
     tags: ["React", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS"],
-    image: "/projects/data_protection_cloud.png",
+    image: "/projects/project10.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
@@ -376,7 +426,7 @@ const projects = [
     longDescription:
       "A web application that solves Sudoku puzzles using a backtracking algorithm. The application is built with Next.js and MongoDB for storing user data. It also supports OAuth authentication using Google and Facebook.",
     tags: ["Next.js", "MongoDB", "JWT", "OAuth"],
-    image: "/projects/sudoku.png",
+    image: "/projects/project3.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -390,7 +440,7 @@ const projects = [
     longDescription:
       "Built a feature-rich social media platform with user authentication, real-time chat, and media sharing capabilities using Next.js and Firebase.",
     tags: ["Next.js", "Firebase", "Real-time Chat", "Media Sharing"],
-    image: "/projects/social_media.png",
+    image: "/projects/project5.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -404,7 +454,7 @@ const projects = [
     longDescription:
       "Created a web application for users to write, edit, and publish blogs online, with an interactive WYSIWYG editor and SEO-friendly features using Next.js and PostgreSQL.",
     tags: ["Next.js", "PostgreSQL", "WYSIWYG Editor", "SEO"],
-    image: "/projects/blog.png",
+    image: "/projects/project16.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
@@ -418,7 +468,7 @@ const projects = [
     longDescription:
       "Designed a Q&A platform allowing users to post questions, upvote/downvote answers, and follow topics using Next.js and Appwrite.",
     tags: ["Next.js", "Appwrite", "Q&A", "Voting"],
-    image: "/projects/qna.png",
+    image: "/projects/project4.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -432,7 +482,7 @@ const projects = [
     longDescription:
       "Developed a software-as-a-service (SaaS) platform with AI-driven features, database management with Prisma, and scalable cloud deployment using Next.js, Prisma, and Neon DB.",
     tags: ["Next.js", "Prisma", "Neon DB", "AI"],
-    image: "/projects/aisaas.png",
+    image: "/projects/project14.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: true,
@@ -446,7 +496,7 @@ const projects = [
     longDescription:
       "Built a learning management system (LMS) with secure course access, student progress tracking, and integrated payment solutions using Stripe and Next.js.",
     tags: ["Next.js", "Stripe", "LMS", "Payment Gateway"],
-    image: "/projects/payment.png",
+    image: "/projects/project1.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -460,7 +510,7 @@ const projects = [
     longDescription:
       "Developed an automated workout tracker that logs fitness data to Google Sheets, enabling easy tracking and visualization of progress using Python and Google Sheets API.",
     tags: ["Python", "Google Sheets API", "Fitness", "Automation"],
-    image: "/projects/workout.png",
+    image: "/projects/project6.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -474,7 +524,7 @@ const projects = [
     longDescription:
       "Developed an automated flight deal finder that scrapes and alerts users about discounted airline tickets using Python and various APIs.",
     tags: ["Python", "APIs", "Web Scraping", "Automation"],
-    image: "/projects/flight.png",
+    image: "/projects/project11.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -488,7 +538,7 @@ const projects = [
     longDescription:
       "Automated repetitive data entry tasks using Python and Selenium, improving efficiency and reducing manual errors.",
     tags: ["Python", "Selenium", "Automation", "Data Entry"],
-    image: "/projects/dataautomation.png",
+    image: "/projects/project15.avif",
     demoLink: "https://github.com/nk10nikhil",
     githubLink: "https://github.com/nk10nikhil",
     featured: false,
@@ -511,7 +561,7 @@ export function ProjectCard({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mt-[-40px]">
       {filteredProjects.map((project) => (
-        <CardContainer className="inter-var">
+        <CardContainer key={project.id} className="inter-var">
           {/* Desktop View */}
           <CardBody className="bg-transparent relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-transparent dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[27rem] h-auto rounded-xl p-6 border hidden md:block">
             <CardItem
@@ -539,7 +589,7 @@ export function ProjectCard({
                 src={project.image}
                 height="1000"
                 width="1000"
-                className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+                className="h-60 w-full max-h-60 min-h-60 rounded-xl group-hover/card:shadow-xl"
                 alt={project.title}
               />
             </CardItem>
@@ -609,12 +659,12 @@ export function ProjectCard({
           <CardBody
             className={cn(
               "bg-gradient-to-br from-gray-900/20 to-purple-900/10 relative group/card",
-              "dark:hover:shadow-2xl dark:hover:shadow-emerald-500/20",
+              "md:dark:hover:shadow-2xl md:dark:hover:shadow-emerald-500/20",
               "dark:bg-transparent border-white/20 border-2",
               "w-full h-48 rounded-2xl p-4",
-              "backdrop-blur-sm shadow-2xl",
+              "backdrop-blur-sm shadow-md",
               "flex items-start", // Mobile layout
-              "md:hidden" // Hide on desktop, show on mobile
+              "md:hidden", // Hide on desktop, show on mobile
             )}
           >
             {/* Mobile Layout - Image on right, content clipped */}
@@ -669,7 +719,7 @@ export function ProjectCard({
                   <div className="relative overflow-hidden rounded-lg h-full">
                     <img
                       src={project.image}
-                      className="h-full w-full object-cover group-hover/card:scale-110 transition-transform duration-300"
+                      className="h-full w-full object-cover md:group-hover/card:scale-110 transition-transform duration-300"
                       alt={project.title}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300" />
@@ -757,7 +807,7 @@ const CategoryButton = React.memo(
     >
       {category}
     </button>
-  )
+  ),
 );
 
 CategoryButton.displayName = "CategoryButton";
@@ -812,7 +862,7 @@ const Projects = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-3 mb-12"
+            className="flex flex-wrap justify-center gap-3 mb-16"
           >
             {CATEGORIES.map((category) => (
               <CategoryButton

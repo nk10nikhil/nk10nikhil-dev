@@ -1,8 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap&text=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 @keyframes floatLCS {
   0%,
@@ -35,6 +34,28 @@
   50% {
     filter: drop-shadow(0 0 25px rgba(147, 51, 234, 0.9));
   }
+}
+
+@keyframes newsletterSparkle {
+  0% {
+    transform: rotate(0deg) scale(0.9);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 0.65;
+  }
+
+  100% {
+    transform: rotate(360deg) scale(0.9);
+    opacity: 0.2;
+  }
+}
+
+.newsletter-sparkle {
+  animation: newsletterSparkle var(--sparkle-duration, 3s) linear infinite;
+  animation-delay: var(--sparkle-delay, 0s);
 }
 
 .orbital-containerLCS {
@@ -307,7 +328,7 @@ html {
 }
 
 .section-active .section-tag {
-  @apply opacity-100 text-gradient;
+  @apply opacity-100 bg-gradient-to-r from-primary via-purple-500 to-pink-400 bg-clip-text text-transparent;
 }
 
 .section-title {
@@ -315,7 +336,7 @@ html {
 }
 
 .section-active .section-title {
-  @apply text-primary text-gradient;
+  @apply text-primary bg-gradient-to-r from-primary via-purple-500 to-pink-400 bg-clip-text text-transparent;
 }
 
 .section-service-tags {
@@ -361,7 +382,8 @@ html {
 }
 
 .section-image.active {
-  @apply opacity-100 animate-scale-in;
+  @apply opacity-100;
+  animation: scale-in 0.4s ease-out forwards;
 }
 
 .theme-switch {
@@ -702,4 +724,15 @@ video {
 /* Optimize repaints */
 * {
   box-sizing: border-box;
+}
+
+/* Hide scrollbar for all browsers */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

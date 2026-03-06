@@ -73,11 +73,39 @@ const FLOATING_ITEMS = [
 const FloatingObjects = React.memo(() => {
   const prefersReducedMotion = useReducedMotion();
   const [isClient, setIsClient] = useState(false);
+  const [particleQuantity, setParticleQuantity] = useState(100);
+  const [animatedItems, setAnimatedItems] = useState(FLOATING_ITEMS.length);
 
   // Only render on client side after mount
   useEffect(() => {
     setIsClient(true);
-  }, []);
+
+    const connection = (navigator as any).connection as
+      | {
+          saveData?: boolean;
+          effectiveType?: string;
+        }
+      | undefined;
+
+    const saveData = connection?.saveData === true;
+    const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+    const lowCoreDevice = (navigator.hardwareConcurrency ?? 8) <= 4;
+
+    if (prefersReducedMotion || saveData || slowNetwork) {
+      setParticleQuantity(24);
+      setAnimatedItems(3);
+      return;
+    }
+
+    if (lowCoreDevice) {
+      setParticleQuantity(55);
+      setAnimatedItems(5);
+      return;
+    }
+
+    setParticleQuantity(100);
+    setAnimatedItems(FLOATING_ITEMS.length);
+  }, [prefersReducedMotion]);
 
   // Animation variants - optimized with GPU acceleration
   const floatAnimation = useMemo(
@@ -128,9 +156,9 @@ const FloatingObjects = React.memo(() => {
         backfaceVisibility: "hidden",
       }}
     >
-      <Particles className="absolute inset-0" quantity={100} />
+      <Particles className="absolute inset-0" quantity={particleQuantity} />
 
-      {FLOATING_ITEMS.map(
+      {FLOATING_ITEMS.slice(0, animatedItems).map(
         ({ id, Icon, size, className, bgColor, iconColor, delay }) => (
           <motion.div
             key={id}

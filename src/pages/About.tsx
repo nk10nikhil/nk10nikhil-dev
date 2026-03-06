@@ -32,6 +32,7 @@ import BlurBackground from "@/components/section/BlurBackground";
 import FloatingObjects from "@/components/elements/FloatingObjects";
 import { cn } from "@/lib/utils";
 import Certification from "@/components/section/Certification";
+import { useRuntimeProfile } from "@/hooks/useRuntimeProfile";
 
 const viewportConfig = {
   triggerOnce: true,
@@ -39,6 +40,8 @@ const viewportConfig = {
 };
 
 const About = () => {
+  const runtimeProfile = useRuntimeProfile();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -76,7 +79,7 @@ const About = () => {
         color: "from-orange-500 to-red-500",
       },
     ],
-    []
+    [],
   );
 
   const funFacts = useMemo(
@@ -102,7 +105,7 @@ const About = () => {
         color: "from-rose-500 to-pink-500",
       },
     ],
-    []
+    [],
   );
 
   const topSkills = useMemo(
@@ -116,139 +119,144 @@ const About = () => {
       "JWT Authentication",
       "RESTful APIs",
     ],
-    []
+    [],
   );
 
-const workExperience = useMemo(
-  () => [
-    {
-      title: "Full Stack Engineer",
-      company: "WeBuilt_U",
-      period: "Jan 2025 - Jun 2025",
-      description:
-        "Led end-to-end full-stack development, building the company platform from scratch. Designed scalable and secure architectures with strong focus on performance and user experience. Mentored developers, collaborated in Agile sprints, and implemented CI/CD pipelines reducing release cycles by ~40%.",
-      technologies: [
-        "React",
-        "Next.js",
-        "Node.js",
-        "MongoDB",
-        "CI/CD",
-        "Agile",
-        "Team Leadership",
-      ],
-    },
-    {
-      title: "Open Source Developer",
-      company: "gofr.dev",
-      period: "Jun 2025 - Aug 2025",
-      description:
-        "Contributed to scalable web applications and secure authentication systems. Developed features for the GoFr Developer Dashboard and OpenAuth Gateway. Implemented and improved JWT-based authentication workflows while enhancing architecture, performance, and maintainability.",
-      technologies: [
-        "Next.js",
-        "JWT",
-        "MongoDB",
-        "REST APIs",
-        "Authentication",
-      ],
-    },
-    {
-      title: "Open-Source Tech Contributor",
-      company: "GirlScript Summer of Code (GSSoC 2025)",
-      period: "Jul 2025 - Sep 2025",
-      description:
-        "Contributed to open-source projects in a distributed development environment. Collaborated with global mentors and contributors while following Git/GitHub best practices including pull requests, issue tracking, testing, and structured code reviews.",
-      technologies: ["Git", "GitHub", "Open Source", "Collaboration"],
-    },
-    {
-      title: "Web Development Intern",
-      company: "Geeks Kepler",
-      period: "Nov 2025 - Jan 2026",
-      description:
-        "Selected through Unstop Tech Fair 2025 for a remote web development internship. Designed responsive, cross-browser-compatible web interfaces and translated UI/UX designs into high-performance functional components using modern frontend practices.",
-      technologies: ["HTML", "CSS", "JavaScript", "UI/UX"],
-    },
-    {
-      title: "Professional Freelancer",
-      company: "Freelancer.com",
-      period: "Jan 2024 - Dec 2024",
-      description:
-        "Delivered end-to-end full-stack solutions for clients across industries. Built and customized WordPress-based and dynamic web applications, optimized performance through caching and secure authentication, and managed independent deployment and maintenance.",
-      technologies: [
-        "Full-Stack Development",
-        "WordPress",
-        "Authentication",
-        "Deployment",
-      ],
-    },
-    {
-      title: "Team Leader",
-      company: "Smart India Hackathon 2024",
-      period: "Aug 2024 - Dec 2024",
-      description:
-        "Led a 6-member team to build a QR-based ticketing system for 3,000–5,000 attendees. Designed REST APIs and real-time dashboards, improving check-in efficiency and system scalability under strict hackathon timelines.",
-      technologies: ["React", "Next.js", "MongoDB", "REST APIs", "QR Systems"],
-    },
-  ],
-  [],
-);
+  const workExperience = useMemo(
+    () => [
+      {
+        title: "Full Stack Engineer",
+        company: "WeBuilt_U",
+        period: "Jan 2025 - Jun 2025",
+        description:
+          "Led end-to-end full-stack development, building the company platform from scratch. Designed scalable and secure architectures with strong focus on performance and user experience. Mentored developers, collaborated in Agile sprints, and implemented CI/CD pipelines reducing release cycles by ~40%.",
+        technologies: [
+          "React",
+          "Next.js",
+          "Node.js",
+          "MongoDB",
+          "CI/CD",
+          "Agile",
+          "Team Leadership",
+        ],
+      },
+      {
+        title: "Open Source Developer",
+        company: "gofr.dev",
+        period: "Jun 2025 - Aug 2025",
+        description:
+          "Contributed to scalable web applications and secure authentication systems. Developed features for the GoFr Developer Dashboard and OpenAuth Gateway. Implemented and improved JWT-based authentication workflows while enhancing architecture, performance, and maintainability.",
+        technologies: [
+          "Next.js",
+          "JWT",
+          "MongoDB",
+          "REST APIs",
+          "Authentication",
+        ],
+      },
+      {
+        title: "Open-Source Tech Contributor",
+        company: "GirlScript Summer of Code (GSSoC 2025)",
+        period: "Jul 2025 - Sep 2025",
+        description:
+          "Contributed to open-source projects in a distributed development environment. Collaborated with global mentors and contributors while following Git/GitHub best practices including pull requests, issue tracking, testing, and structured code reviews.",
+        technologies: ["Git", "GitHub", "Open Source", "Collaboration"],
+      },
+      {
+        title: "Web Development Intern",
+        company: "Geeks Kepler",
+        period: "Nov 2025 - Jan 2026",
+        description:
+          "Selected through Unstop Tech Fair 2025 for a remote web development internship. Designed responsive, cross-browser-compatible web interfaces and translated UI/UX designs into high-performance functional components using modern frontend practices.",
+        technologies: ["HTML", "CSS", "JavaScript", "UI/UX"],
+      },
+      {
+        title: "Professional Freelancer",
+        company: "Freelancer.com",
+        period: "Jan 2024 - Dec 2024",
+        description:
+          "Delivered end-to-end full-stack solutions for clients across industries. Built and customized WordPress-based and dynamic web applications, optimized performance through caching and secure authentication, and managed independent deployment and maintenance.",
+        technologies: [
+          "Full-Stack Development",
+          "WordPress",
+          "Authentication",
+          "Deployment",
+        ],
+      },
+      {
+        title: "Team Leader",
+        company: "Smart India Hackathon 2024",
+        period: "Aug 2024 - Dec 2024",
+        description:
+          "Led a 6-member team to build a QR-based ticketing system for 3,000–5,000 attendees. Designed REST APIs and real-time dashboards, improving check-in efficiency and system scalability under strict hackathon timelines.",
+        technologies: [
+          "React",
+          "Next.js",
+          "MongoDB",
+          "REST APIs",
+          "QR Systems",
+        ],
+      },
+    ],
+    [],
+  );
 
-const education = useMemo(
-  () => [
-    {
-      degree: "Bachelor of Technology - Computer Science & Design",
-      institution: "Galgotias College of Engineering and Technology",
-      period: "Oct 2023 - Jul 2027",
-      grade: "CGPA: 8.52",
-      description:
-        "Focused on software engineering, full-stack development, and user-centered design. Actively involved in open-source contributions, hackathons, and real-world application development.",
-      highlights: [
-        "Smart India Hackathon 2024 – Team Leader (Finalist)",
-        "Open Source Contributor (GSSoC, GoFr SoC)",
-        "Core Coursework: DSA, Discrete Structures, Logic Theory, UI/UX",
-      ],
-    },
-    {
-      degree: "Professional Diploma - Software Testing & Quality Assurance",
-      institution: "Institute of Management, Technology and Finance",
-      period: "Jan 2025 - Aug 2025",
-      description:
-        "Trained in software testing fundamentals, QA best practices, SDLC/STLC, bug lifecycle, and performance improvement. Hands-on experience with manual testing, test case design, and defect tracking.",
-      highlights: [
-        "Manual Testing & Test Case Design",
-        "Bug Tracking & QA Processes",
-        "Software Reliability & Performance Optimization",
-      ],
-    },
-    {
-      degree: "Professional Diploma - Web3 NFT Business",
-      institution: "Institute of Management, Technology and Finance",
-      period: "Jan 2025 - Aug 2025",
-      description:
-        "Gained foundational knowledge of blockchain, decentralized applications, token ecosystems, and NFT use cases. Explored emerging digital business models and Web3 innovation strategies.",
-      highlights: [
-        "Blockchain Fundamentals",
-        "NFT Ecosystems",
-        "Web3 Adoption & Strategy",
-      ],
-    },
-    {
-      degree: "Higher Secondary Education (PCM)",
-      institution: "Army Public School (APS)",
-      period: "Jul 2020 - Jul 2022",
-      grade: "Grade: A1",
-      description:
-        "NDA Qualified. Served as Class Representative and House Captain. Vice-Captain of Football Team and active Chess player, developing leadership, discipline, strategic thinking, and teamwork skills.",
-      highlights: [
-        "NDA Qualified",
-        "House Captain",
-        "Football Vice-Captain",
-        "Strategic Thinking & Leadership",
-      ],
-    },
-  ],
-  [],
-);
-
+  const education = useMemo(
+    () => [
+      {
+        degree: "Bachelor of Technology - Computer Science & Design",
+        institution: "Galgotias College of Engineering and Technology",
+        period: "Oct 2023 - Jul 2027",
+        grade: "CGPA: 8.52",
+        description:
+          "Focused on software engineering, full-stack development, and user-centered design. Actively involved in open-source contributions, hackathons, and real-world application development.",
+        highlights: [
+          "Smart India Hackathon 2024 – Team Leader (Finalist)",
+          "Open Source Contributor (GSSoC, GoFr SoC)",
+          "Core Coursework: DSA, Discrete Structures, Logic Theory, UI/UX",
+        ],
+      },
+      {
+        degree: "Professional Diploma - Software Testing & Quality Assurance",
+        institution: "Institute of Management, Technology and Finance",
+        period: "Jan 2025 - Aug 2025",
+        description:
+          "Trained in software testing fundamentals, QA best practices, SDLC/STLC, bug lifecycle, and performance improvement. Hands-on experience with manual testing, test case design, and defect tracking.",
+        highlights: [
+          "Manual Testing & Test Case Design",
+          "Bug Tracking & QA Processes",
+          "Software Reliability & Performance Optimization",
+        ],
+      },
+      {
+        degree: "Professional Diploma - Web3 NFT Business",
+        institution: "Institute of Management, Technology and Finance",
+        period: "Jan 2025 - Aug 2025",
+        description:
+          "Gained foundational knowledge of blockchain, decentralized applications, token ecosystems, and NFT use cases. Explored emerging digital business models and Web3 innovation strategies.",
+        highlights: [
+          "Blockchain Fundamentals",
+          "NFT Ecosystems",
+          "Web3 Adoption & Strategy",
+        ],
+      },
+      {
+        degree: "Higher Secondary Education (PCM)",
+        institution: "Army Public School (APS)",
+        period: "Jul 2020 - Jul 2022",
+        grade: "Grade: A1",
+        description:
+          "NDA Qualified. Served as Class Representative and House Captain. Vice-Captain of Football Team and active Chess player, developing leadership, discipline, strategic thinking, and teamwork skills.",
+        highlights: [
+          "NDA Qualified",
+          "House Captain",
+          "Football Vice-Captain",
+          "Strategic Thinking & Leadership",
+        ],
+      },
+    ],
+    [],
+  );
 
   return (
     <motion.div
@@ -260,7 +268,9 @@ const education = useMemo(
     >
       {/* Background Elements */}
       <BlurBackground />
-      <FloatingObjects />
+      {!runtimeProfile.lowPower && !runtimeProfile.reducedMotion ? (
+        <FloatingObjects />
+      ) : null}
 
       <main className="pt-10 md:pt-16">
         {/* Hero Section */}
@@ -332,7 +342,7 @@ const education = useMemo(
                             asChild
                           >
                             <a
-                              href="/assets/Nikhil_Kumar_SDE_Resume.pdf"
+                              href="/resume.pdf"
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -483,7 +493,7 @@ const education = useMemo(
                           asChild
                         >
                           <a
-                            href="/assets/Nikhil_Kumar_SDE_Resume.pdf"
+                            href="/resume.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -687,7 +697,7 @@ const education = useMemo(
                             <div
                               className={cn(
                                 "w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br flex items-center justify-center",
-                                value.color
+                                value.color,
                               )}
                             >
                               <Icon className="w-7 h-7 text-white" />
@@ -737,7 +747,7 @@ const education = useMemo(
                             <div
                               className={cn(
                                 "w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center flex-shrink-0",
-                                fact.color
+                                fact.color,
                               )}
                             >
                               <Icon className="w-6 h-6 text-white" />

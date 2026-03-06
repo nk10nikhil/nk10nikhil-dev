@@ -1,15 +1,63 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-function ElegantShape({
+type ShapeConfig = {
+  className: string;
+  delay: number;
+  width: number;
+  height: number;
+  rotate: number;
+  gradient: string;
+};
+
+const SHAPES: ShapeConfig[] = [
+  {
+    delay: 0.2,
+    width: 560,
+    height: 130,
+    rotate: 12,
+    gradient: "from-indigo-500/[0.14]",
+    className: "left-[-10%] md:left-[-4%] top-[16%] md:top-[22%]",
+  },
+  {
+    delay: 0.3,
+    width: 460,
+    height: 110,
+    rotate: -14,
+    gradient: "from-rose-500/[0.14]",
+    className: "right-[-8%] md:right-[-1%] top-[68%] md:top-[74%]",
+  },
+  {
+    delay: 0.4,
+    width: 280,
+    height: 76,
+    rotate: -8,
+    gradient: "from-violet-500/[0.14]",
+    className: "left-[7%] md:left-[12%] bottom-[8%] md:bottom-[12%]",
+  },
+  {
+    delay: 0.5,
+    width: 190,
+    height: 58,
+    rotate: 18,
+    gradient: "from-amber-500/[0.14]",
+    className: "right-[14%] md:right-[19%] top-[10%] md:top-[15%]",
+  },
+];
+
+const containerEase = [0.25, 0.4, 0.25, 1] as const;
+
+const ElegantShape = memo(function ElegantShape({
   className,
   delay = 0,
-  width = 400,
-  height = 100,
+  width = 300,
+  height = 80,
   rotate = 0,
   gradient = "from-white/[0.08]",
+  reducedMotion = false,
 }: {
   className?: string;
   delay?: number;
@@ -17,57 +65,36 @@ function ElegantShape({
   height?: number;
   rotate?: number;
   gradient?: string;
+  reducedMotion?: boolean;
 }) {
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: -150,
-        rotate: rotate - 15,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        rotate: rotate,
-      }}
+      initial={
+        reducedMotion
+          ? { opacity: 0 }
+          : { opacity: 0, y: -80, rotate: rotate - 8 }
+      }
+      animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotate }}
       transition={{
-        duration: 2.4,
+        duration: reducedMotion ? 0.45 : 1.0,
         delay,
-        ease: [0.23, 0.86, 0.39, 0.96],
-        opacity: { duration: 1.2 },
+        ease: "easeOut",
       }}
-      className={cn("absolute", className)}
+      className={cn("absolute pointer-events-none", className)}
+      style={{ width, height }}
     >
-      <motion.div
-        animate={{
-          y: [0, 15, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-        style={{
-          width,
-          height,
-        }}
-        className="relative"
-      >
-        <div
-          className={cn(
-            "absolute inset-0 rounded-full",
-            "bg-gradient-to-r to-transparent",
-            gradient,
-            "backdrop-blur-[2px] border-2 border-white/[0.15]",
-            "shadow-[0_8px_32px_0_rgba(255,255,255,0.1)]",
-            "after:absolute after:inset-0 after:rounded-full",
-            "after:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]"
-          )}
-        />
-      </motion.div>
+      <div
+        className={cn(
+          "absolute inset-0 rounded-full",
+          "bg-gradient-to-r to-transparent",
+          gradient,
+          "border border-white/[0.12]",
+          "shadow-[0_8px_22px_rgba(255,255,255,0.08)]",
+        )}
+      />
     </motion.div>
   );
-}
+});
 
 export default function BackgroundHero({
   badge = "Nikhil Kumar",
@@ -78,78 +105,34 @@ export default function BackgroundHero({
   title1?: string;
   title2?: string;
 }) {
-  const fadeUpVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-        delay: 0.5 + i * 0.2,
-        ease: [0.25, 0.4, 0.25, 1],
-      },
-    }),
-  };
+  const reducedMotion = useReducedMotion();
 
   return (
-    <div className="relative h-auto w-full flex items-center pt-24 justify-center overflow-hidden bg-[#030303]/10">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
+    <section className="relative w-full overflow-hidden bg-[#030303]/10 pt-24">
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-indigo-500/[0.04] via-transparent to-rose-500/[0.04]" />
 
-      <div className="absolute inset-0 overflow-hidden">
-        <ElegantShape
-          delay={0.3}
-          width={600}
-          height={140}
-          rotate={12}
-          gradient="from-indigo-500/[0.15]"
-          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-        />
-
-        <ElegantShape
-          delay={0.5}
-          width={500}
-          height={120}
-          rotate={-15}
-          gradient="from-rose-500/[0.15]"
-          className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
-        />
-
-        <ElegantShape
-          delay={0.4}
-          width={300}
-          height={80}
-          rotate={-8}
-          gradient="from-violet-500/[0.15]"
-          className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
-        />
-
-        <ElegantShape
-          delay={0.6}
-          width={200}
-          height={60}
-          rotate={20}
-          gradient="from-amber-500/[0.15]"
-          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-        />
-
-        <ElegantShape
-          delay={0.7}
-          width={150}
-          height={40}
-          rotate={-25}
-          gradient="from-cyan-500/[0.15]"
-          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
-        />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {SHAPES.map((shape) => (
+          <ElegantShape
+            key={shape.className}
+            className={shape.className}
+            delay={shape.delay}
+            width={shape.width}
+            height={shape.height}
+            rotate={shape.rotate}
+            gradient={shape.gradient}
+            reducedMotion={!!reducedMotion}
+          />
+        ))}
       </div>
 
       <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="mx-auto max-w-3xl text-center">
           <motion.div
-            custom={0}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: containerEase }}
+            className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1 md:mb-10"
           >
             <img
               src="/profile.png"
@@ -157,46 +140,40 @@ export default function BackgroundHero({
               width={20}
               height={20}
               className="rounded-full"
+              loading="eager"
+              decoding="async"
             />
-            <span className="text-sm text-white/60 tracking-wide">{badge}</span>
+            <span className="text-sm tracking-wide text-white/60">{badge}</span>
           </motion.div>
 
-          <motion.div
-            custom={1}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
+          <motion.h1
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.35, ease: containerEase }}
+            className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl md:mb-8 md:text-8xl"
           >
-            <h1 className="text-6xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
-                {title1}
-              </span>
-              <br />
-              <span
-                className={cn(
-                  "bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300 "
-                )}
-              >
-                {title2}
-              </span>
-            </h1>
-          </motion.div>
+            <span className="bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent">
+              {title1}
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300 bg-clip-text text-transparent">
+              {title2}
+            </span>
+          </motion.h1>
 
-          <motion.div
-            custom={2}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.5, ease: containerEase }}
+            className="mx-auto max-w-xl px-4 text-base font-light leading-relaxed tracking-wide text-white/45 sm:text-lg md:text-xl"
           >
-            <p className="text-base sm:text-lg md:text-xl text-white/40 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
-              Crafting exceptional digital experiences through innovative design
-              and cutting-edge technology.
-            </p>
-          </motion.div>
+            Crafting exceptional digital experiences through innovative design
+            and cutting-edge technology.
+          </motion.p>
         </div>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80 pointer-events-none" />
-    </div>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-[#030303]/80" />
+    </section>
   );
 }

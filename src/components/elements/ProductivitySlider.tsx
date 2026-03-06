@@ -1,216 +1,211 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 import { Link } from "react-router-dom";
 
+type Project = {
+  title: string;
+  desc: string;
+  bg: string;
+  thumb: string;
+};
+
+const PROJECTS: Project[] = [
+  {
+    title: "Full Stack Development",
+    desc: "End-to-end web application development with modern technologies",
+    bg: "/services/service11.avif",
+    thumb: "/services/service12.avif",
+  },
+  {
+    title: "UI/UX Design",
+    desc: "Beautiful, intuitive interfaces that users love",
+    bg: "/services/service21.avif",
+    thumb: "/services/service22.avif",
+  },
+  {
+    title: "Mobile Development",
+    desc: "Native and cross-platform mobile applications",
+    bg: "/services/service31.avif",
+    thumb: "/services/service32.avif",
+  },
+  {
+    title: "Web3 & Blockchain",
+    desc: "Decentralized applications and smart contracts",
+    bg: "/services/service41.avif",
+    thumb: "/services/service42.avif",
+  },
+  {
+    title: "AI Integration",
+    desc: "Intelligent features powered by machine learning",
+    bg: "/services/service51.avif",
+    thumb: "/services/service52.avif",
+  },
+  {
+    title: "SEO & Performance",
+    desc: "Optimize your digital presence for maximum impact",
+    bg: "/services/service61.avif",
+    thumb: "/services/service62.avif",
+  },
+  {
+    title: "Cloud Solutions",
+    desc: "Scalable and secure cloud infrastructure",
+    bg: "/services/service71.avif",
+    thumb: "/services/service72.avif",
+  },
+  {
+    title: "DevOps & CI/CD",
+    desc: "Streamlined development and deployment pipelines",
+    bg: "/services/service81.avif",
+    thumb: "/services/service82.avif",
+  },
+];
+
 export default function ProductivitySlider() {
-  const projects = [
-    {
-      title: "Full Stack Development",
-      desc: "End-to-end web application development with modern technologies",
-      bg: "/services/service11.jpeg",
-      thumb: "/services/service12.jpeg",
-    },
-    {
-      title: "UI/UX Design",
-      desc: "Beautiful, intuitive interfaces that users love",
-      bg: "/services/service21.jpeg",
-      thumb: "/services/service22.jpeg",
-    },
-    {
-      title: "Mobile Development",
-      desc: "Native and cross-platform mobile applications",
-      bg: "/services/service31.jpeg",
-      thumb: "/services/service32.jpeg",
-    },
-    {
-      title: "Web3 & Blockchain",
-      desc: "Decentralized applications and smart contracts",
-      bg: "/services/service41.jpeg",
-      thumb: "/services/service42.jpeg",
-    },
-    {
-      title: "AI Integration",
-      desc: "Intelligent features powered by machine learning",
-      bg: "/services/service51.jpeg",
-      thumb: "/services/service52.jpeg",
-    },
-    {
-      title: "SEO & Performance",
-      desc: "Optimize your digital presence for maximum impact",
-      bg: "/services/service61.jpeg",
-      thumb: "/services/service62.jpeg",
-    },
-    {
-      title: "Cloud Solutions",
-      desc: "Scalable and secure cloud infrastructure",
-      bg: "/services/service71.jpeg",
-      thumb: "/services/service72.jpeg",
-    },
-    {
-      title: "DevOps & CI/CD",
-      desc: "Streamlined development and deployment pipelines",
-      bg: "/services/service81.jpeg",
-      thumb: "/services/service82.jpeg",
-    },
-  ];
-
+  const projects = useMemo(() => PROJECTS, []);
   const [current, setCurrent] = useState(0);
-  const trackRef = useRef(null);
-  const wrapRef = useRef(null);
+  const [isMobileView, setIsMobileView] = useState(false);
 
-  const isMobile = () => window.matchMedia("(max-width:767px)").matches;
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
 
-  const center = (i) => {
+  const updateViewport = () => {
+    setIsMobileView(window.matchMedia("(max-width: 767px)").matches);
+  };
+
+  const center = (index: number) => {
     const track = trackRef.current;
     const wrap = wrapRef.current;
-    const card = track?.children[i];
-    if (!card || !wrap) return;
-    const axis = isMobile() ? "top" : "left";
-    const size = isMobile() ? "clientHeight" : "clientWidth";
-    const start = isMobile() ? card.offsetTop : card.offsetLeft;
+    const card = track?.children[index] as HTMLElement | undefined;
+    if (!track || !wrap || !card) return;
+
+    if (isMobileView) {
+      wrap.scrollTo({
+        top: card.offsetTop - (wrap.clientHeight / 2 - card.clientHeight / 2),
+        behavior: "smooth",
+      });
+      return;
+    }
+
     wrap.scrollTo({
-      [axis]: start - (wrap[size] / 2 - card[size] / 2),
+      left: card.offsetLeft - (wrap.clientWidth / 2 - card.clientWidth / 2),
       behavior: "smooth",
     });
   };
 
-  const go = (step) => {
+  const go = (step: number) => {
     setCurrent((prev) =>
-      Math.min(Math.max(prev + step, 0), projects.length - 1)
+      Math.min(Math.max(prev + step, 0), projects.length - 1),
     );
   };
 
   useEffect(() => {
-    center(current);
-  }, [current]);
-
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (["ArrowRight", "ArrowDown"].includes(e.key)) go(1);
-      if (["ArrowLeft", "ArrowUp"].includes(e.key)) go(-1);
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    updateViewport();
+    window.addEventListener("resize", updateViewport, { passive: true });
+    return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
+  useEffect(() => {
+    center(current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, isMobileView]);
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      go(1);
+    }
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      go(-1);
+    }
+  };
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-0 md:px-4 bg-transparent">
+    <div
+      ref={rootRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      className="ps-root w-full max-w-7xl mx-auto px-0 md:px-4 bg-transparent focus:outline-none"
+      aria-label="Services slider"
+    >
       <style>{`
-        :root {
-          --gap: 1.25rem;
-          --speed: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          --closed: 5rem;
-          --open: 30rem;
-          --accent: #ff6b35;
+        .ps-root {
+          --ps-gap: 1.25rem;
+          --ps-speed: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          --ps-closed: 5rem;
+          --ps-open: 30rem;
+          --ps-accent: #ff6b35;
+          font-family: Inter, sans-serif;
+          color: #c5c7ce;
         }
-        * {
-          margin: 0;
-          padding: 0;
+
+        .ps-root * {
           box-sizing: border-box;
         }
-        body {
-          font-family: Inter, sans-serif;
-          background: #07090d;
-          color: #c5c7ce;
-        }
-        section {
-          font-family: Inter, sans-serif;
-          background: #07090d;
-          color: #c5c7ce;
-        }
-        .head {
+
+        .ps-root .slider {
           max-width: 1400px;
-          margin: auto;
-          padding: 70px 20px 40px;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          gap: 2rem;
-        }
-        .head h2 {
-          font: 400 1.5rem/1.2 Inter, sans-serif;
-          color: #fff;
-        }
-        @media (min-width: 1024px) {
-          .head h2 {
-            font-size: 2.25rem;
-          }
-        }
-        .nav-btn {
-          width: 2.5rem;
-          height: 2.5rem;
-          border: none;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.12);
-          color: #fff;
-          font-size: 1.5rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: 0.3s;
-        }
-        .nav-btn:hover {
-          background: var(--accent);
-        }
-        .nav-btn:disabled {
-          opacity: 0.3;
-          cursor: default;
+          margin: 0 auto;
+          overflow: auto;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
 
-        .slider {
-          max-width: 1400px;
-          margin: auto;
-          overflow: hidden;
+        .ps-root .slider::-webkit-scrollbar {
+          display: none;
         }
 
-        .controls {
+        .ps-root .track {
           display: flex;
-          flex-direction: row;
-          gap: 0.5rem;
-        }
-        .track {
-          display: flex;
-          gap: var(--gap);
+          gap: var(--ps-gap);
           align-items: flex-start;
           justify-content: center;
           scroll-behavior: smooth;
           scroll-snap-type: x mandatory;
-          padding-bottom: 10px;
-        }
-        .track::-webkit-scrollbar {
-          display: none;
+          padding: 0 0 10px 0;
         }
 
-        .project-card {
+        .ps-root .project-card {
           position: relative;
-          flex: 0 0 var(--closed);
+          flex: 0 0 var(--ps-closed);
           height: 26rem;
           border-radius: 1rem;
           overflow: hidden;
           cursor: pointer;
-          transition: flex-basis var(--speed), transform var(--speed);
+          scroll-snap-align: center;
+          transition: flex-basis var(--ps-speed), transform var(--ps-speed);
+          background: #0f1115;
         }
-        .project-card.active {
-          flex-basis: var(--open);
-          transform: translateY(-0px);
+
+        .ps-root .project-card.active {
+          flex-basis: var(--ps-open);
           box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45);
         }
-        .project-card__bg {
+
+        .ps-root .project-card__bg {
           position: absolute;
           inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
           filter: brightness(0.75) saturate(75%) blur(2px);
-          transition: filter 0.3s, transform var(--speed);
+          transition: filter 0.3s, transform var(--ps-speed);
         }
-        .project-card:hover .project-card__bg {
+
+        .ps-root .project-card:hover .project-card__bg {
           filter: brightness(0.9) saturate(100%) blur(2px);
           transform: scale(1.06);
         }
 
-        .project-card__content {
+        .ps-root .project-card__content {
           position: absolute;
           inset: 0;
           display: flex;
@@ -218,235 +213,213 @@ export default function ProductivitySlider() {
           justify-content: center;
           align-items: center;
           gap: 0.7rem;
+          padding: 1rem;
           background: linear-gradient(transparent 40%, rgba(0, 0, 0, 0.85) 100%);
           z-index: 2;
         }
-        .project-card__title {
+
+        .ps-root .project-card__title {
           color: #fff;
           font-weight: 700;
           font-size: 1.35rem;
           writing-mode: vertical-rl;
           transform: rotate(180deg);
         }
-        .project-card__thumb,
-        .project-card__desc,
-        .project-card__btn {
+
+        .ps-root .project-card__thumb,
+        .ps-root .project-card__desc,
+        .ps-root .project-card__btn {
           display: none;
         }
 
-        .project-card.active .project-card__content {
+        .ps-root .project-card.active .project-card__content {
           flex-direction: row;
           align-items: center;
           padding: 1.2rem 2rem;
           gap: 1.1rem;
         }
-        .project-card.active .project-card__title {
+
+        .ps-root .project-card.active .project-card__title {
           writing-mode: horizontal-tb;
           transform: none;
-          font-size: 2.4rem;
+          font-size: 2.2rem;
+          line-height: 1.1;
+          margin-bottom: 0.7rem;
         }
-        .project-card.active .project-card__thumb,
-        .project-card.active .project-card__desc,
-        .project-card.active .project-card__btn {
+
+        .ps-root .project-card.active .project-card__thumb,
+        .ps-root .project-card.active .project-card__desc,
+        .ps-root .project-card.active .project-card__btn {
           display: block;
         }
 
-        .project-card__thumb {
+        .ps-root .project-card__thumb {
           width: 133px;
           height: 269px;
           border-radius: 0.45rem;
           object-fit: cover;
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+          flex-shrink: 0;
         }
-        .project-card__desc {
+
+        .ps-root .project-card__desc {
           color: #ddd;
           font-size: 1rem;
           line-height: 1.4;
           max-width: 16rem;
+          margin-bottom: 0.9rem;
         }
-        .project-card__btn {
+
+        .ps-root .project-card__btn {
+          display: inline-block;
           padding: 0.55rem 1.3rem;
-          border: none;
           border-radius: 9999px;
-          background: var(--accent);
+          background: var(--ps-accent);
           color: #fff;
           font-size: 0.9rem;
           font-weight: 600;
-          cursor: pointer;
+          text-decoration: none;
+          transition: background 0.2s ease;
         }
-        .project-card__btn:hover {
+
+        .ps-root .project-card__btn:hover {
           background: #ff824f;
         }
 
-        .dots {
+        .ps-root .dots {
           display: flex;
           gap: 0.5rem;
           justify-content: center;
           padding: 20px 0;
         }
-        .dot {
+
+        .ps-root .dot {
           width: 13px;
           height: 13px;
           border-radius: 50%;
           background: rgba(255, 255, 255, 0.35);
           cursor: pointer;
-          transition: 0.3s;
+          transition: transform 0.2s ease, background 0.2s ease;
         }
-        .dot.active {
-          background: var(--accent);
+
+        .ps-root .dot.active {
+          background: var(--ps-accent);
           transform: scale(1.2);
         }
 
         @media (max-width: 767px) {
-  :root {
-    --closed: 100%;
-    --open: 100%;
-    --gap: 0.8rem;
-  }
+          .ps-root {
+            --ps-closed: 100%;
+            --ps-open: 100%;
+            --ps-gap: 0.8rem;
+          }
 
-  .head {
-    padding: 30px 15px 20px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
+          .ps-root .track {
+            flex-direction: column;
+            scroll-snap-type: y mandatory;
+            gap: 0.8rem;
+            padding: 0 0.5rem 20px;
+          }
 
-  .slider {
-    padding: 0; /* Remove padding for full width */
-  }
+          .ps-root .project-card {
+            width: 100%;
+            max-width: 100%;
+            min-height: 84px;
+            height: auto;
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+          }
 
-  .track {
-    flex-direction: column;
-    scroll-snap-type: y mandatory;
-    gap: 0.8rem;
-    padding: 0 0.5rem 20px; /* Reduce horizontal padding */
-  }
+          .ps-root .project-card.active {
+            min-height: 320px;
+            transform: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+          }
 
-  .project-card {
-    height: auto;
-    min-height: 80px;
-    flex: 0 0 auto;
-    width: calc(100vw - 1rem); /* Full width minus minimal margin */
-    max-width: 100%;
-    scroll-snap-align: start;
-  }
+          .ps-root .project-card__content {
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 1rem;
+            gap: 1rem;
+          }
 
-  .project-card.active {
-    min-height: 320px; /* Increased from 300px */
-    transform: none;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  }
+          .ps-root .project-card__title {
+            writing-mode: horizontal-tb;
+            transform: none;
+            font-size: 1.2rem;
+            margin-right: auto;
+          }
 
-  .project-card__content {
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 1rem;
-    align-items: center;
-    gap: 1rem;
-  }
+          .ps-root .project-card__thumb,
+          .ps-root .project-card__desc,
+          .ps-root .project-card__btn {
+            display: none;
+          }
 
-  .project-card__title {
-    writing-mode: horizontal-tb;
-    transform: none;
-    font-size: 1.2rem;
-    margin-right: auto;
-  }
+          .ps-root .project-card.active .project-card__content {
+            align-items: flex-start;
+            padding: 1.5rem;
+          }
 
-  .project-card__thumb,
-  .project-card__desc,
-  .project-card__btn {
-    display: none;
-  }
+          .ps-root .project-card.active .project-card__title {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+          }
 
-  .project-card.active .project-card__content {
-    align-items: flex-start;
-    padding: 1.5rem;
-  }
+          .ps-root .project-card.active .project-card__thumb {
+            width: 150px;
+            height: 267px;
+            border-radius: 0.35rem;
+            margin-bottom: 1rem;
+          }
 
-  .project-card.active .project-card__title {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    margin-top: 2rem;
-  }
+          .ps-root .project-card.active .project-card__desc {
+            font-size: 0.95rem;
+            max-width: 100%;
+            margin-bottom: 1rem;
+          }
 
-  .project-card.active .project-card__thumb {
-    width: 150px;
-    height: 267px;
-    border-radius: 0.35rem;
-    margin-bottom: 1rem;
-  }
+          .ps-root .project-card.active .project-card__btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.7rem;
+          }
 
-  .project-card.active .project-card__desc {
-    font-size: 0.95rem;
-    max-width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .project-card.active .project-card__btn {
-    align-self: center;
-    width: 100%;
-    text-align: center;
-    padding: 0.7rem;
-  }
-
-  .dots {
-    display: none;
-  }
-
-  .controls {
-    width: 100%;
-    justify-content: space-between;
-    padding: 0 0.5rem 20px; /* Reduced from 15px to 0.5rem */
-  }
-
-  .nav-btn {
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.2rem;
-  }
-
-  /* Remove the duplicate mobile styles */
-  .slider-wrap {
-    padding: 0; /* Changed from 1rem 0.5rem */
-  }
-  .card {
-    width: 100%; /* Changed from 100vw */
-    max-width: none; /* Removed max-width constraint */
-    min-height: 300px;
-  }
-  .card-img {
-    height: 140px;
-  }
-  .head h2 {
-    font-size: 1.25rem;
-    padding: 0 0.5rem; /* Reduced from 1rem */
-  }
-}
+          .ps-root .dots {
+            display: none;
+          }
+        }
       `}</style>
 
-      <section className="bg-transparent">
+      <div className="bg-transparent">
         <div className="slider" ref={wrapRef}>
           <div className="track" ref={trackRef}>
             {projects.map((p, i) => (
               <article
-                key={i}
+                key={p.title}
                 className={`project-card ${current === i ? "active" : ""}`}
                 onClick={() => setCurrent(i)}
                 onMouseEnter={() =>
-                  matchMedia("(hover:hover)").matches && setCurrent(i)
+                  window.matchMedia("(hover: hover)").matches && setCurrent(i)
                 }
               >
                 <img className="project-card__bg" src={p.bg} alt="" />
                 <div className="project-card__content">
-                  <img className="project-card__thumb" src={p.thumb} alt="" />
+                  <img
+                    className="project-card__thumb"
+                    src={p.thumb}
+                    alt={p.title}
+                  />
                   <div>
                     <h3 className="project-card__title">{p.title}</h3>
                     <p className="project-card__desc">{p.desc}</p>
-                    <Link to="/contact">
-                      <button className="project-card__btn max-w-[130px] mt-0 md:mt-5">
+                    {current === i && (
+                      <Link to="/contact" className="project-card__btn">
                         Contact Me
-                      </button>
-                    </Link>
+                      </Link>
+                    )}
                   </div>
                 </div>
               </article>
@@ -454,18 +427,18 @@ export default function ProductivitySlider() {
           </div>
         </div>
 
-        {!isMobile() && (
+        {!isMobileView && (
           <div className="dots">
-            {projects.map((_, i) => (
+            {projects.map((p, i) => (
               <span
-                key={i}
+                key={`${p.title}-dot`}
                 className={`dot ${current === i ? "active" : ""}`}
                 onClick={() => setCurrent(i)}
-              ></span>
+              />
             ))}
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }

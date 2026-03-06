@@ -154,7 +154,7 @@ const ContactSection = () => {
               <div className="space-y-6">
                 {contactInfo.map((item, index) => (
                   <div key={index} className="flex items-start">
-                    <div className="bg-secondary rounded-full p-2 mr-4">
+                    <div className="bg-gray-500/30 rounded-full p-2 mr-4">
                       {item.icon}
                     </div>
                     <div>
@@ -179,7 +179,7 @@ const ContactSection = () => {
 
             <div className="glass-morphism rounded-xl p-6 md:p-8 h-[200px] relative overflow-hidden">
               <img
-                src="/images/contactbg.png"
+                src="/images/contactbg.avif"
                 alt="Illustration"
                 className="absolute inset-0 w-full h-full object-cover opacity-50"
               />

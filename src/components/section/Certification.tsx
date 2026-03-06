@@ -26,7 +26,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "SkillFront",
     date: "Oct 2025",
     desc: "The ISO 20000 Foundation - IT Service Certification from SkillFront demonstrates a comprehensive understanding of IT service management principles, project management methodologies, and regulatory compliance. This credential validates expertise in delivering high-quality IT services, managing service lifecycles, and ensuring alignment with international standards. Holders are equipped to handle problem management, quality of service (QoS), and implement best practices for continual service improvement in dynamic enterprise environments. Credential ID: 02475660968055.",
-    img: "/certificates/cert1.jpeg",
+    img: "/certificates/cert9.avif",
     url: "https://skillfront.com/certificate/02475660968055",
     skills: [
       "IT Service Management",
@@ -46,7 +46,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Agile Enterprise Coach, London",
     date: "Jul 2025",
     desc: "The Agile Scrum Master certification from Agile Enterprise Coach, London, validates advanced knowledge in agile methodologies, Scrum framework, and software development life cycle (SDLC). This credential demonstrates the ability to lead cross-functional teams, facilitate agile ceremonies, and drive continuous improvement. Certified professionals excel in sprint planning, backlog refinement, and delivering high-quality software solutions in fast-paced environments. Credential ID: 1004190.",
-    img: "/certificates/cert5.jpeg",
+    img: "/certificates/cert7.avif",
     url: "https://agilecoach.co.uk/certificate/1004190",
     skills: [
       "Agile Methodologies",
@@ -66,7 +66,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "University of Engineering & Management",
     date: "Jul 2025",
     desc: "Awarded Scrum Master Certification at the InnoFusion Hackathon by University of Engineering & Management (UEM). Recognizes excellence in agile project delivery, team facilitation, and innovative problem-solving during competitive hackathon events. Credential ID: c0e3c0f8-8d89-47fe-8247-cdab6005a1dc.",
-    img: "/certificates/cert6.jpeg",
+    img: "/certificates/cert2.avif",
     url: "https://uem.edu.in/certificate/c0e3c0f8-8d89-47fe-8247-cdab6005a1dc",
     skills: [
       "Hackathon",
@@ -84,7 +84,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Google",
     date: "Jun 2025",
     desc: "The Google Analytics Certification demonstrates proficiency in digital analytics, data-driven decision making, and web performance optimization. Certified professionals are skilled in configuring analytics dashboards, interpreting user behavior, and leveraging insights to improve marketing strategies and website effectiveness. Credential ID: 153625685.",
-    img: "/certificates/cert2.jpeg",
+    img: "/certificates/cert4.avif",
     url: "https://google.com/certificate/153625685",
     skills: [
       "Analytical Skills",
@@ -102,7 +102,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "SkillFront",
     date: "Jun 2025",
     desc: "The Information Security Associate certification from SkillFront validates expertise in information security principles, IT infrastructure protection, and regulatory compliance. Certified professionals are skilled in implementing security controls, managing vulnerabilities, and ensuring data privacy across enterprise systems. Credential ID: 67596819695188.",
-    img: "/certificates/cert8.jpeg",
+    img: "/certificates/cert10.avif",
     url: "https://skillfront.com/certificate/67596819695188",
     skills: [
       "Information Security",
@@ -119,7 +119,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Cisco",
     date: "Jun 2025",
     desc: "The Introduction to Data Science certification from Cisco covers foundational concepts in data analysis, statistical modeling, and data-driven decision making. Certified individuals are proficient in handling large datasets, visualizing data, and applying analytical techniques to solve business problems. Credential ID: 60008bde-0559-4923-b77a-e50d78ca153b.",
-    img: "/certificates/cert3.jpeg",
+    img: "/certificates/cert3.avif",
     url: "https://cisco.com/certificate/60008bde-0559-4923-b77a-e50d78ca153b",
     skills: [
       "Data Analysis",
@@ -136,7 +136,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Microsoft",
     date: "Jun 2025",
     desc: "The Microsoft Project Certification validates advanced skills in project management, artificial intelligence (AI), and cloud computing. Certified professionals are adept at building computer vision applications, integrating APIs, and leveraging Microsoft Azure for scalable solutions. Credential ID: E8V54IKAW5ZA.",
-    img: "/certificates/cert9.jpeg",
+    img: "/certificates/cert5.avif",
     url: "https://microsoft.com/certificate/E8V54IKAW5ZA",
     skills: [
       "Artificial Intelligence (AI)",
@@ -155,7 +155,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "MongoDB",
     date: "Jun 2025",
     desc: "The MongoDB Associate Database Administrator certification demonstrates expertise in database management, performance optimization, and data security. Credential ID: MDBay8i5908j8.",
-    img: "/certificates/cert10.jpeg",
+    img: "/certificates/cert1.avif",
     url: "https://mongodb.com/certificate/MDBay8i5908j8",
     skills: [
       "MongoDB",
@@ -172,7 +172,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Oracle",
     date: "Jun 2025",
     desc: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate validates foundational knowledge in cloud architecture, AI integration, and scalable infrastructure solutions. Credential ID: 101915958OCI25AICFA.",
-    img: "/certificates/cert4.jpeg",
+    img: "/certificates/cert6.avif",
     url: "https://oracle.com/certificate/101915958OCI25AICFA",
     skills: [
       "Oracle Cloud",
@@ -188,7 +188,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "The Council for Six Sigma Certification",
     date: "Jun 2025",
     desc: "Six Sigma White Belt Certification demonstrates understanding of process improvement, quality assurance, and lean methodologies. Credential ID: djQ0MDk2MS0yOTg.",
-    img: "/certificates/cert11.jpeg",
+    img: "/certificates/cert12.avif",
     url: "https://sixsigma.org/certificate/djQ0MDk2MS0yOTg",
     skills: [
       "Six Sigma",
@@ -204,7 +204,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Coursera",
     date: "May 2025",
     desc: "Amazon S3 Basics certification from Coursera covers cloud storage fundamentals, microservices architecture, and version control using AWS. Credential ID: JA4E5HLZFJI2.",
-    img: "/certificates/cert12.jpeg",
+    img: "/certificates/cert16.avif",
     url: "https://coursera.org/certificate/JA4E5HLZFJI2",
     skills: [
       "Amazon Web Services (AWS)",
@@ -220,7 +220,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Unstop",
     date: "May 2025",
     desc: "Pitch-a-Thon Hackathon by Unstop recognizes excellence in pitching innovative ideas, teamwork, and rapid prototyping in competitive environments. Credential ID: d489130b-7a07-4baa-9d1a-c99ebee6d310.",
-    img: "/certificates/cert13.jpeg",
+    img: "/certificates/cert15.avif",
     url: "https://unstop.com/certificate/d489130b-7a07-4baa-9d1a-c99ebee6d310",
     skills: [
       "Pitching",
@@ -236,7 +236,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "GitHub",
     date: "Feb 2025",
     desc: "GitHub Foundations Certificate validates proficiency in Git, DevOps, version control, and CI/CD pipelines. Credential ID: https://www.credly.com/users/nk10nikhil. Expires Feb 2028.",
-    img: "/certificates/cert17.jpeg",
+    img: "/certificates/cert11.avif",
     url: "https://www.credly.com/users/nk10nikhil",
     skills: [
       "Git",
@@ -254,7 +254,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "MTF Institute of Management, Technology and Finance",
     date: "Jan 2025",
     desc: "Professional Diploma in WEB3 NFT Business covers advanced concepts in cryptocurrency, blockchain, and NFT ecosystems. Credential ID: UC-1adf9316-30a5-4bd5-9b48-b110d5b3dab4.",
-    img: "/certificates/cert14.jpeg",
+    img: "/certificates/cert17.avif",
     url: "https://mtf.education/certificate/UC-1adf9316-30a5-4bd5-9b48-b110d5b3dab4",
     skills: [
       "Cryptocurrency",
@@ -271,7 +271,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "Galgotias College of Engineering and Technology",
     date: "Dec 2024",
     desc: "Galgotias International Hackathon recognizes outstanding achievement in collaborative software development, rapid prototyping, and innovation. Credential ID: 2e045345-611c-4e34-bfdd-cd2e2db0c2e0.",
-    img: "/certificates/cert15.jpeg",
+    img: "/certificates/cert14.avif",
     url: "https://galgotiasuniversity.edu.in/certificate/2e045345-611c-4e34-bfdd-cd2e2db0c2e0",
     skills: [
       "Hackathon",
@@ -287,7 +287,7 @@ const CERTIFICATIONS: Cert[] = [
     institute: "MTF Institute of Management, Technology and Finance",
     date: "Dec 2024",
     desc: "Professional Diploma in Software Testing & Quality Assurance covers advanced testing methodologies, automation, and quality management systems. Credential ID: UC-a779177e-0890-47fb-a13a-7227e0792bc0.",
-    img: "/certificates/cert16.jpeg",
+    img: "/certificates/cert13.avif",
     url: "https://mtf.education/certificate/UC-a779177e-0890-47fb-a13a-7227e0792bc0",
     skills: [
       "Software Testing",
@@ -388,7 +388,7 @@ const Certification = () => {
       {/* Carousel */}
       <div
         ref={carouselRef}
-        className={`cert-carousel relative min-h-[680px] md:h-[600px] mt-[-180px] md:mt-[-120px] ${
+        className={`cert-carousel relative min-h-[680px] md:h-[600px] md:mt-[-120px] ${
           showDetail ? "show-detail" : ""
         }`}
       >
@@ -411,7 +411,7 @@ const Certification = () => {
               <motion.img
                 src={cert.img}
                 alt={cert.title}
-                className="cert-image absolute top-[30%] -translate-y-1/2 w-[50%] rounded-2xl shadow-2xl border border-purple-500/20 transition-all duration-1000"
+                className="cert-image absolute top-[50%] -translate-y-1/2 w-[50%] rounded-2xl shadow-2xl border border-purple-500/20 transition-all duration-1000"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
@@ -453,7 +453,7 @@ const Certification = () => {
                   onClick={handleSeeMore}
                   className="group px-5 py-2 border-b-2 border-purple-500 bg-transparent font-bold tracking-[3px] text-white hover:bg-purple-500/10 transition-all duration-300 md:flex flex-cols items-center gap-2 hidden"
                 >
-                  SEE MORE
+                  SEE DETAILS
                   <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </motion.button>
               </div>
@@ -784,7 +784,7 @@ const Certification = () => {
 
         .cert-carousel.show-detail .cert-item:nth-child(2) .cert-image {
           right: calc(60% - 40px);
-          top: 20%;
+          top: 50%;
           width: 40%;
         }
 

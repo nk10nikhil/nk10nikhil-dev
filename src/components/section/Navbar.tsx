@@ -35,6 +35,7 @@ const Navbar = () => {
   const location = useLocation();
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [reduceRuntimeMotion, setReduceRuntimeMotion] = useState(false);
 
   const scrolledRef = useRef(false);
   const rafRef = useRef<number | null>(null);
@@ -42,22 +43,47 @@ const Navbar = () => {
   const links = useMemo(() => NAV_LINKS, []);
 
   useEffect(() => {
+    const connection = (navigator as any).connection as
+      | {
+          saveData?: boolean;
+          effectiveType?: string;
+        }
+      | undefined;
+
+    const saveData = connection?.saveData === true;
+    const slowNetwork = /2g|slow-2g/.test(connection?.effectiveType ?? "");
+    const lowCoreDevice = (navigator.hardwareConcurrency ?? 8) <= 4;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    setReduceRuntimeMotion(
+      reducedMotion || saveData || slowNetwork || lowCoreDevice,
+    );
+  }, []);
+
+  useEffect(() => {
+    if (reduceRuntimeMotion) {
+      setDisplayText(NAV_TEXTS[0]);
+      return;
+    }
+
     const currentText = NAV_TEXTS[currentIndex] ?? "";
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: number;
 
     if (displayText.length < currentText.length) {
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         setDisplayText(currentText.slice(0, displayText.length + 1));
       }, 100);
     } else {
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         setDisplayText("");
         setCurrentIndex((prev) => (prev + 1) % NAV_TEXTS.length);
       }, 700);
     }
 
-    return () => clearTimeout(timeoutId);
-  }, [displayText, currentIndex]);
+    return () => window.clearTimeout(timeoutId);
+  }, [displayText, currentIndex, reduceRuntimeMotion]);
 
   useEffect(() => {
     const evaluate = () => {
