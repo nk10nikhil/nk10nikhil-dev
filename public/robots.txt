@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nk10nikhil.dev/sitemap.xml
+Sitemap: https://www.nk10nikhil.dev/sitemap.xml
